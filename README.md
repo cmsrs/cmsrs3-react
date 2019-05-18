@@ -1,7 +1,7 @@
 # cmsRS react client
 
 * create server site from:
-https://github.com/cmsrs/cmsrs3
+[server site](https://github.com/cmsrs/cmsrs3)
 
 * change server url in file
 ```bash
