@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { AUTH_USER, AUTH_ERROR } from '../actions/types';
+import { SERVER_URL } from '../config';
 //import { PAGES_ADD_MENU } from './types';
 
 
 export const signup = (formProps, callback) => async dispatch => {
   try {
     const response = await axios.post(
-      'http://cmsrs2.loc/api/register',
-      //'http://localhost:3090/signup',
+      SERVER_URL+'/api/register',
       formProps
     );
 
@@ -25,8 +25,7 @@ export const signup = (formProps, callback) => async dispatch => {
 export const signin = (formProps, callback) => async dispatch => {
   try {
     const response = await axios.post(
-      'http://cmsrs2.loc/api/login',
-      //'http://localhost:3090/signin',
+      SERVER_URL+'/api/login',
       formProps
     );
 

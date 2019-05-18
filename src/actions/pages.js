@@ -1,23 +1,20 @@
 import axios from 'axios';
 import { isNewRecord } from '../helpers/pages';
 
-import { PAGES_ADD_MENU } from './types';
+import { SERVER_URL } from '../config';
+import { PAGES_ADD_MENU,  PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types';
 //import { PAGES_SAVE_MENU } from './types';
-import { PAGES_CHANGE_MENU } from './types';
-import { PAGES_GET_MENU } from './types';
-import { PAGES_DELETE_MENU } from './types';
-import { PAGES_RES } from './types';
 
 export const delMenu = (menuId) => async dispatch => {
   const token = localStorage.getItem('token');
   const isNewMenu = isNewRecord(menuId);
 
-  //console.log(isNewMenu);
+  //console.log(SERVER_URL);
   try{
     //console.log( 'del_menuId', menuId );
     if( !isNewMenu ){
       const response = await axios.delete(
-        'http://cmsrs2.loc/api/menus/'+menuId+'?token='+token
+        SERVER_URL+'/api/menus/'+menuId+'?token='+token
       );
 
       if(!response.data.success){
@@ -44,7 +41,7 @@ export const getMenus = () => async dispatch => {
 
   try {
     const response = await axios.get(
-      'http://cmsrs2.loc/api/menus?token='+token
+      SERVER_URL+'/api/menus?token='+token
     );
     //console.log("response",response.data.data);
     dispatch({ type: PAGES_GET_MENU, payload: response.data.data });
@@ -72,12 +69,12 @@ export const saveMenu = (menu) => async  dispatch => {
     let response = null;
     if( isNewMenu ){
       response = await axios.post(
-        'http://cmsrs2.loc/api/menus?token='+token,
+        SERVER_URL+'/api/menus?token='+token,
         menu
       );
     }else{
       response = await axios.put(
-        'http://cmsrs2.loc/api/menus/'+menu.id+'?token='+token,
+        SERVER_URL+'/api/menus/'+menu.id+'?token='+token,
         menu
       );
     }
