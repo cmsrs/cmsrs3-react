@@ -6,7 +6,7 @@ import { PAGES_GET_MENU } from '../actions/types';
 import { PAGES_DELETE_MENU } from '../actions/types';
 //import { getMenuDataById } from '../helpers/pages';
 
-
+import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE } from '../actions/types';
 
 // const INITIAL_STATE = {
 //   menus :[
@@ -46,7 +46,11 @@ import { PAGES_DELETE_MENU } from '../actions/types';
 //  menusRes: {}
 
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+  menus: [],
+  page: {},
+  pages: []
+};
 
 
 
@@ -72,6 +76,13 @@ export default function(state = INITIAL_STATE, action) {
     //   menusCopySave[key] = action.payload;
     //   const retSave = { ...state, menus: menusCopySave };
     //   return retSave;
+
+    case PAGES_SAVE_PAGE:
+
+      let pages = state.pages.slice();
+      pages.push(action.payload);
+      const retP = { ...state, page: action.payload, pages: pages};
+      return retP;
     case PAGES_CHANGE_MENU:
       //console.log('pay',action.payload);
       //const copyMenus = state.menus.slice();
@@ -90,6 +101,9 @@ export default function(state = INITIAL_STATE, action) {
       // menus[action.payload.index] = copyMenu;
       // const ret2 = { ...state, menus: menus };
       // return ret2;
+
+    case PAGES_CHANGE_PAGE:
+      return { ...state, page: action.payload };
     case PAGES_RES:
       return { ...state, menus_res: action.payload };
     case PAGES_GET_MENU:

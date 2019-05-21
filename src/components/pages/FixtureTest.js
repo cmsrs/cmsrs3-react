@@ -16,7 +16,8 @@ export const initialStateMenuPages = {
         name: "menu_name3",
         position: 3
       }
-    ]
+    ],
+    page: {}
   },
   auth: { authenticated: true }
 };

@@ -10,7 +10,7 @@ class Pages extends Component {
   render() {
     return (
       <div  className="mt-3  container">
-        <h2 className="mb-3">CMS - pages</h2>
+        <h2 className="mb-3">CMS - menus and pages</h2>
         <MenuPages />
       </div>
     );

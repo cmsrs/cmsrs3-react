@@ -5,8 +5,6 @@ import * as actions from '../../actions/pages';
 import { getMenuDataById } from '../../helpers/pages';
 
 
-
-
 class Menu extends Component {
 
   constructor(props) {

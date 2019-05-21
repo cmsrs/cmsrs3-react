@@ -2,7 +2,8 @@ import axios from 'axios';
 import { isNewRecord } from '../helpers/pages';
 
 import { SERVER_URL } from '../config';
-import { PAGES_ADD_MENU,  PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types';
+import { PAGES_ADD_MENU, PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types';
+import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE } from './types';
 //import { PAGES_SAVE_MENU } from './types';
 
 export const delMenu = (menuId) => async dispatch => {
@@ -48,7 +49,7 @@ export const getMenus = () => async dispatch => {
     //callback();
 
   } catch(e){
-     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax"} });
+     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while get menu"} });
   }
 };
 
@@ -58,8 +59,14 @@ export const addMenu = (menu) => dispatch => {
   dispatch({ type: PAGES_ADD_MENU, payload: menu });
 };
 
+//export const addPage = (page) => dispatch => {
+//  dispatch({ type: PAGES_ADD_PAGE, payload: page });
+//};
+
+
 export const saveMenu = (menu) => async  dispatch => {
 
+  //const token = 'token342342';
   const token = localStorage.getItem('token');
   const isNewMenu = isNewRecord(menu.id);
   //console.log('isNewRecord', isNewRecord);
@@ -83,18 +90,56 @@ export const saveMenu = (menu) => async  dispatch => {
       const strErr = JSON.stringify(response.data.error, null, 2);
       dispatch({ type: PAGES_RES, payload: {success: false, message: strErr} });
     }else{
+      console.log('___udalo_sie___');
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
     }
 
   } catch (e) {
      console.log('___probem with ajax______', e);
-     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax"} });
+     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save Menu"} });
+  }
+};
+
+export const savePage = (page) => async  dispatch => {
+
+  const token = localStorage.getItem('token');
+
+  try {
+    let response = null;
+    if( page.id ){
+      response = await axios.put(
+        SERVER_URL+'/api/pages/'+page.id+'?token='+token,
+        page
+      );
+    }else{
+      response = await axios.post(
+        SERVER_URL+'/api/pages?token='+token,
+        page
+      );
+    }
+
+    if(!response.data.success){
+      const strErr = JSON.stringify(response.data.error, null, 2);
+      dispatch({ type: PAGES_RES, payload: {success: false, message: strErr} });
+    }else{
+      console.log('___udalo_sie_ok___');
+      dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
+      dispatch({ type: PAGES_SAVE_PAGE, payload: page });      
+    }
+
+  } catch (e) {
+     console.log('___probem with ajax______', e);
+     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save page"} });
   }
 
-};
+
+}
 
 
 export const changeMenu = (menu) => dispatch => {
   dispatch({ type: PAGES_CHANGE_MENU, payload: menu });
+};
 
+export const changePage = (page) => dispatch => {
+  dispatch({ type: PAGES_CHANGE_PAGE, payload: page });
 };

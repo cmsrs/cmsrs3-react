@@ -3,6 +3,7 @@ import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import Menu from './Menu';
+import Page from './Page';
 import shortid from 'shortid';
 
 class MenuPages extends Component {
@@ -16,18 +17,37 @@ class MenuPages extends Component {
   }
 
   showMenuPages = (menus) => {
-    if(Array.isArray(menus)){
-        const ret = menus.map(function(item, index){
-        return  <Menu key={item.id} data={item}/>;
-      });
+
+      let ret = '';
+      if(Array.isArray(menus)){
+
+        ret = menus.map(function(item, index){
+          return  <Menu key={item.id} data={item}/>
+        });
+
+
+        // for( let menu of menus ){
+        //   ret = (
+        //     <div>
+        //       <Menu key={menu.id} data={menu}/>
+        //     </div>
+        //   );
+        // }
+      }
+
       return ret;
-    }
   }
 
   handleAddMenu = () => {
     const menu = {id:  'rs_'+shortid.generate(), name: '', position: '' };
     this.props.addMenu(menu);
   }
+
+  // handleAddPage = () => {
+  //   const page = {id:  'rs_'+shortid.generate(), title: '', short_title: '', published: 0, position: '', type: '', menu_id: '' };
+  //   this.props.addPage(page);
+  // }
+
 
   render() {
     let msg = '';
@@ -43,11 +63,14 @@ class MenuPages extends Component {
 
     return (
       <div className="mt-3 mb-2">
+        <button id="add_menu" className="btn btn-primary mt-2 mb-2"  onClick={this.handleAddMenu}><i className="fas fa-plus"></i> Add menu</button>
         {msg}
         <form onSubmit={this.handleSubmit}>
           {this.showMenuPages(menus)}
         </form>
-        <button id="add_menu" className="btn btn-secondary mt-2 mb-2"  onClick={this.handleAddMenu}><i className="fas fa-plus"></i> Add menu</button>
+
+        <Page />
+
       </div>
     );
   }

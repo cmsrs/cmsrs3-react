@@ -4,26 +4,16 @@ import Menu from '../Menu';
 import Root from '../../../Root';
 import { create } from "react-test-renderer";
 
+// import { SERVER_URL } from '../../../config';
+// import axios from 'axios';
+// import moxios from 'moxios';
+
 import {initialStateMenuPages} from '../FixtureTest';
 
 let wrapped;
 
 const menuItem = initialStateMenuPages.pages.menus[0];
 //console.log(menuItem);
-
-
-/*
-function setup() {
-  const props = {
-    pages: jest.fn()
-  }
-  return {
-    props
-    //enzymeWrapper
-  }
-}
-*/
-
 
 beforeEach(() => {
   wrapped = mount(
@@ -60,17 +50,41 @@ it('menu change input', () => {
 it('menu save', () => {
   wrapped.find(".fa-save").parent().props().onClick();
   wrapped.update();
+  const text = wrapped.render().html();
+  //console.log(text);
+
 });
 
 it('menu delete', () => {
-  //console.log( wrapped.render().html() );
   wrapped.find(".fa-trash").parent().props().onClick();
-  //wrapped.find(".fa-trash").parent().simulate('click');
   wrapped.update();
-  //console.log( wrapped.render().html() );
-  //console.log( wrapped.render() );
-  //const input = wrapped.find("input[name='name']");
-  //expect(input.length).toEqual(0);
+
 });
 
-//fa-trash
+// describe('ajax tests', () => {
+//     let axiosInstance;
+//     beforeEach(() => {
+//       moxios.install();
+//     });
+//     afterEach(() => {
+//       moxios.uninstall();
+//     });
+//     it('should axios a thing', (done) => {
+//         localStorage.setItem('token', 'test333333');
+//         wrapped.find(".fa-save").parent().props().onClick();
+//
+//         moxios.wait(function () {
+//           //localStorage.setItem('token', 'test333333');
+//           let request = moxios.requests.mostRecent()
+//           request.respondWith({
+//             status: 200,
+//             response: {success: true}
+//           })
+//           .then(function () {
+//             //const text = wrapped.render().html();
+//             //console.log(text);
+//             done()
+//           })
+//         })
+//     });
+// });
