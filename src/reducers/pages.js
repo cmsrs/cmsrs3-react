@@ -81,7 +81,9 @@ export default function(state = INITIAL_STATE, action) {
 
       let pages = state.pages.slice();
       pages.push(action.payload);
-      const retP = { ...state, page: action.payload, pages: pages};
+      const page = { title: '', short_title: '', published: 0, type: 'cms', menu_id: ''  }; //clear input
+
+      const retP = { ...state, page: page, pages: pages};
       return retP;
     case PAGES_CHANGE_MENU:
       //console.log('pay',action.payload);
@@ -91,7 +93,7 @@ export default function(state = INITIAL_STATE, action) {
       });
       //console.log('reducer_menus',  menus);
 
-      const ret2 = { ...state, menus: menus };
+      const ret2 = { ...state, menus: menus, pages_res:{} };
       return ret2;
 
 
@@ -103,9 +105,9 @@ export default function(state = INITIAL_STATE, action) {
       // return ret2;
 
     case PAGES_CHANGE_PAGE:
-      return { ...state, page: action.payload };
+      return { ...state, page: action.payload, pages_res:{} };
     case PAGES_RES:
-      return { ...state, menus_res: action.payload };
+      return { ...state, pages_res: action.payload };
     case PAGES_GET_MENU:
       const ret4 = { ...state, menus: action.payload };
       //const ret4 = { menus: action.payload };

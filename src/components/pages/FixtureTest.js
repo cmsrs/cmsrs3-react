@@ -17,7 +17,12 @@ export const initialStateMenuPages = {
         position: 3
       }
     ],
-    page: {}
+    page: {
+      title: 'title 1',
+      short_title: 'tit',
+      published: 1,
+      type: 'cms'
+    }
   },
   auth: { authenticated: true }
 };

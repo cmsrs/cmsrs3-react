@@ -5,6 +5,7 @@ import * as actions from '../../actions/pages';
 import Menu from './Menu';
 import Page from './Page';
 import shortid from 'shortid';
+import Expire from '../../helpers/Expire';
 
 class MenuPages extends Component {
 
@@ -51,26 +52,32 @@ class MenuPages extends Component {
 
   render() {
     let msg = '';
-    if(this.props.menusRes && !this.props.menusRes.success){
-      msg = <div className="alert alert-danger" role="alert">{this.props.menusRes.message}</div>;
+    if(this.props.pagesRes && (this.props.pagesRes.success  === false)  ){
+      msg = <Expire  delay={5000}><div className="alert alert-danger" role="alert">{this.props.pagesRes.message}</div></Expire>;
     }
 
-    if(this.props.menusRes && this.props.menusRes.success){
-      msg = <div className="alert alert-success" role="alert">{this.props.menusRes.message}</div>;
+    if(this.props.pagesRes && (this.props.pagesRes.success === true) ){
+      msg = <Expire  delay={5000}><div className="alert alert-success" role="alert">{this.props.pagesRes.message}</div></Expire>;
     }
 
     const { menus } = this.props;
 
     return (
       <div className="mt-3 mb-2">
-        <button id="add_menu" className="btn btn-primary mt-2 mb-2"  onClick={this.handleAddMenu}><i className="fas fa-plus"></i> Add menu</button>
         {msg}
-        <form onSubmit={this.handleSubmit}>
-          {this.showMenuPages(menus)}
-        </form>
+        <div className="row">
+          <div className="col-6">
+            <button id="add_menu" className="btn btn-primary mt-2 mb-2"  onClick={this.handleAddMenu}><i className="fas fa-plus"></i> Add menu</button>
+            <form onSubmit={this.handleSubmit}>
+              {this.showMenuPages(menus)}
+            </form>
+          </div>
 
-        <Page />
+          <div className="col-6">
+            <Page />
+          </div>
 
+        </div>
       </div>
     );
   }
@@ -79,7 +86,7 @@ class MenuPages extends Component {
 function mapStateToProps(state) {
   return {
     menus: state.pages.menus,
-    menusRes: state.pages.menus_res
+    pagesRes: state.pages.pages_res
   };
 }
 

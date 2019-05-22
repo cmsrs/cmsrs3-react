@@ -124,15 +124,13 @@ export const savePage = (page) => async  dispatch => {
     }else{
       console.log('___udalo_sie_ok___');
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
-      dispatch({ type: PAGES_SAVE_PAGE, payload: page });      
+      dispatch({ type: PAGES_SAVE_PAGE, payload: page });
     }
 
   } catch (e) {
      console.log('___probem with ajax______', e);
      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save page"} });
   }
-
-
 }
 
 
