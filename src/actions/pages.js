@@ -111,7 +111,7 @@ export const addMenu = (menu) => dispatch => {
 //};
 
 
-export const saveMenu = (menu) => async  dispatch => {
+export const saveMenu = (menu, callback) => async  dispatch => {
 
   //const token = 'token342342';
   const token = localStorage.getItem('token');
@@ -139,6 +139,7 @@ export const saveMenu = (menu) => async  dispatch => {
     }else{
       console.log('___ok___');
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
+      callback();
     }
 
   } catch (e) {
@@ -147,7 +148,7 @@ export const saveMenu = (menu) => async  dispatch => {
   }
 };
 
-export const savePage = (page) => async  dispatch => {
+export const savePage = (page, callback) => async  dispatch => {
 
   const token = localStorage.getItem('token');
 
@@ -172,6 +173,7 @@ export const savePage = (page) => async  dispatch => {
       console.log('___ok___');
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
       dispatch({ type: PAGES_SAVE_PAGE, payload: page });
+      callback();
     }
 
   } catch (e) {

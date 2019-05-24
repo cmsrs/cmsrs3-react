@@ -6,9 +6,17 @@ import { isNewRecord } from '../../helpers/pages';
 
 class Page extends Component {
 
+  // componentDidMount() {
+  //   this.props.getMenus();
+  //   //this.props.getPages();
+  //   console.log('___PageTitle___pobieram_z_serwera______');
+  // }
+
+
   getMenuValues(){
     let menuVal = [];
-    menuVal.push({id: 0, name: ''});
+    //console.log(this.props.menus);
+    menuVal.push({id: null, name: ''});
     for(var menu of  this.props.menus){
       if( !isNewRecord(menu.id) ){
         menuVal.push(menu);
@@ -41,7 +49,9 @@ class Page extends Component {
     event.preventDefault();
     const page = { ...this.props.page};
     page.position = this.getPagePositionByMenuId(page.menu_id);
-    this.props.savePage(page);
+    this.props.savePage(page, () => {
+      this.props.getPages();
+    });
   }
 
   handleChangePage = (event) => {

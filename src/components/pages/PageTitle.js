@@ -13,6 +13,13 @@ class PageTitle extends Component {
     this.data =  this.props.data;   //getMenuDataById(this.props.menus, this.props.data.id)
   }
 
+  // componentDidMount() {
+  //   this.props.getPages();
+  // }
+
+
+
+
   delPage = () => {
     this.props.delPage(this.data.id);
   }
@@ -47,7 +54,7 @@ class PageTitle extends Component {
 
 function mapStateToProps(state) {
   return {
-    menus: state.pages.menus,
+    //menus: state.pages.menus,
     pages: state.pages.pages
   };
 }

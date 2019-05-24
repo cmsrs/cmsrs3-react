@@ -13,6 +13,7 @@ class MenuPages extends Component {
   componentDidMount() {
     this.props.getMenus();
     this.props.getPages();
+    //console.log('___MenuPages___pobieram_z_serwera______');
   }
 
   handleSubmit = (event) => {

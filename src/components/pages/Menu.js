@@ -13,6 +13,11 @@ class Menu extends Component {
     this.data =  this.props.data;   //getMenuDataById(this.props.menus, this.props.data.id)
   }
 
+  // componentDidMount() {
+  //   this.props.getMenus();
+  // }
+
+
   handleChange = (event) => {
     const stateMenu = getMenuDataById(this.props.menus, this.data.id);
     const newMenuData = { ...stateMenu, [event.target.name]: event.target.value};
@@ -21,7 +26,9 @@ class Menu extends Component {
 
   saveMenu = () => {
     const stateMenu = getMenuDataById(this.props.menus, this.data.id);
-    this.props.saveMenu(stateMenu);
+    this.props.saveMenu(stateMenu, () => {
+      this.props.getMenus();      
+    });
   }
 
   delMenu = () => {
@@ -31,7 +38,6 @@ class Menu extends Component {
   showPageTitle = (pages) => {
       let ret = '';
       if(Array.isArray(pages)){
-
         ret = pages.map(function(item, index){
           return  <PageTitle key={item.id} data={item}/>
         });
