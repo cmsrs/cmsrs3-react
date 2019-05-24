@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
-import { getMenuDataById } from '../../helpers/pages';
-
+import { getMenuDataById, isNewRecord } from '../../helpers/pages';
+//import {  } from '../../helpers/pages';
+import PageTitle from './PageTitle';
 
 class Menu extends Component {
 
@@ -27,6 +28,31 @@ class Menu extends Component {
     this.props.delMenu(this.data.id);
   }
 
+  showPageTitle = (pages) => {
+      let ret = '';
+      if(Array.isArray(pages)){
+
+        ret = pages.map(function(item, index){
+          return  <PageTitle key={item.id} data={item}/>
+        });
+      }
+      return ret;
+  }
+
+  getPagesByMenuId = ( menuId ) => {
+    let pages = [];
+    if(isNewRecord(menuId)){
+      return pages;
+    }
+
+    for(let page of this.props.pages){
+      if( parseInt(page.menu_id) === menuId ){
+        pages.push(page);
+      }
+    }
+    return pages;
+  }
+
   render() {
 
     let stateMenu = {};
@@ -34,15 +60,21 @@ class Menu extends Component {
       stateMenu =  getMenuDataById(this.props.menus, this.data.id);
     }
 
-    return (
-      <div className="form-group form-inline row  mb-2">
-        <input type="text" placeholder="Menu name" name="name" className="form-control col-3 mr-1"
-              onChange={this.handleChange} value={stateMenu.name || ''} />
-        <input type="text" placeholder="Menu position" name="position" className="form-control col-1 mr-1"
-              onChange={this.handleChange} value={stateMenu.position || ''} />
-        <div className="ml-2 mr-2"  onClick={this.saveMenu}><i className="far fa-save"></i></div>
-        <div className="trash"  onClick={this.delMenu}><i className="fas fa-trash"  aria-hidden="true"/></div>
+    const pages = this.getPagesByMenuId( this.data.id );
 
+    return (
+      <div>
+        <div className="row form-group form-inline mb-2">
+          <input type="text" placeholder="Menu name" name="name" className="form-control col-3 mr-1"
+                onChange={this.handleChange} value={stateMenu.name || ''} />
+          <input type="text" placeholder="Menu position" name="position" className="form-control col-1 mr-1"
+                onChange={this.handleChange} value={stateMenu.position || ''} />
+          <div className="ml-2 mr-2"  onClick={this.saveMenu}><i className="far fa-save cursor-pointer"></i></div>
+          <div className="trash"  onClick={this.delMenu}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
+        </div>
+        <div className="ml-3">
+          {this.showPageTitle(pages)}
+        </div>
       </div>
     )
   }
@@ -51,7 +83,8 @@ class Menu extends Component {
 
 function mapStateToProps(state) {
   return {
-    menus: state.pages.menus
+    menus: state.pages.menus,
+    pages: state.pages.pages
   };
 }
 

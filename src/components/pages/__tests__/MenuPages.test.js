@@ -32,4 +32,15 @@ it('add menu', () => {
   const inputName = wrapped.find("input[name='name']");
   expect(inputName.length).toEqual(4);
 });
+
+
+it('count pageTitle', () => {
+  //wrapped.find(".add-page-btn").simulate('click');
+  //wrapped.update();
+  const editPageLength = wrapped.find(".fa-edit").length;
+  expect(editPageLength).toEqual(4);
+
+});
+
+
 //});

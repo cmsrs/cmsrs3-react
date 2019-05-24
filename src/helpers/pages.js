@@ -17,3 +17,18 @@ export const  isNewRecord = (menuId) => {
   }
   return false;
 };
+
+
+export const getPagesByMenuId = ( menuId ) => {
+  let pages = [];
+  if(isNewRecord(menuId)){
+    return pages;
+  }
+
+  for(let page of this.props.pages){
+    if( page.menu_id === menuId ){
+      pages.push(page);
+    }
+  }
+  return pages;
+}

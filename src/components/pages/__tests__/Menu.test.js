@@ -52,14 +52,34 @@ it('menu save', () => {
   wrapped.update();
   const text = wrapped.render().html();
   //console.log(text);
-
 });
 
-it('menu delete', () => {
-  wrapped.find(".fa-trash").parent().props().onClick();
-  wrapped.update();
-
+it('count pageTitle', () => {
+  const editPageLength = wrapped.find(".fa-edit").length;
+  expect(editPageLength).toEqual(2);
 });
+
+it('count pageTitle for second menu', () => {
+  const menuItem2 = initialStateMenuPages.pages.menus[1];
+  let wrapped2 = mount(
+    <Root initialState={initialStateMenuPages} >
+      <Menu  key={menuItem2.id} data={menuItem2}  />
+    </Root>
+  );
+
+
+  const editPageLength = wrapped2.find(".fa-edit").length;
+  expect(editPageLength).toEqual(1);
+
+  wrapped2.unmount();
+});
+
+
+
+// it('menu delete', () => {
+//   wrapped.find(".fa-trash").parent().props().onClick();
+//   wrapped.update();
+// });
 
 // describe('ajax tests', () => {
 //     let axiosInstance;

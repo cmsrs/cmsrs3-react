@@ -6,7 +6,7 @@ import { PAGES_GET_MENU } from '../actions/types';
 import { PAGES_DELETE_MENU } from '../actions/types';
 //import { getMenuDataById } from '../helpers/pages';
 
-import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE } from '../actions/types';
+import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from '../actions/types';
 
 // const INITIAL_STATE = {
 //   menus :[
@@ -79,10 +79,19 @@ export default function(state = INITIAL_STATE, action) {
 
     case PAGES_SAVE_PAGE:
 
-      let pages = state.pages.slice();
-      pages.push(action.payload);
-      const page = { title: '', short_title: '', published: 0, type: 'cms', menu_id: ''  }; //clear input
+      let pages = [];
+      if(action.payload.id){
+        let pagesTmp = state.pages.map((page) => {
+          return page.id === action.payload.id ? action.payload : page;
+        });
+        pages = pagesTmp.slice();
+        //console.log(pages);
+      }else{
+        pages = state.pages.slice();
+        pages.push(action.payload);
+      }
 
+      const page = { title: '', short_title: '', published: 0, type: 'cms', menu_id: ''  }; //clear input
       const retP = { ...state, page: page, pages: pages};
       return retP;
     case PAGES_CHANGE_MENU:
@@ -116,6 +125,15 @@ export default function(state = INITIAL_STATE, action) {
       //console.log('_________PAGES_GET_MENU_________');
       return ret4;
 
+      case PAGES_GET_PAGES:
+        const retPages = { ...state, pages: action.payload };
+        //const ret4 = { menus: action.payload };
+        //console.log('ret4', ret4);
+
+        //console.log('_________PAGES_GET_MENU_________');
+        return retPages;
+
+
     case PAGES_DELETE_MENU:
       let menusCopy2 = state.menus.slice();
       //menusCopy2.splice(action.payload,1);
@@ -127,6 +145,20 @@ export default function(state = INITIAL_STATE, action) {
       }
 
       return { ...state, menus: menuDel };
+
+    case PAGES_DELETE_PAGE:
+      let pagesCopy2 = state.pages.slice();
+      //menusCopy2.splice(action.payload,1);
+      let pagesDel = [];
+      for(let item2 of pagesCopy2){
+        if(item2.id !== action.payload){
+          pagesDel.push(item2);
+        }
+      }
+
+      return { ...state, pages: pagesDel };
+
+
     default:
       return state;
   }

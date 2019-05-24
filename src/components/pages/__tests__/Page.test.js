@@ -6,6 +6,7 @@ import { create } from "react-test-renderer";
 
 import {initialStateMenuPages} from '../FixtureTest';
 
+//initialStateMenuPages.pages.page.menu_id = 1
 const page = initialStateMenuPages.pages.page;
 let wrapped;
 
@@ -48,4 +49,30 @@ it('page render', () => {
   //const menuIdLength =  wrapped.find("select[name='menu_id']").render().html();
   const menuIdLength =  wrapped.find("select[name='menu_id']").find('option').length;
   expect(menuIdLength).toEqual(3);
+});
+
+it('submit form', () => {
+  //wrapped.find(".add-page-btn").simulate('click');
+  //wrapped.find('[type="submit"]').simulate('click');
+  wrapped.update();
+
+  const form = wrapped.find('form').first();
+  form.simulate('submit', {
+    preventDefault: () => {
+    },
+    // below I am trying to set the value of the name field
+    target: [
+      {
+        id: 1,
+        title: 'title 1',
+        short_title: 't1',
+        published: 1,
+        type: 'cms',
+        menu_id: 1
+      }
+    ],
+  });
+  wrapped.update();
+
+
 });
