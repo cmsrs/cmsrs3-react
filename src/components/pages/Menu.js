@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
-import { getMenuDataById, isNewRecord } from '../../helpers/pages';
+import { getMenuDataById, isNewRecord, getPagesByMenuId } from '../../helpers/pages';
 //import {  } from '../../helpers/pages';
 import PageTitle from './PageTitle';
 
@@ -24,10 +24,25 @@ class Menu extends Component {
     this.props.changeMenu(newMenuData);
   }
 
+  getCountMenu = () => {
+    let menus = [];
+    for(let menu of this.props.menus){
+      if(!isNewRecord(menu.id)){
+        menus.push(menu);
+      }
+    }
+
+    return menus.length;
+  }
+
   saveMenu = () => {
     const stateMenu = getMenuDataById(this.props.menus, this.data.id);
+    if(!stateMenu.position){
+      stateMenu.position = this.getCountMenu() + 1;
+    }
+
     this.props.saveMenu(stateMenu, () => {
-      this.props.getMenus();      
+      this.props.getMenus();
     });
   }
 
@@ -45,38 +60,53 @@ class Menu extends Component {
       return ret;
   }
 
-  getPagesByMenuId = ( menuId ) => {
-    let pages = [];
-    if(isNewRecord(menuId)){
-      return pages;
-    }
+  // getPagesByMenuId = ( menuId ) => {
+  //   let pages = [];
+  //   if(isNewRecord(menuId)){
+  //     return pages;
+  //   }
+  //
+  //   for(let page of this.props.pages){
+  //     if( parseInt(page.menu_id) === menuId ){
+  //       pages.push(page);
+  //     }
+  //   }
+  //   return pages;
+  // }
 
-    for(let page of this.props.pages){
-      if( parseInt(page.menu_id) === menuId ){
-        pages.push(page);
-      }
-    }
-    return pages;
+  downMenu = () => {
+    alert(  'downMenu__='+ this.data.id );
   }
+
+  upMenu = () => {
+    alert(  'upMenu___='+ this.data.id );
+  }
+
 
   render() {
 
     let stateMenu = {};
+    let isNew = false;
     if( Array.isArray(this.props.menus) ){
       stateMenu =  getMenuDataById(this.props.menus, this.data.id);
+      isNew =  isNewRecord(stateMenu.id);
     }
 
-    const pages = this.getPagesByMenuId( this.data.id );
+    const pages = getPagesByMenuId(this.props.pages,  this.data.id);
 
     return (
       <div>
         <div className="row form-group form-inline mb-2">
           <input type="text" placeholder="Menu name" name="name" className="form-control col-3 mr-1"
                 onChange={this.handleChange} value={stateMenu.name || ''} />
-          <input type="text" placeholder="Menu position" name="position" className="form-control col-1 mr-1"
-                onChange={this.handleChange} value={stateMenu.position || ''} />
-          <div className="ml-2 mr-2"  onClick={this.saveMenu}><i className="far fa-save cursor-pointer"></i></div>
-          <div className="trash"  onClick={this.delMenu}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
+          <div className="ml-2"  onClick={this.saveMenu}><i className="far fa-save cursor-pointer"></i></div>
+          <div className="ml-2 trash"  onClick={this.delMenu}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
+          {!isNew &&  (this.getCountMenu() > 1) &&
+          <React.Fragment>
+            <div className="ml-2"  onClick={this.downMenu}><i className="fas fa-arrow-down cursor-pointer"></i></div>
+            <div className="ml-2"  onClick={this.upMenu}><i className="fas fa-arrow-up cursor-pointer"></i></div>
+          </React.Fragment>
+          }
         </div>
         <div className="ml-3">
           {this.showPageTitle(pages)}

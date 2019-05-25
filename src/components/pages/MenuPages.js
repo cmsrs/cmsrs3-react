@@ -64,6 +64,19 @@ class MenuPages extends Component {
   //   this.props.addPage(page);
   // }
 
+  renderMsg = (message) => {
+    //console.log('msg_err',this.props.pagesRes.message);
+    console.log('msg_err',message);
+    //return this.props.pagesRes.message;
+    return JSON.stringify(message, null, 2);
+
+    // let msg = '';
+    // for(let index in  this.props.pagesRes.message){
+    //   msg += ' '+this.props.pagesRes.message[index][0];
+    // }
+    // return msg;
+  }
+
 
   render() {
 
@@ -73,14 +86,14 @@ class MenuPages extends Component {
 
     //console.log(notRelatedPages);
 
-
+    ///{this.renderMsg()}
     let msg = '';
     if(this.props.pagesRes && (this.props.pagesRes.success  === false)  ){
-      msg = <Expire  delay={5000}><div className="alert alert-danger" role="alert">{this.props.pagesRes.message}</div></Expire>;
+      msg = <Expire  delay={5000}><div className="alert alert-danger" role="alert">{JSON.stringify(this.props.pagesRes.message, null, 2)}</div></Expire>;
     }
 
     if(this.props.pagesRes && (this.props.pagesRes.success === true) ){
-      msg = <Expire  delay={5000}><div className="alert alert-success" role="alert">{this.props.pagesRes.message}</div></Expire>;
+      msg = <Expire  delay={5000}><div className="alert alert-success" role="alert">{JSON.stringify(this.props.pagesRes.message, null, 2)}</div></Expire>;
     }
 
     const { menus } = this.props;
@@ -98,11 +111,13 @@ class MenuPages extends Component {
             </form>
 
             { notRelatedPages.length > 0 &&
-              <h3 className="mt-3">Pages not related to menu</h3>
+              <React.Fragment>
+                <h3 className="mt-3">Pages not related to menu</h3>
+                <div className="ml-3">
+                  {this.showPageTitle(notRelatedPages)}
+                </div>
+              </React.Fragment>
             }
-            <div className="ml-3">
-              {this.showPageTitle(notRelatedPages)}
-            </div>
           </div>
 
           <div className="col-6">

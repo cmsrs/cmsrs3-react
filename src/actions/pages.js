@@ -19,8 +19,8 @@ export const delMenu = (menuId) => async dispatch => {
       );
 
       if(!response.data.success){
-        const strErr = JSON.stringify(response.data.error, null, 2);
-        dispatch({ type: PAGES_RES, payload: {success: false, message: strErr} });
+        //const strErr = JSON.stringify(response.data.error, null, 2);
+        dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
       }else{
         dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
       }
@@ -44,8 +44,8 @@ export const delPage = (pageId) => async dispatch => {
     );
 
     if(!response.data.success){
-      const strErr = JSON.stringify(response.data.error, null, 2);
-      dispatch({ type: PAGES_RES, payload: {success: false, message: strErr} });
+      //const strErr = JSON.stringify(response.data.error, null, 2);
+      dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
     }else{
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
     }
@@ -134,8 +134,8 @@ export const saveMenu = (menu, callback) => async  dispatch => {
     }
 
     if(!response.data.success){
-      const strErr = JSON.stringify(response.data.error, null, 2);
-      dispatch({ type: PAGES_RES, payload: {success: false, message: strErr} });
+      //const strErr = JSON.stringify(response.data.error, null, 2);
+      dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
     }else{
       console.log('___ok___');
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
@@ -167,8 +167,8 @@ export const savePage = (page, callback) => async  dispatch => {
     }
 
     if(!response.data.success){
-      const strErr = JSON.stringify(response.data.error, null, 2);
-      dispatch({ type: PAGES_RES, payload: {success: false, message: strErr} });
+      //const strErr = JSON.stringify(response.data.error, null, 2);
+      dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
     }else{
       console.log('___ok___');
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });

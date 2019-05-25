@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
-import { isNewRecord } from '../../helpers/pages';
+import { isNewRecord, getPagesByMenuId } from '../../helpers/pages';
 
 class Page extends Component {
 
@@ -25,15 +25,15 @@ class Page extends Component {
     return menuVal;
   }
 
-  getCountPagesByMenuId = ( menuId ) => {
-    let pages = [];
-    for(let page of this.props.pages){
-      if( parseInt(page.menu_id) === menuId ){
-        pages.push(page);
-      }
-    }
-    return pages.length;
-  }
+  // getCountPagesByMenuId = ( allPages, menuId ) => {
+  //   let pages = [];
+  //   for(let page of allPages){
+  //     if( parseInt(page.menu_id) === menuId ){
+  //       pages.push(page);
+  //     }
+  //   }
+  //   return pages.length;
+  // }
 
 
   getPagePositionByMenuId = (menuId) => {
@@ -42,7 +42,8 @@ class Page extends Component {
     }else{
       menuId = parseInt(menuId);
     }
-    return  this.getCountPagesByMenuId( menuId ) + 1;
+    const pagesByMenuId = getPagesByMenuId( this.props.pages, menuId );
+    return  pagesByMenuId.length + 1;
   }
 
   handleSubmit = (event) => {

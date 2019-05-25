@@ -50,9 +50,32 @@ it('menu change input', () => {
 it('menu save', () => {
   wrapped.find(".fa-save").parent().props().onClick();
   wrapped.update();
-  const text = wrapped.render().html();
+  //const text = wrapped.render().html();
   //console.log(text);
 });
+
+
+
+it('menu save position null', () => {
+  const menuItem2 = initialStateMenuPages.pages.menus[0];
+  menuItem2.position = null;
+  let wrapped2 = mount(
+    <Root initialState={initialStateMenuPages} >
+      <Menu  key={menuItem.id} data={menuItem2}  />
+    </Root>
+  );
+
+
+  wrapped2.find(".fa-save").parent().props().onClick();
+  wrapped2.update();
+  //const text = wrapped2.render().html();
+  //console.log(text);
+
+  wrapped2.unmount();
+});
+
+
+
 
 it('count pageTitle', () => {
   const editPageLength = wrapped.find(".fa-edit").length;
