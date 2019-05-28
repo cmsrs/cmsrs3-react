@@ -13,11 +13,6 @@ class Menu extends Component {
     this.data =  this.props.data;   //getMenuDataById(this.props.menus, this.props.data.id)
   }
 
-  // componentDidMount() {
-  //   this.props.getMenus();
-  // }
-
-
   handleChange = (event) => {
     const stateMenu = getMenuDataById(this.props.menus, this.data.id);
     const newMenuData = { ...stateMenu, [event.target.name]: event.target.value};
@@ -60,26 +55,16 @@ class Menu extends Component {
       return ret;
   }
 
-  // getPagesByMenuId = ( menuId ) => {
-  //   let pages = [];
-  //   if(isNewRecord(menuId)){
-  //     return pages;
-  //   }
-  //
-  //   for(let page of this.props.pages){
-  //     if( parseInt(page.menu_id) === menuId ){
-  //       pages.push(page);
-  //     }
-  //   }
-  //   return pages;
-  // }
-
   downMenu = () => {
-    alert(  'downMenu__='+ this.data.id );
+    this.props.changePosition('down', this.data.id, 'menus', () => {
+      this.props.getMenus();
+    });
   }
 
   upMenu = () => {
-    alert(  'upMenu___='+ this.data.id );
+    this.props.changePosition('up', this.data.id, 'menus', () => {
+      this.props.getMenus();
+    });
   }
 
 

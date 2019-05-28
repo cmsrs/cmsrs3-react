@@ -21,7 +21,8 @@ export const initialStateMenuPages = {
       title: 'title 1',
       short_title: 'tit',
       published: 1,
-      type: 'cms'
+      type: 'cms',
+      content: 'test111 contentu',
     },
     pages: [
       {
@@ -31,6 +32,7 @@ export const initialStateMenuPages = {
         published: 1,
         position: 1,
         type: 'cms',
+        content: 'test contentu sdddddd',
         menu_id: 1
       },
       {
@@ -40,6 +42,7 @@ export const initialStateMenuPages = {
         published: 1,
         position: 2,
         type: 'cms',
+        content: 'test contentu sdddddd',
         menu_id: 1
       },
       {
@@ -49,6 +52,7 @@ export const initialStateMenuPages = {
         published: 1,
         position: 1,
         type: 'cms',
+        content: 'test contentu sdddddd',
         menu_id: 2
       },
       {
@@ -58,6 +62,7 @@ export const initialStateMenuPages = {
         published: 1,
         position: 1,
         type: 'cms',
+        content: 'test contentu sdddddd',
         menu_id: null
       },
     ]

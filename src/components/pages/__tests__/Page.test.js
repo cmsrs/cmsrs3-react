@@ -43,6 +43,9 @@ it('page render', () => {
   const typeLenght = wrapped.find("select[name='type']").find('option').length;
   expect(typeLenght).toEqual(2);
 
+  const content =  wrapped.find("textarea").first().prop('value');
+  expect(content).toEqual(page.content);
+
   const menu_id =  wrapped.find("select[name='menu_id']").prop('value');
   expect(!menu_id).toEqual(true);
 

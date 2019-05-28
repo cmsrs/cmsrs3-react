@@ -36,11 +36,15 @@ class PageTitle extends Component {
   }
 
   downPage = () => {
-    alert(  'downPage__='+ this.data.id );
+    this.props.changePosition('down', this.data.id, 'pages', () => {
+      this.props.getPages();
+    });
   }
 
   upPage = () => {
-    alert(  'upPage___='+ this.data.id );
+    this.props.changePosition('up', this.data.id, 'pages', () => {
+      this.props.getPages();
+    });
   }
 
 

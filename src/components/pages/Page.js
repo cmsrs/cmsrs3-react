@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+
+//import { Editor } from 'react-draft-wysiwyg';
+//import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+//import ReactDOM from 'react-dom';
+//import {Editor, EditorState} from 'draft-js';
+
 import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
+//import Edit from './Edit';
+
+//import { Editor } from '@tinymce/tinymce-react';
 import { isNewRecord, getPagesByMenuId } from '../../helpers/pages';
 
 class Page extends Component {
-
-  // componentDidMount() {
-  //   this.props.getMenus();
-  //   //this.props.getPages();
-  //   console.log('___PageTitle___pobieram_z_serwera______');
-  // }
 
 
   getMenuValues(){
@@ -24,16 +27,6 @@ class Page extends Component {
     }
     return menuVal;
   }
-
-  // getCountPagesByMenuId = ( allPages, menuId ) => {
-  //   let pages = [];
-  //   for(let page of allPages){
-  //     if( parseInt(page.menu_id) === menuId ){
-  //       pages.push(page);
-  //     }
-  //   }
-  //   return pages.length;
-  // }
 
 
   getPagePositionByMenuId = (menuId) => {
@@ -65,6 +58,12 @@ class Page extends Component {
 
     this.props.changePage(newPageData);
   }
+
+  // onSaveEditorState = (editorState) => {
+  //   this.props.onSaveEditorState(editorState);
+  // }
+
+
 
   render() {
 
@@ -114,11 +113,17 @@ class Page extends Component {
             <label className="ml-1">Menu</label>
           </div>
 
+          <div className="form-group">
+           <label htmlFor="comment">Content:</label>
+           <textarea className="form-control" rows="5" name="content"  onChange={this.handleChangePage}  value={this.props.page.content || ''}></textarea>
+         </div>
+
         </form>
       </div>
     );
   }
 }
+
 
 function mapStateToProps(state) {
   return {

@@ -1,12 +1,17 @@
+//import { EditorState } from 'draft-js';
+
 import { PAGES_ADD_MENU } from '../actions/types';
 //import { PAGES_SAVE_MENU } from '../actions/types';
 import { PAGES_CHANGE_MENU } from '../actions/types';
 import { PAGES_RES } from '../actions/types';
 import { PAGES_GET_MENU } from '../actions/types';
 import { PAGES_DELETE_MENU } from '../actions/types';
+//import { PAGES_POSITION_MENU } from '../actions/types';
 //import { getMenuDataById } from '../helpers/pages';
 
 import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from '../actions/types';
+
+//import { UPDATE_EDITOR_STATE } from '../actions/types';
 
 // const INITIAL_STATE = {
 //   menus :[
@@ -45,6 +50,7 @@ import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE 
 //  menus : {},
 //  menusRes: {}
 
+//  editorState: EditorState.createEmpty()
 
 const INITIAL_STATE = {
   menus: [],
@@ -56,6 +62,15 @@ const INITIAL_STATE = {
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
+    // case UPDATE_EDITOR_STATE:
+    //   console.log('---jestem-------'+action.payload);
+    //   console.log(action.payload);
+    //   let copy = {...action.payload};
+    //
+    //   return {
+    //     ...state,
+    //     editorState: copy
+    //   };
     case PAGES_ADD_MENU:
       //const menusCopy = [...state.menus];
       const menusCopy = state.menus.slice();

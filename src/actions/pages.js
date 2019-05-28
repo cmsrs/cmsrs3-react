@@ -2,9 +2,38 @@ import axios from 'axios';
 import { isNewRecord } from '../helpers/pages';
 
 import { SERVER_URL } from '../config';
-import { PAGES_ADD_MENU, PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types';
+import { PAGES_ADD_MENU, PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types'; //, PAGES_POSITION_MENU
 import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from './types';
+//import { UPDATE_EDITOR_STATE } from './types';
+
 //import { PAGES_SAVE_MENU } from './types';
+
+// export const onSaveEditorState = (editorState) => dispatch => {
+//   dispatch({
+//     type: UPDATE_EDITOR_STATE,
+//     payload: editorState
+//   })
+// }
+
+
+export const changePosition = (direction, itemId, menusOrPages, callback) => async dispatch => {
+  const token = localStorage.getItem('token');
+  try{
+    const response = await axios.get(
+      SERVER_URL+'/api/'+menusOrPages+'/position/'+direction+'/'+itemId+'?token='+token
+    );
+
+    if(!response.data.success){
+      dispatch({ type: PAGES_RES, payload: {success: false, message: "Problem with change position "+menusOrPages} });
+    }else{
+      dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
+    }
+
+    callback();
+  } catch(e){
+     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while change "+menusOrPages+" position"} });
+  }
+}
 
 export const delMenu = (menuId) => async dispatch => {
   const token = localStorage.getItem('token');
