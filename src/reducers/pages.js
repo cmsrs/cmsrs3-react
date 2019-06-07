@@ -75,12 +75,9 @@ export default function(state = INITIAL_STATE, action) {
       //const menusCopy = [...state.menus];
       const menusCopy = state.menus.slice();
 
-      //console.log('menusCopy', menusCopy);
-      //console.log('pay', action.payload);
 
 
       menusCopy.push(action.payload);
-      //console.log('menusCopyAfter', menusCopy);
 
       const ret = { ...state, menus: menusCopy };
       //console.log('state', ret);
@@ -94,20 +91,21 @@ export default function(state = INITIAL_STATE, action) {
 
     case PAGES_SAVE_PAGE:
 
-      let pages = [];
-      if(action.payload.id){
-        let pagesTmp = state.pages.map((page) => {
-          return page.id === action.payload.id ? action.payload : page;
-        });
-        pages = pagesTmp.slice();
-        //console.log(pages);
-      }else{
-        pages = state.pages.slice();
-        pages.push(action.payload);
-      }
+      // let pages = [];
+      // if(action.payload.id){
+      //   let pagesTmp = state.pages.map((page) => {
+      //     return page.id === action.payload.id ? action.payload : page;
+      //   });
+      //   pages = pagesTmp.slice();
+      //   //console.log(pages);
+      // }else{
+      //   pages = state.pages.slice();
+      //   pages.push(action.payload);
+      // }
 
       const page = { title: '', short_title: '', published: 0, type: 'cms', menu_id: ''  }; //clear input
-      const retP = { ...state, page: page, pages: pages};
+      //const retP = { ...state, page: page, pages: pages};
+      const retP = { ...state, page: page};
       return retP;
     case PAGES_CHANGE_MENU:
       //console.log('pay',action.payload);
@@ -140,13 +138,13 @@ export default function(state = INITIAL_STATE, action) {
       //console.log('_________PAGES_GET_MENU_________');
       return ret4;
 
-      case PAGES_GET_PAGES:
-        const retPages = { ...state, pages: action.payload };
-        //const ret4 = { menus: action.payload };
-        //console.log('ret4', ret4);
+    case PAGES_GET_PAGES:
+      const retPages = { ...state, pages: action.payload };
+      //const ret4 = { menus: action.payload };
+      //console.log('ret4', ret4);
 
-        //console.log('_________PAGES_GET_MENU_________');
-        return retPages;
+      //console.log('_________PAGES_GET_MENU_________');
+      return retPages;
 
 
     case PAGES_DELETE_MENU:

@@ -46,7 +46,7 @@ class MenuPages extends Component {
   showPageTitle = (pages) => {
       let ret = '';
       if(Array.isArray(pages)){
-
+        //console.log(pages);
         ret = pages.map(function(item, index){
           return  <PageTitle key={item.id} data={item}/>
         });

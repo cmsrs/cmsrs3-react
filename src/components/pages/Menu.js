@@ -81,7 +81,7 @@ class Menu extends Component {
 
     return (
       <div>
-        <div className="row form-group form-inline mb-2">
+        <div className="form-group form-inline mb-2">
           <input type="text" placeholder="Menu name" name="name" className="form-control col-3 mr-1"
                 onChange={this.handleChange} value={stateMenu.name || ''} />
           <div className="ml-2"  onClick={this.saveMenu}><i className="far fa-save cursor-pointer"></i></div>
@@ -93,7 +93,7 @@ class Menu extends Component {
           </React.Fragment>
           }
         </div>
-        <div className="ml-3">
+        <div className="ml-3" >
           {this.showPageTitle(pages)}
         </div>
       </div>

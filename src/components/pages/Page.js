@@ -14,7 +14,7 @@ import * as actions from '../../actions/pages';
 import { isNewRecord, getPagesByMenuId } from '../../helpers/pages';
 
 class Page extends Component {
-
+  //state = { selectedFile: null };
 
   getMenuValues(){
     let menuVal = [];
@@ -42,10 +42,100 @@ class Page extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const page = { ...this.props.page};
+    //page.images = arrFiles;
     page.position = this.getPagePositionByMenuId(page.menu_id);
+    page.images =  this.images ? this.images : [];
+    console.log(page);
+    //console.log(this.images);
     this.props.savePage(page, () => {
       this.props.getPages();
     });
+
+
+
+
+    //const  files = this.files;
+    //console.log(files);
+    //console.log(files.length);
+
+
+  //   var promise1 = new Promise( (resolve, reject) => {
+  //     let arrFiles = [];
+  //     for (let i = 0; i < files.length; i++)  //for multiple files
+  //     {
+  //         let f = files[i];
+  //         //let name = files[i].name;
+  //         //alert(name);
+  //         let reader = new FileReader();
+  //
+  //         reader.onload = function(e) {
+  //             // get file content
+  //             //let text = e.target.result;
+  //             //console.log(e.target.result);
+  //             arrFiles.push(e.target.result);
+  //             //let li = document.createElement("li");
+  //             //li.innerHTML = name + "____" + text;
+  //             //ul.appendChild(li);
+  //         }
+  //         reader.readAsDataURL(f);
+  //         //reader.readAsText(f,"UTF-8");
+  //     }
+  //
+  //     resolve(arrFiles);
+  //   });
+  //
+  //   promise1.then( (arrFiles) => {
+  //     console.log(arrFiles);
+  //     let test = [...arrFiles];
+  //     let p = {};
+  //     p.te = "sss";
+  //     p.img = test;
+  //     p.rr = arrFiles;
+  //     console.log(test);
+  //     console.log(p);
+  // // expected output: "foo"
+  //
+  //     const page = { ...this.props.page};
+  //     page.images = arrFiles;
+  //     page.position = this.getPagePositionByMenuId(page.menu_id);
+  //     console.log(page);
+  //     this.props.savePage(page, () => {
+  //       this.props.getPages();
+  //     });
+  //
+  //   });
+
+
+
+
+    // let reader = new FileReader();
+    // reader.readAsDataURL(files[0]);
+    // reader.onload = (event) => {
+    //   const imgData = event.target.result;
+    //   console.log(imgData);
+    // };
+
+
+
+    // let formData = new FormData();
+    // formData.append(
+    //   'myFile',
+    //   f,
+    //   f.name
+    // );
+    // console.log(formData);
+
+    // console.log(this.files);
+    // let formData = new FormData();
+    // for(let file of this.files){
+    //   formData.append(
+    //     'images[]',
+    //     file,
+    //     file.name
+    //   );
+    // }
+    // console.log(formData.getAll('images[]'));
+
   }
 
   handleChangePage = (event) => {
@@ -57,6 +147,71 @@ class Page extends Component {
     }
 
     this.props.changePage(newPageData);
+  }
+
+  createImage = (files) => {
+
+    this.images = [];
+    for (let i = 0; i < files.length; i++)  //for multiple files
+    {
+        let f = files[i];
+        let name = files[i].name;
+        //console.log(name);
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+            //let images = this.props.page.images ?  this.props.page.images.slice() : [];
+            //let images = [];
+
+            // images.push({ data: e.target.result, name: name});
+            // console.log(images);
+            // let newPageData = { ...this.props.page, images: images };
+            // this.props.changePage(newPageData);
+
+            this.images.push({ data: e.target.result, name: name});
+
+        }
+        reader.readAsDataURL(f);
+        //reader.readAsText(f,"UTF-8");
+    }
+
+
+    // let reader = new FileReader();
+    // reader.onload = (e) => {
+    //   this.setState({
+    //     image: e.target.result
+    //   })
+    // };
+    // reader.readAsDataURL(file);
+
+
+  }
+
+
+
+
+
+  handleUploadFile = (event) => {
+
+    //this.setState({ selectedFile: event.target.files[0] });
+    const files = event.target.files;
+
+    if (files.length){
+      this.createImage(files);
+    }
+
+
+    //console.log(this.files[0]);
+
+    // let files = event.target.files;
+    // let reader = new FileReader();
+    // reader.readAsDataURL(files[0]);
+    // reader.onload = (event) => {
+    //   const pageId = this.props.page.id ? this.props.page.id : null;
+    //   const imgData = { pageId: pageId, file: event.target.result};
+    //   console.log(imgData);
+    // };
+
   }
 
   // onSaveEditorState = (editorState) => {
@@ -96,7 +251,7 @@ class Page extends Component {
               <label>Published</label>
           </div>
 
-          <div className="form-group row">
+          <div className="form-group">
               <select name="type" onChange={this.handleChangePage}  value={this.props.page.type}>
                 <option value="cms">cms</option>
                 <option value="gallery">gallery</option>
@@ -104,7 +259,7 @@ class Page extends Component {
               <label className="ml-1">Type</label>
           </div>
 
-          <div className="form-group row">
+          <div className="form-group">
             <select name="menu_id" onChange={this.handleChangePage}  value={this.props.page.menu_id} >
               {menuValues.map(menu =>
                 <option key={menu.id} value={menu.id}>{menu.name}</option>
@@ -114,10 +269,13 @@ class Page extends Component {
           </div>
 
           <div className="form-group">
-           <label htmlFor="comment">Content:</label>
+           <label htmlFor="comment">Content</label>
            <textarea className="form-control" rows="5" name="content"  onChange={this.handleChangePage}  value={this.props.page.content || ''}></textarea>
          </div>
 
+         <div className="form-group">
+          <input type="file" name="images"  onChange={this.handleUploadFile} multiple/>
+         </div>
         </form>
       </div>
     );
