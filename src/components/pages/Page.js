@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
+import Image from './Image';
 //import Edit from './Edit';
 
 //import { Editor } from '@tinymce/tinymce-react';
@@ -15,6 +16,28 @@ import { isNewRecord, getPagesByMenuId } from '../../helpers/pages';
 
 class Page extends Component {
   //state = { selectedFile: null };
+
+  // constructor(props) {
+  //   super(props);
+  //   console.log('___jetsem_______'+this.props.page.id);
+  //   if(this.props.page.id){
+  //     console.log('___pobieram_obrazki_dla strony___'+this.props.page.id);
+  //     this.props.getImagesByPage(this.props.page.id);
+  //   }
+  // }
+
+
+  componentDidMount() {
+    this.props.getPages();
+    // console.log(this.props.page);
+    // console.log('___jetsem2_______'+this.props.page.id);
+    // if(this.props.page.id){
+    //   console.log('___pobieram_obrazki_dla strony___'+this.props.page.id);
+    //   this.props.getImagesByPage(this.props.page.id);
+    // }
+  }
+
+
 
   getMenuValues(){
     let menuVal = [];
@@ -41,13 +64,19 @@ class Page extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    //console.log(event.target);
+
+    //event.target.value = null;
     const page = { ...this.props.page};
     //page.images = arrFiles;
     page.position = this.getPagePositionByMenuId(page.menu_id);
-    page.images =  this.images ? this.images : [];
-    console.log(page);
+    page.images =  this.images ? this.images.slice() : [];
+    //console.log(page);
     //console.log(this.images);
-    this.props.savePage(page, () => {
+    this.props.savePage(page, ( pageId ) => {
+      document.getElementsByName('images')[0].value = null;
+      this.images = [];
       this.props.getPages();
     });
 
@@ -175,7 +204,6 @@ class Page extends Component {
         //reader.readAsText(f,"UTF-8");
     }
 
-
     // let reader = new FileReader();
     // reader.onload = (e) => {
     //   this.setState({
@@ -218,11 +246,46 @@ class Page extends Component {
   //   this.props.onSaveEditorState(editorState);
   // }
 
+  showImages = (images) => {
+
+      let ret = '';
+      if(Array.isArray(images)){
+
+        ret = images.map(function(item, index){
+          return  <Image key={item.id} data={item} imagesByPage={images}/>
+        });
+      }
+
+      return ret;
+  }
+
+  getImages = ( pages, pageId ) => {
+
+    const  data = pages.filter( page => {
+      return page.id === pageId
+    });
+
+    if(!data.length){
+      return [];
+    }
+
+    if(!data[0].images.length){
+      return [];
+    }
+
+    return data[0].images;
+  }
+
 
 
   render() {
 
     const menuValues = this.getMenuValues();
+
+    let images = [];
+    if(this.props.page.id){
+      images = this.getImages( this.props.pages, this.props.page.id );
+    }
 
     const label =  this.props.page.id ? 'Edit page' : 'Add page';
 
@@ -276,6 +339,9 @@ class Page extends Component {
          <div className="form-group">
           <input type="file" name="images"  onChange={this.handleUploadFile} multiple/>
          </div>
+
+         {this.showImages(images)}
+
         </form>
       </div>
     );
@@ -287,7 +353,8 @@ function mapStateToProps(state) {
   return {
     menus: state.pages.menus,
     pages: state.pages.pages,
-    page: state.pages.page
+    page: state.pages.page,
+    images: state.pages.image
   };
 }
 

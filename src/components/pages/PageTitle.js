@@ -24,7 +24,7 @@ class PageTitle extends Component {
     this.props.delPage(this.data.id);
   }
 
-  getDataFromProps(){
+  getDataFromProps = () => {
     const  data = this.props.pages.filter( page => {
       return page.id === this.data.id
     });
