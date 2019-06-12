@@ -1,43 +1,16 @@
 import React, { Component } from 'react';
-
-//import { Editor } from 'react-draft-wysiwyg';
-//import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-//import ReactDOM from 'react-dom';
-//import {Editor, EditorState} from 'draft-js';
-
-import requireAuth from '../requireAuth';
+//import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import Image from './Image';
-//import Edit from './Edit';
 
-//import { Editor } from '@tinymce/tinymce-react';
 import { isNewRecord, getPagesByMenuId } from '../../helpers/pages';
 
 class Page extends Component {
-  //state = { selectedFile: null };
-
-  // constructor(props) {
-  //   super(props);
-  //   console.log('___jetsem_______'+this.props.page.id);
-  //   if(this.props.page.id){
-  //     console.log('___pobieram_obrazki_dla strony___'+this.props.page.id);
-  //     this.props.getImagesByPage(this.props.page.id);
-  //   }
-  // }
-
 
   componentDidMount() {
     this.props.getPages();
-    // console.log(this.props.page);
-    // console.log('___jetsem2_______'+this.props.page.id);
-    // if(this.props.page.id){
-    //   console.log('___pobieram_obrazki_dla strony___'+this.props.page.id);
-    //   this.props.getImagesByPage(this.props.page.id);
-    // }
   }
-
-
 
   getMenuValues(){
     let menuVal = [];
@@ -65,106 +38,14 @@ class Page extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    //console.log(event.target);
-
-    //event.target.value = null;
     const page = { ...this.props.page};
-    //page.images = arrFiles;
     page.position = this.getPagePositionByMenuId(page.menu_id);
     page.images =  this.images ? this.images.slice() : [];
-    //console.log(page);
-    //console.log(this.images);
     this.props.savePage(page, ( pageId ) => {
       document.getElementsByName('images')[0].value = null;
       this.images = [];
       this.props.getPages();
     });
-
-
-
-
-    //const  files = this.files;
-    //console.log(files);
-    //console.log(files.length);
-
-
-  //   var promise1 = new Promise( (resolve, reject) => {
-  //     let arrFiles = [];
-  //     for (let i = 0; i < files.length; i++)  //for multiple files
-  //     {
-  //         let f = files[i];
-  //         //let name = files[i].name;
-  //         //alert(name);
-  //         let reader = new FileReader();
-  //
-  //         reader.onload = function(e) {
-  //             // get file content
-  //             //let text = e.target.result;
-  //             //console.log(e.target.result);
-  //             arrFiles.push(e.target.result);
-  //             //let li = document.createElement("li");
-  //             //li.innerHTML = name + "____" + text;
-  //             //ul.appendChild(li);
-  //         }
-  //         reader.readAsDataURL(f);
-  //         //reader.readAsText(f,"UTF-8");
-  //     }
-  //
-  //     resolve(arrFiles);
-  //   });
-  //
-  //   promise1.then( (arrFiles) => {
-  //     console.log(arrFiles);
-  //     let test = [...arrFiles];
-  //     let p = {};
-  //     p.te = "sss";
-  //     p.img = test;
-  //     p.rr = arrFiles;
-  //     console.log(test);
-  //     console.log(p);
-  // // expected output: "foo"
-  //
-  //     const page = { ...this.props.page};
-  //     page.images = arrFiles;
-  //     page.position = this.getPagePositionByMenuId(page.menu_id);
-  //     console.log(page);
-  //     this.props.savePage(page, () => {
-  //       this.props.getPages();
-  //     });
-  //
-  //   });
-
-
-
-
-    // let reader = new FileReader();
-    // reader.readAsDataURL(files[0]);
-    // reader.onload = (event) => {
-    //   const imgData = event.target.result;
-    //   console.log(imgData);
-    // };
-
-
-
-    // let formData = new FormData();
-    // formData.append(
-    //   'myFile',
-    //   f,
-    //   f.name
-    // );
-    // console.log(formData);
-
-    // console.log(this.files);
-    // let formData = new FormData();
-    // for(let file of this.files){
-    //   formData.append(
-    //     'images[]',
-    //     file,
-    //     file.name
-    //   );
-    // }
-    // console.log(formData.getAll('images[]'));
-
   }
 
   handleChangePage = (event) => {
@@ -185,66 +66,23 @@ class Page extends Component {
     {
         let f = files[i];
         let name = files[i].name;
-        //console.log(name);
         let reader = new FileReader();
 
         reader.onload = (e) => {
-            //let images = this.props.page.images ?  this.props.page.images.slice() : [];
-            //let images = [];
-
-            // images.push({ data: e.target.result, name: name});
-            // console.log(images);
-            // let newPageData = { ...this.props.page, images: images };
-            // this.props.changePage(newPageData);
-
             this.images.push({ data: e.target.result, name: name});
-
         }
         reader.readAsDataURL(f);
         //reader.readAsText(f,"UTF-8");
     }
-
-    // let reader = new FileReader();
-    // reader.onload = (e) => {
-    //   this.setState({
-    //     image: e.target.result
-    //   })
-    // };
-    // reader.readAsDataURL(file);
-
-
   }
-
-
-
-
 
   handleUploadFile = (event) => {
 
-    //this.setState({ selectedFile: event.target.files[0] });
     const files = event.target.files;
-
     if (files.length){
       this.createImage(files);
     }
-
-
-    //console.log(this.files[0]);
-
-    // let files = event.target.files;
-    // let reader = new FileReader();
-    // reader.readAsDataURL(files[0]);
-    // reader.onload = (event) => {
-    //   const pageId = this.props.page.id ? this.props.page.id : null;
-    //   const imgData = { pageId: pageId, file: event.target.result};
-    //   console.log(imgData);
-    // };
-
   }
-
-  // onSaveEditorState = (editorState) => {
-  //   this.props.onSaveEditorState(editorState);
-  // }
 
   showImages = (images) => {
 
@@ -275,7 +113,6 @@ class Page extends Component {
 
     return data[0].images;
   }
-
 
 
   render() {
@@ -323,9 +160,9 @@ class Page extends Component {
           </div>
 
           <div className="form-group">
-            <select name="menu_id" onChange={this.handleChangePage}  value={this.props.page.menu_id} >
+            <select name="menu_id" onChange={this.handleChangePage}  value={this.props.page.menu_id || ''} >
               {menuValues.map(menu =>
-                <option key={menu.id} value={menu.id}>{menu.name}</option>
+                <option key={menu.id} value={menu.id || ''}>{menu.name || ''}</option>
               )}
             </select>
             <label className="ml-1">Menu</label>
@@ -348,14 +185,13 @@ class Page extends Component {
   }
 }
 
-
 function mapStateToProps(state) {
   return {
     menus: state.pages.menus,
     pages: state.pages.pages,
-    page: state.pages.page,
-    images: state.pages.image
+    page: state.pages.page
   };
 }
 
-export default connect(mapStateToProps, actions)(requireAuth(Page));
+//export default connect(mapStateToProps, actions)(requireAuth(Page));
+export default connect(mapStateToProps, actions)(Page);

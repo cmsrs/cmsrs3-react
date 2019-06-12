@@ -8,8 +8,6 @@ import Root from './Root';
 
 //import reducers from './reducers';
 import App from './components/App';
-import Welcome from './components/Welcome';
-import Signup from './components/auth/Signup';
 import Pages from './components/Pages';
 import Signout from './components/auth/Signout';
 import Signin from './components/auth/Signin';
@@ -19,8 +17,7 @@ ReactDOM.render(
   <Root>
     <BrowserRouter>
       <App>
-        <Route path="/" exact component={Welcome} />
-        <Route path="/signup" component={Signup} />
+        <Route path="/" exact component={Signin} />
         <Route path="/pages" component={Pages} />
         <Route path="/signout" component={Signout} />
         <Route path="/signin" component={Signin} />

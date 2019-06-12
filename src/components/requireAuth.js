@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-//import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+//import { Redirect } from 'react-router-dom'
 
 export default ChildComponent => {
   class ComposedComponent extends Component {
 
-    // Our component just got rendered
     componentDidMount() {
       this.shouldNavigateAway();
     }
 
-    // Our component just got updated
     componentDidUpdate() {
       this.shouldNavigateAway();
     }
@@ -18,11 +16,11 @@ export default ChildComponent => {
     shouldNavigateAway() {
       if (!this.props.auth) {
         this.props.history.push('/');
+        //return <Redirect to='/' />
       }
     }
 
     render() {
-      //console.log(this.props)
       return <ChildComponent {...this.props} />;
     }
   }

@@ -38,7 +38,7 @@ class Signin extends Component {
           />
         </fieldset>
         <div>{this.props.errorMessage}</div>
-        <button className="btn btn-secondary mt-2 mr-sm-2" >Sign In!</button>
+        <button className="btn btn-primary mt-2 mr-sm-2" >Sign In!</button>
       </form>
     );
   }

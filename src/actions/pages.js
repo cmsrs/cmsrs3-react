@@ -5,25 +5,13 @@ import { SERVER_URL } from '../config';
 import { PAGES_ADD_MENU, PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types'; //, PAGES_POSITION_MENU
 import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from './types';
 
-import { PAGES_GET_IMAGES_BY_PAGE } from './types';
-//import { UPDATE_EDITOR_STATE } from './types';
-
-//import { PAGES_SAVE_MENU } from './types';
-
-// export const onSaveEditorState = (editorState) => dispatch => {
-//   dispatch({
-//     type: UPDATE_EDITOR_STATE,
-//     payload: editorState
-//   })
-// }
+//import { PAGES_GET_IMAGES_BY_PAGE } from './types';
 
 
 export const delImage = (imageId, callback) => async dispatch => {
   const token = localStorage.getItem('token');
 
-  //console.log(SERVER_URL);
   try{
-    //console.log( 'del_menuId', menuId );
     const response = await axios.delete(
       SERVER_URL+'/api/images/'+imageId+'?token='+token
     );
@@ -36,17 +24,10 @@ export const delImage = (imageId, callback) => async dispatch => {
     }
 
     callback();
-    //dispatch({ type: PAGES_DELETE_PAGE, payload: pageId });
   } catch(e){
      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while deleteing image"} });
   }
 }
-
-
-
-
-
-
 
 
 export const changePosition = (direction, itemId, menusOrPagesOrImg, callback) => async dispatch => {
@@ -72,9 +53,7 @@ export const delMenu = (menuId) => async dispatch => {
   const token = localStorage.getItem('token');
   const isNewMenu = isNewRecord(menuId);
 
-  //console.log(SERVER_URL);
   try{
-    //console.log( 'del_menuId', menuId );
     if( !isNewMenu ){
       const response = await axios.delete(
         SERVER_URL+'/api/menus/'+menuId+'?token='+token
@@ -121,10 +100,6 @@ export const delPage = (pageId) => async dispatch => {
 export const getMenus = () => async dispatch => {
   const token = localStorage.getItem('token');
 
-  //const test = isNewRecord('r1_2');
-  //console.log('__2_test0=', test);
-
-
   try {
     const response = await axios.get(
       SERVER_URL+'/api/menus?token='+token
@@ -141,10 +116,6 @@ export const getMenus = () => async dispatch => {
 
 export const getPages = () => async dispatch => {
   const token = localStorage.getItem('token');
-
-  //const test = isNewRecord('r1_2');
-  //console.log('__2_test0=', test);
-
 
   try {
     const response = await axios.get(
@@ -163,21 +134,14 @@ export const getPages = () => async dispatch => {
 
 export const addMenu = (menu) => dispatch => {
 
-  //console.log( 'add_menu', menu );
   dispatch({ type: PAGES_ADD_MENU, payload: menu });
 };
-
-//export const addPage = (page) => dispatch => {
-//  dispatch({ type: PAGES_ADD_PAGE, payload: page });
-//};
 
 
 export const saveMenu = (menu, callback) => async  dispatch => {
 
-  //const token = 'token342342';
   const token = localStorage.getItem('token');
   const isNewMenu = isNewRecord(menu.id);
-  //console.log('isNewRecord', isNewRecord);
 
   try {
 
@@ -232,7 +196,7 @@ export const savePage = (page, callback) => async  dispatch => {
       dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
     }else{
       const pageId = page.id ? page.id : response.data.data.pageId; //update
-      console.log('___ok___pageid='+pageId);
+      //console.log('___ok___pageid='+pageId);
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
       dispatch({ type: PAGES_SAVE_PAGE, payload: page });
       callback(pageId);
@@ -244,32 +208,29 @@ export const savePage = (page, callback) => async  dispatch => {
   }
 }
 
-export const getImagesByPage = ( pageId ) =>  async  dispatch => {
 
-  //console.log(pageId);
-  const token = localStorage.getItem('token');
-
-  try {
-    const response = await axios.get(
-      SERVER_URL+'/api/images/'+pageId+'?token='+token
-    );
-
-    //console.log("response_img",response.data.data);
-
-    //dispatch({ type: PAGES_GET_MENU, payload: response.data.data });
-    //callback();
-
-    //let imagesByPage = [];
-    dispatch({ type: PAGES_GET_IMAGES_BY_PAGE, payload: response.data.data });
-
-
-  } catch(e){
-     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while get image by page"} });
-  }
-
-
-
-}
+// export const getImagesByPage = ( pageId ) =>  async  dispatch => {
+//
+//   //console.log(pageId);
+//   const token = localStorage.getItem('token');
+//
+//   try {
+//     const response = await axios.get(
+//       SERVER_URL+'/api/images/'+pageId+'?token='+token
+//     );
+//
+//     //console.log("response_img",response.data.data);
+//
+//     //dispatch({ type: PAGES_GET_MENU, payload: response.data.data });
+//     //callback();
+//
+//     //let imagesByPage = [];
+//     dispatch({ type: PAGES_GET_IMAGES_BY_PAGE, payload: response.data.data });
+//
+//   } catch(e){
+//      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while get image by page"} });
+//   }
+// }
 
 
 export const changeMenu = (menu) => dispatch => {

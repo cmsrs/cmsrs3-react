@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import requireAuth from '../requireAuth';
+//import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import { getPagesByMenuId } from '../../helpers/pages';
-//import { getPagesByMenuId } from '../../helpers/pages';
-//import { getMenuDataById } from '../../helpers/pages';
-//import { isNewRecord } from '../../helpers/pages';
 
 class PageTitle extends Component {
 
@@ -13,12 +10,7 @@ class PageTitle extends Component {
     super(props);
     this.data =  this.props.data;   //getMenuDataById(this.props.menus, this.props.data.id)
 
-    //console.log(this.data);
   }
-
-  // componentDidMount() {
-  //   this.props.getPages();
-  // }
 
   delPage = () => {
     this.props.delPage(this.data.id);
@@ -71,7 +63,6 @@ class PageTitle extends Component {
         </React.Fragment>
         }
 
-
       </div>
     )
   }
@@ -84,4 +75,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(requireAuth(PageTitle));
+//export default connect(mapStateToProps, actions)(requireAuth(PageTitle));
+export default connect(mapStateToProps, actions)(PageTitle);

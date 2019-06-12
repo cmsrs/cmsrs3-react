@@ -41,11 +41,13 @@ export const signin = (formProps, callback) => async dispatch => {
   }
 };
 
-export const signout = () => {
+export const signout = ( callback ) => dispatch => {
   localStorage.removeItem('token');
 
-  return {
-    type: AUTH_USER,
-    payload: ''
-  };
+  dispatch({ type: AUTH_USER, payload: '' });
+  callback();
+  // return {
+  //   type: AUTH_USER,
+  //   payload: ''
+  // };
 };

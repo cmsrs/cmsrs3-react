@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import requireAuth from '../requireAuth';
+//import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import {SERVER_URL} from '../../config';
@@ -45,4 +45,5 @@ class Image extends Component {
 }
 
 
-export default connect(null, actions)(requireAuth(Image));
+//export default connect(null, actions)(requireAuth(Image));
+export default connect(null, actions)(Image);

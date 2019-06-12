@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import requireAuth from '../requireAuth';
+//import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import Menu from './Menu';
@@ -59,34 +59,17 @@ class MenuPages extends Component {
     this.props.addMenu(menu);
   }
 
-  // handleAddPage = () => {
-  //   const page = {id:  'rs_'+shortid.generate(), title: '', short_title: '', published: 0, position: '', type: '', menu_id: '' };
-  //   this.props.addPage(page);
-  // }
-
   renderMsg = (message) => {
     //console.log('msg_err',this.props.pagesRes.message);
     console.log('msg_err',message);
-    //return this.props.pagesRes.message;
     return JSON.stringify(message, null, 2);
-
-    // let msg = '';
-    // for(let index in  this.props.pagesRes.message){
-    //   msg += ' '+this.props.pagesRes.message[index][0];
-    // }
-    // return msg;
   }
 
 
   render() {
 
-    //this.props.getPages();
-    //console.log( '_____pobieram strony__________'  );
     const notRelatedPages = this.getNotRelatedPages();
 
-    //console.log(notRelatedPages);
-
-    ///{this.renderMsg()}
     let msg = '';
     if(this.props.pagesRes && (this.props.pagesRes.success  === false)  ){
       msg = <Expire  delay={5000}><div className="alert alert-danger" role="alert">{JSON.stringify(this.props.pagesRes.message, null, 2)}</div></Expire>;
@@ -138,4 +121,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(requireAuth(MenuPages));
+//export default connect(mapStateToProps, actions)(requireAuth(MenuPages));
+export default connect(mapStateToProps, actions)(MenuPages);

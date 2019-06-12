@@ -12,7 +12,7 @@ import { PAGES_DELETE_MENU } from '../actions/types';
 
 import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from '../actions/types';
 
-import { PAGES_GET_IMAGES_BY_PAGE } from '../actions/types';
+//import { PAGES_GET_IMAGES_BY_PAGE } from '../actions/types';
 
 //import { UPDATE_EDITOR_STATE } from '../actions/types';
 
@@ -111,11 +111,10 @@ export default function(state = INITIAL_STATE, action) {
       const retP = { ...state, page: page};
       return retP;
 
-    case PAGES_GET_IMAGES_BY_PAGE:
-      //console.log('koniec____PAGES_GET_IMAGES_BY_PAGE____');
-      state.images = [];
-      state.images = action.payload;
-      return state;
+    // case PAGES_GET_IMAGES_BY_PAGE:
+    //   state.images = [];
+    //   state.images = action.payload;
+    //   return state;
 
     case PAGES_CHANGE_MENU:
       //console.log('pay',action.payload);

@@ -18,5 +18,4 @@ export const PAGES_CHANGE_PAGE = 'pages_change_page';
 export const PAGES_GET_PAGES = 'pages_save_pages';
 export const PAGES_DELETE_PAGE = 'pages_delete_page';
 
-export const PAGES_GET_IMAGES_BY_PAGE = 'pages_get_images_by_page';
-//export const  UPDATE_EDITOR_STATE = 'update_editor_state';
+//export const PAGES_GET_IMAGES_BY_PAGE = 'pages_get_images_by_page';

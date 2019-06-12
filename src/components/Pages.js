@@ -17,8 +17,4 @@ class Pages extends Component {
   }
 }
 
-//function mapStateToProps(state) {
-//  return { menus: state.pages.menus };
-//}
-
 export default connect(null, actions)(requireAuth(Pages));

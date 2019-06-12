@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import requireAuth from '../requireAuth';
+//import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import { getMenuDataById, isNewRecord, getPagesByMenuId } from '../../helpers/pages';
@@ -109,4 +109,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)(requireAuth(Menu));
+//export default connect(mapStateToProps, actions)(requireAuth(Menu));
+export default connect(mapStateToProps, actions)(Menu);
