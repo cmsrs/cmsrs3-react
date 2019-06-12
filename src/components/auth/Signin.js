@@ -8,7 +8,7 @@ import * as actions from '../../actions';
 class Signin extends Component {
   onSubmit = formProps => {
     this.props.signin(formProps, () => {
-      return this.props.history.push('/pages');
+      return this.props.history.push('/admin/pages');
     });
   };
 

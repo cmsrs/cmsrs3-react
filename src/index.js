@@ -17,10 +17,10 @@ ReactDOM.render(
   <Root>
     <BrowserRouter>
       <App>
-        <Route path="/" exact component={Signin} />
-        <Route path="/pages" component={Pages} />
-        <Route path="/signout" component={Signout} />
-        <Route path="/signin" component={Signin} />
+        <Route path="/admin" exact component={Signin} />
+        <Route path="/admin/pages" component={Pages} />
+        <Route path="/admin/signout" component={Signout} />
+        <Route path="/admin/signin" component={Signin} />
       </App>
     </BrowserRouter>
   </Root>,
