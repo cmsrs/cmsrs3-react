@@ -7,7 +7,10 @@ class Header extends Component {
     if (this.props.authenticated) {
       return (
         <div className="container-fluid">
-          <Link   to="/admin/pages">Pages</Link>
+          <div className="container">
+            <Link   to="/admin/pages">Pages</Link>
+            <Link  className="ml-4"  to="/admin/users">Users</Link>
+          </div>
           <Link   to="/admin/signout">Sign Out</Link>
         </div>
       );

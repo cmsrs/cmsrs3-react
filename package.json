@@ -8,6 +8,7 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "react": "^16.8.6",
+    "react-bootstrap-table": "^4.3.1",
     "react-dom": "^16.8.6",
     "react-html-id": "^0.1.5",
     "react-redux": "^7.0.3",

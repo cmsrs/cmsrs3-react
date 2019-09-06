@@ -9,6 +9,7 @@ import Root from './Root';
 //import reducers from './reducers';
 import App from './components/App';
 import Pages from './components/Pages';
+import Users from './components/Users';
 import Signout from './components/auth/Signout';
 import Signin from './components/auth/Signin';
 
@@ -19,6 +20,7 @@ ReactDOM.render(
       <App>
         <Route path="/admin" exact component={Signin} />
         <Route path="/admin/pages" component={Pages} />
+        <Route path="/admin/users" component={Users} />
         <Route path="/admin/signout" component={Signout} />
         <Route path="/admin/signin" component={Signin} />
       </App>
