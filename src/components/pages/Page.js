@@ -155,6 +155,7 @@ class Page extends Component {
               <select name="type" onChange={this.handleChangePage}  value={this.props.page.type}>
                 <option value="cms">cms</option>
                 <option value="gallery">gallery</option>
+                <option value="shop">shop</option>                
               </select>
               <label className="ml-1">Type</label>
           </div>
