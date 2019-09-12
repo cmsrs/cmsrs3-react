@@ -20,3 +20,6 @@ export const PAGES_DELETE_PAGE = 'pages_delete_page';
 
 export const USERS_GET_CLIENTS = 'users_get_clients';
 export const USERS_RES = 'users_res';
+
+export const PRODUCTS_GET_PRODUCTS = 'products_get_products';
+export const PRODUCTS_RES = 'products_res';
