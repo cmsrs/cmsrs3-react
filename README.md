@@ -27,3 +27,11 @@ npm start
 npm test
 ```
 
+* build app
+
+```bash
+npm run build --path admin
+cp -r build admin
+cp -r admin <server_path>/public
+```
+
