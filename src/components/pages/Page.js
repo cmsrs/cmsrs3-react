@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import Image from './Image';
+import CKEditor from 'ckeditor4-react';
 
 import { isNewRecord, getPagesByMenuId } from '../../helpers/pages';
 
@@ -46,6 +47,12 @@ class Page extends Component {
       this.images = [];
       this.props.getPages();
     });
+  }
+
+  onEditorChange = ( evt ) => {
+      let newPageData;
+      newPageData = { ...this.props.page, content: evt.editor.getData()};
+      this.props.changePage(newPageData);
   }
 
   handleChangePage = (event) => {
@@ -155,7 +162,7 @@ class Page extends Component {
               <select name="type" onChange={this.handleChangePage}  value={this.props.page.type}>
                 <option value="cms">cms</option>
                 <option value="gallery">gallery</option>
-                <option value="shop">shop</option>                
+                <option value="shop">shop</option>
               </select>
               <label className="ml-1">Type</label>
           </div>
@@ -171,7 +178,10 @@ class Page extends Component {
 
           <div className="form-group">
            <label htmlFor="comment">Content</label>
-           <textarea className="form-control" rows="5" name="content"  onChange={this.handleChangePage}  value={this.props.page.content || ''}></textarea>
+           <CKEditor
+               data={this.props.page.content || ''}
+               onChange={this.onEditorChange}
+           />
          </div>
 
          <div className="form-group">
