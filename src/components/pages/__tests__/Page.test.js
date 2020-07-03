@@ -37,14 +37,21 @@ it('page render', () => {
   const published =  wrapped.find("input[name='published']").prop('checked');
   expect(published).toEqual(page.published);
 
+  const comment =  wrapped.find("input[name='comment']").prop('checked');
+  expect(comment).toEqual(page.comment);
+
+  //const published2 =  wrapped.find("input[name='published']").prop('checked');
+  //expect(published2).toEqual(page.published);
+
+
   const type =  wrapped.find("select[name='type']").prop('value');
   expect(type).toEqual(page.type);
 
   const typeLenght = wrapped.find("select[name='type']").find('option').length;
-  expect(typeLenght).toEqual(2);
+  expect(typeLenght).toEqual(3);
 
-  const content =  wrapped.find("textarea").first().prop('value');
-  expect(content).toEqual(page.content);
+  //const content =  wrapped.find("textarea").first().prop('value');
+  //expect(content).toEqual(page.content);
 
   const menu_id =  wrapped.find("select[name='menu_id']").prop('value');
   expect(!menu_id).toEqual(true);

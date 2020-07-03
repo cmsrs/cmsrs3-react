@@ -57,7 +57,8 @@ class Page extends Component {
 
   handleChangePage = (event) => {
     let newPageData;
-    if( event.target.name === "published" ){
+    if( event.target.name === "published" || event.target.name === "comment" ){
+      console.log('test');
       newPageData = { ...this.props.page, [event.target.name]: event.target.checked};
     }else{
       newPageData = { ...this.props.page, [event.target.name]: event.target.value};
@@ -156,6 +157,16 @@ class Page extends Component {
                   checked={this.props.page.published || 0}
                   onChange={this.handleChangePage} />
               <label>Published</label>
+          </div>
+
+          <div className="form-check row">
+              <input
+                  className="col-1"
+                  name="comment"
+                  type="checkbox"
+                  checked={this.props.page.comment || 0}
+                  onChange={this.handleChangePage} />
+              <label>Comments</label>
           </div>
 
           <div className="form-group">
