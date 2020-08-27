@@ -57,8 +57,8 @@ class Page extends Component {
 
   handleChangePage = (event) => {
     let newPageData;
-    if( event.target.name === "published" || event.target.name === "comment" ){
-      console.log('test');
+    if( event.target.name === "published" || event.target.name === "commented" ){
+      //console.log('test');
       newPageData = { ...this.props.page, [event.target.name]: event.target.checked};
     }else{
       newPageData = { ...this.props.page, [event.target.name]: event.target.value};
@@ -162,11 +162,11 @@ class Page extends Component {
           <div className="form-check row">
               <input
                   className="col-1"
-                  name="comment"
+                  name="commented"
                   type="checkbox"
-                  checked={this.props.page.comment || 0}
+                  checked={this.props.page.commented || 0}
                   onChange={this.handleChangePage} />
-              <label>Comments</label>
+              <label>Commented</label>
           </div>
 
           <div className="form-group">
@@ -188,7 +188,7 @@ class Page extends Component {
           </div>
 
           <div className="form-group">
-           <label htmlFor="comment">Content</label>
+           <label htmlFor="content">Content</label>
            <CKEditor
                data={this.props.page.content || ''}
                onChange={this.onEditorChange}

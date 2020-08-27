@@ -37,8 +37,8 @@ it('page render', () => {
   const published =  wrapped.find("input[name='published']").prop('checked');
   expect(published).toEqual(page.published);
 
-  const comment =  wrapped.find("input[name='comment']").prop('checked');
-  expect(comment).toEqual(page.comment);
+  const comment =  wrapped.find("input[name='commented']").prop('checked');
+  expect(comment).toEqual(page.commented);
 
   //const published2 =  wrapped.find("input[name='published']").prop('checked');
   //expect(published2).toEqual(page.published);

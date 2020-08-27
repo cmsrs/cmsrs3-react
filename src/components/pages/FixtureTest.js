@@ -21,7 +21,7 @@ export const initialStateMenuPages = {
       title: 'title 1',
       short_title: 'tit',
       published: 1,
-      comment: 1,
+      commented: 1,
       type: 'cms',
       content: 'test111 contentu',
     },
