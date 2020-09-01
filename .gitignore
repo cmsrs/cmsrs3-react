@@ -25,4 +25,5 @@ yarn-error.log*
 
 .idea/
 /src/config.js
+src/config.js
 /admin
