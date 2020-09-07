@@ -6,6 +6,13 @@ import * as actions from '../../actions';
 //import { Redirect } from 'react-router-dom'
 
 class Signin extends Component {
+
+  componentDidMount() {
+    if (this.props.auth) {
+      this.props.history.push('/admin/pages');
+    }
+  }
+
   onSubmit = formProps => {
     this.props.signin(formProps, () => {
       return this.props.history.push('/admin/pages');
@@ -45,7 +52,7 @@ class Signin extends Component {
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.auth.errorMessage };
+  return { errorMessage: state.auth.errorMessage, auth: state.auth.authenticated };
 }
 
 export default compose(
