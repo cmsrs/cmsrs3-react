@@ -149,6 +149,12 @@ class Page extends Component {
                   onChange={this.handleChangePage} value={this.props.page.short_title || ''} />
           </div>
 
+          <div className="form-group">
+              <textarea type="text" placeholder="Description" name="description"  rows="4" cols="50" className="form-control"
+                  onChange={this.handleChangePage} value={this.props.page.description || ''} >
+              </textarea>
+          </div>
+
           <div className="form-check row">
               <input
                   className="col-1"
