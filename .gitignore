@@ -27,3 +27,4 @@ yarn-error.log*
 /src/config.js
 src/config.js
 /admin
+/admin_*
