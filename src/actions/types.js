@@ -16,8 +16,6 @@ export const PAGES_CHANGE_PAGE = 'pages_change_page';
 export const PAGES_GET_PAGES = 'pages_save_pages';
 export const PAGES_DELETE_PAGE = 'pages_delete_page';
 
-//export const PAGES_GET_IMAGES_BY_PAGE = 'pages_get_images_by_page';
-
 export const USERS_GET_CLIENTS = 'users_get_clients';
 export const USERS_RES = 'users_res';
 

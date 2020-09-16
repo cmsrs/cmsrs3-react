@@ -5,7 +5,6 @@ import { SERVER_URL } from '../config';
 import { PAGES_ADD_MENU, PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types'; //, PAGES_POSITION_MENU
 import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from './types';
 
-//import { PAGES_GET_IMAGES_BY_PAGE } from './types';
 
 
 export const delImage = (imageId, callback) => async dispatch => {
@@ -129,11 +128,7 @@ export const getPages = () => async dispatch => {
   }
 };
 
-
-
-
 export const addMenu = (menu) => dispatch => {
-
   dispatch({ type: PAGES_ADD_MENU, payload: menu });
 };
 
@@ -206,6 +201,31 @@ export const savePage = (page, callback) => async  dispatch => {
      console.log('___probem with ajax______', e);
      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save page"} });
   }
+}
+
+export const saveImgAlt = (image) => async  dispatch => {
+
+  const token = localStorage.getItem('token');
+
+  let data = {'alt':image.alt };
+  try {
+    let response = null;
+    response = await axios.put(
+      SERVER_URL+'/api/images/'+image.id+'?token='+token,
+      data
+    );
+
+    if(!response.data.success){
+      dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
+    }else{
+      dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
+    }
+
+  } catch (e) {
+     console.log('___probem with ajax______', e);
+     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save alt img"} });
+  }
+
 }
 
 

@@ -22,6 +22,30 @@ export const  isNewRecord = (menuId) => {
   return false;
 };
 
+export const  getImageById = (images, imageId) => {
+  let ret = null;
+  for(let image of images){
+    if(image.id === imageId){
+      ret = image;
+      break;
+    }
+  }
+  return ret;
+};
+
+export const changeItemInArr = ( arr, item ) => {
+  let ret = [];
+
+  for(let a of arr){
+    if(a.id === item.id ){
+      ret.push(item);
+    }else{
+      ret.push(a);
+    }
+  }
+
+  return ret;
+}
 
 // export const getPagesByMenuId = ( menuId ) => {
 //   let pages = [];

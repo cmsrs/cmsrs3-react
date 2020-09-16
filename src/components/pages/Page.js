@@ -98,7 +98,7 @@ class Page extends Component {
       if(Array.isArray(images)){
 
         ret = images.map(function(item, index){
-          return  <Image key={item.id} data={item} imagesByPage={images}/>
+          return  <Image key={item.id} imageId={item.id} />
         });
       }
 

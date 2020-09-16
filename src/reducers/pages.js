@@ -24,7 +24,7 @@ export default function(state = INITIAL_STATE, action) {
       return ret;
 
     case PAGES_SAVE_PAGE:
-      const page = { title: '', short_title: '', published: 0, type: 'cms', menu_id: ''  }; //clear input
+      const page = { title: '', short_title: '', published: 0, commented: 0, type: 'cms', menu_id: ''  }; //clear input
       const retP = { ...state, page: page};
       return retP;
 
@@ -36,7 +36,9 @@ export default function(state = INITIAL_STATE, action) {
       return ret2;
 
     case PAGES_CHANGE_PAGE:
-      return { ...state, page: action.payload, pages_res:{} };
+      let r = { ...state, page: action.payload, pages_res:{} };
+      return r;
+
     case PAGES_RES:
       return { ...state, pages_res: action.payload };
     case PAGES_GET_MENU:
