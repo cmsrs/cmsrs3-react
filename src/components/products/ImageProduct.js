@@ -57,7 +57,6 @@ class ImageProduct extends Component {
   }
 
   render() {
-    console.log(this.props.product);
     let image = getImageById(this.props.product.images, this.props.data.id);
 
     return (
