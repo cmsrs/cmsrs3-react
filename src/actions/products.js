@@ -4,6 +4,25 @@ import { PRODUCTS_RES, PRODUCTS_GET_PRODUCTS, PRODUCTS_GET_PAGES, PRODUCTS_CHANG
 //PRODUCTS_CHECK_PRODUCT,
 
 
+export const changePosition = (direction, itemId, menusOrPagesOrImg, callback) => async dispatch => {
+  const token = localStorage.getItem('token');
+  try{
+    const response = await axios.get(
+      SERVER_URL+'/api/'+menusOrPagesOrImg+'/position/'+direction+'/'+itemId+'?token='+token
+    );
+
+    if(!response.data.success){
+      dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Problem with change position "+menusOrPagesOrImg} });
+    }else{
+      dispatch({ type: PRODUCTS_RES, payload: {success: true, message: "Data was saved"} });
+    }
+
+    callback();
+  } catch(e){
+     dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while change "+menusOrPagesOrImg+" position"} });
+  }
+}
+
 export const delImage = (imageId, callback) => async dispatch => {
   const token = localStorage.getItem('token');
 

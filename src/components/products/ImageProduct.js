@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 //import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/products';
+//import {changePosition} from '../../actions/pages';
 import {SERVER_URL} from '../../config';
+import { getImageById, changeItemInArr } from '../../helpers/pages';
 
 class ImageProduct extends Component {
 
@@ -11,7 +13,6 @@ class ImageProduct extends Component {
       this.props.getProducts( (products) => {
         const product = this.getDataFromProps(products, this.props.productId);
         this.props.setProduct(product);
-
       });
     });
   }
@@ -27,20 +28,66 @@ class ImageProduct extends Component {
     return data[0];
   }
 
+  downImage = () => {
+    this.props.changePosition('down', this.props.data.id, 'images', () => {
+      this.props.getProducts( (products) => {
+        const product = this.getDataFromProps(products, this.props.productId);
+        this.props.setProduct(product);
+      });
+    });
+  }
+
+  upImage = () => {
+    this.props.changePosition('up', this.props.data.id, 'images', () => {
+      this.props.getProducts( (products) => {
+        const product = this.getDataFromProps(products, this.props.productId);
+        this.props.setProduct(product);
+      });
+    });
+  }
+
+  handleChange = (event) => {
+    let image = getImageById(this.props.product.images, this.props.data.id);
+    image.alt = event.target.value;
+
+    let images = changeItemInArr(this.props.product.images, image);
+    let newProductData = { ...this.props.product, 'images': images};
+
+    this.props.changeProduct(newProductData);
+  }
 
   render() {
+    console.log(this.props.product);
+    let image = getImageById(this.props.product.images, this.props.data.id);
 
     return (
       <div className="ml-1  mt-3 row">
-        <img  src={SERVER_URL + this.props.data.fs.small}   alt={this.props.data.name}/>
+        <img  src={SERVER_URL + image.fs.small} alt={image.alt} />
 
-        <div className="trash ml-2"  onClick={this.delImage}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
+        <div className="ml-1 row">
+          <div className="trash ml-2"  onClick={this.delImage}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
 
+          {(this.props.product.images.length > 1) &&
+          <React.Fragment>
+            <div className="ml-2"  onClick={this.downImage}><i className="fas fa-arrow-down cursor-pointer"></i></div>
+            <div className="ml-2"  onClick={this.upImage}><i className="fas fa-arrow-up cursor-pointer"></i></div>
+          </React.Fragment>
+          }
+
+          <input type="text" placeholder="Short title" name="short_title" className="form-control col"
+               onChange={this.handleChange} value={image.alt || ''} />
+
+        </div>
       </div>
     )
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    product: state.products.product
+  };
+}
 
 //export default connect(null, actions)(requireAuth(Image));
-export default connect(null, actions)(ImageProduct);
+export default connect(mapStateToProps, actions)(ImageProduct);

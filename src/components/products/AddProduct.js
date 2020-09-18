@@ -25,7 +25,12 @@ class AddProduct extends Component {
     event.preventDefault();
 
     const product = { ...this.props.product};
-    product.images =  this.images ? this.images.slice() : [];
+
+    if(this.images){
+      product.images = product.images.concat(this.images);
+    }
+
+    //product.images =  this.images ? this.images.slice() : [];
     //console.log(product);
 
     this.props.saveProduct(product, ( productId ) => {
