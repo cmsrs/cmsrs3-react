@@ -157,7 +157,6 @@ export const saveMenu = (menu, callback) => async  dispatch => {
       //const strErr = JSON.stringify(response.data.error, null, 2);
       dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
     }else{
-      console.log('___ok___');
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
       callback();
     }
@@ -202,32 +201,6 @@ export const savePage = (page, callback) => async  dispatch => {
      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save page"} });
   }
 }
-
-export const saveImgAlt = (image) => async  dispatch => {
-
-  const token = localStorage.getItem('token');
-
-  let data = {'alt':image.alt };
-  try {
-    let response = null;
-    response = await axios.put(
-      SERVER_URL+'/api/images/'+image.id+'?token='+token,
-      data
-    );
-
-    if(!response.data.success){
-      dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
-    }else{
-      dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
-    }
-
-  } catch (e) {
-     console.log('___probem with ajax______', e);
-     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save alt img"} });
-  }
-
-}
-
 
 // export const getImagesByPage = ( pageId ) =>  async  dispatch => {
 //

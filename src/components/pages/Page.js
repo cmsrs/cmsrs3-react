@@ -41,7 +41,12 @@ class Page extends Component {
 
     const page = { ...this.props.page};
     page.position = this.getPagePositionByMenuId(page.menu_id);
-    page.images =  this.images ? this.images.slice() : [];
+
+    if(this.images){
+      page.images = page.images.concat(this.images);
+    }
+
+    //page.images =  this.images ? this.images.slice() : [];
     this.props.savePage(page, ( pageId ) => {
       document.getElementsByName('images')[0].value = null;
       this.images = [];

@@ -34,12 +34,6 @@ class Image extends Component {
     this.props.changePage(newPageData);
   }
 
-  saveAlt = () => {
-    let image = getImageById(this.props.page.images, this.props.imageId);
-    this.props.saveImgAlt(image, () => {
-    });
-  }
-
   render() {
     let image = getImageById(this.props.page.images, this.props.imageId);
 
@@ -59,7 +53,6 @@ class Image extends Component {
 
           <input type="text" placeholder="Short title" name="short_title" className="form-control col"
                onChange={this.handleChange} value={image.alt || ''} />
-          <div onClick={this.saveAlt}><i className="far fa-save cursor-pointer"></i></div>
        </div>
       </div>
     )
