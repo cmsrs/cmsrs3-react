@@ -113,9 +113,6 @@ export const saveProduct = (product, callback) => async  dispatch => {
   }
 };
 
-export const setProduct = (product) => dispatch => {
-  dispatch({ type: PRODUCTS_SET_PRODUCT, payload: product });
-};
 
 export const deleteProduct = (productId) =>  async dispatch => {
 
@@ -145,6 +142,12 @@ export const deleteProduct = (productId) =>  async dispatch => {
 // export const checkProducts = (id, isSelected) => dispatch => {
 //   dispatch({ type: PRODUCTS_CHECK_PRODUCT, payload: {'id': id, 'isSelected': isSelected } });
 // };
+
+
+//not used - to del - use only changeProduct
+export const setProduct = (product) => dispatch => {
+  dispatch({ type: PRODUCTS_SET_PRODUCT, payload: product });
+};
 
 
 export const changeProduct = (product) => dispatch => {

@@ -1,5 +1,17 @@
 //export const PREFIX_MENU = 'rs_';
 
+export const getDataFromItems = (items, id) => {
+  const  data = items.filter( item => {
+    return item.id === parseInt(id);
+  });
+
+
+  if(!data.length){
+    return {};
+  }
+  return data[0];
+}
+
 export const  getMenuDataById = (menus, menuId) => {
   let ret = null;
   for(let item of menus){
@@ -46,6 +58,26 @@ export const changeItemInArr = ( arr, item ) => {
 
   return ret;
 }
+
+export const getImages = ( pages, pageId ) => {
+
+  const  data = pages.filter( page => {
+    return page.id === pageId
+  });
+
+  if(!data.length){
+    return [];
+  }
+
+  if(!data[0].images.length){
+    return [];
+  }
+
+  return data[0].images;
+}
+
+
+
 
 // export const getPagesByMenuId = ( menuId ) => {
 //   let pages = [];

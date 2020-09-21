@@ -2,25 +2,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import {SERVER_URL} from '../../config';
-import { getImageById, changeItemInArr } from '../../helpers/pages';
+import { getImageById, changeItemInArr, getDataFromItems } from '../../helpers/pages';
 
 class Image extends Component {
 
   delImage = () => {
     this.props.delImage(this.props.imageId, () => {
-      this.props.getPages();
+      this.props.getPages((pages) => {
+        const page = getDataFromItems(pages, this.props.imageId);
+        this.props.changePage(page);
+      });
     });
   }
 
   downImage = () => {
     this.props.changePosition('down', this.props.imageId, 'images', () => {
-      this.props.getPages();
+      this.props.getPages((pages) => {
+        const page = getDataFromItems(pages, this.props.imageId);
+        this.props.changePage(page);
+      });
     });
   }
 
   upImage = () => {
     this.props.changePosition('up', this.props.imageId, 'images', () => {
-      this.props.getPages();
+      this.props.getPages((pages) => {
+        const page = getDataFromItems(pages, this.props.imageId);
+        this.props.changePage(page);
+      });
     });
   }
 

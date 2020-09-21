@@ -5,12 +5,12 @@ import * as actions from '../../actions/pages';
 import Image from './Image';
 import CKEditor from 'ckeditor4-react';
 
-import { isNewRecord, getPagesByMenuId } from '../../helpers/pages';
+import { isNewRecord, getPagesByMenuId, getImages } from '../../helpers/pages';
 
 class Page extends Component {
 
   componentDidMount() {
-    this.props.getPages();
+    this.props.getPages( (p) => {});
   }
 
   getMenuValues(){
@@ -24,7 +24,6 @@ class Page extends Component {
     }
     return menuVal;
   }
-
 
   getPagePositionByMenuId = (menuId) => {
     if(!menuId){
@@ -46,11 +45,10 @@ class Page extends Component {
       page.images = page.images.concat(this.images);
     }
 
-    //page.images =  this.images ? this.images.slice() : [];
     this.props.savePage(page, ( pageId ) => {
       document.getElementsByName('images')[0].value = null;
       this.images = [];
-      this.props.getPages();
+      this.props.getPages( (p) => {} );
     });
   }
 
@@ -110,31 +108,13 @@ class Page extends Component {
       return ret;
   }
 
-  getImages = ( pages, pageId ) => {
-
-    const  data = pages.filter( page => {
-      return page.id === pageId
-    });
-
-    if(!data.length){
-      return [];
-    }
-
-    if(!data[0].images.length){
-      return [];
-    }
-
-    return data[0].images;
-  }
-
-
   render() {
 
     const menuValues = this.getMenuValues();
 
     let images = [];
     if(this.props.page.id){
-      images = this.getImages( this.props.pages, this.props.page.id );
+      images = getImages( this.props.pages, this.props.page.id );
     }
 
     const label =  this.props.page.id ? 'Edit page' : 'Add page';

@@ -5,18 +5,23 @@ import Expire from '../../helpers/Expire';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import AddProduct from './AddProduct';
+import { getDataFromItems } from '../../helpers/pages';
+
+
+
 
 class Product extends Component {
 
   componentDidMount() {
-    this.props.getProducts( (d) => {      
+    this.props.getProducts( (d) => {
     });
   }
 
   handleEditProduct = () =>  {
     if( this.state  && this.state.productsCheck ){
-          const data = this.getDataFromProps(this.state.productsCheck);
-          this.props.setProduct(data);
+        //const data = this.getDataFromProps(this.state.productsCheck);
+        const data = getDataFromItems(this.props.products, this.state.productsCheck);
+        this.props.changeProduct(data);
 
         // for(let k in this.state.productsCheck ){
         //   if( this.state.productsCheck[k] === true ){
@@ -25,11 +30,18 @@ class Product extends Component {
         //     break;
         //   }
         // }
+    }else{
+      if(this.props.product.id){
+        const data = getDataFromItems(this.props.products, this.props.product.id);
+        this.props.changeProduct(data);
+      }
     }
+
     this.refs.table.setState({ selectedRowKeys: [] });
 
   }
 
+/*
   getDataFromProps = (id) => {
     const  data = this.props.products.filter( product => {
       return product.id === parseInt(id);
@@ -42,6 +54,7 @@ class Product extends Component {
     }
     return data[0];
   }
+*/
 
 
   handleDeleteProduct = () =>  {
@@ -101,7 +114,7 @@ class Product extends Component {
           {msg}
         </div>
 
-        <AddProduct key="1"/>
+        <AddProduct key="1" />
 
         <br/>
         <button onClick={this.handleEditProduct}>Edit</button><button  onClick={this.handleDeleteProduct}>Delete</button>
@@ -120,6 +133,7 @@ class Product extends Component {
 
 function mapStateToProps(state) {
   return {
+    product: state.products.product,
     products: state.products.products,
     productsRes: state.products.products_res
   };

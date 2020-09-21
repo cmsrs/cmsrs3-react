@@ -1,53 +1,40 @@
 import React, { Component } from 'react';
-//import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/products';
-//import {changePosition} from '../../actions/pages';
 import {SERVER_URL} from '../../config';
-import { getImageById, changeItemInArr } from '../../helpers/pages';
+import { getImageById, changeItemInArr, getDataFromItems } from '../../helpers/pages';
 
 class ImageProduct extends Component {
 
   delImage = () => {
-    this.props.delImage(this.props.data.id, () => {
+    this.props.delImage(this.props.imageId, () => {
       this.props.getProducts( (products) => {
-        const product = this.getDataFromProps(products, this.props.productId);
-        this.props.setProduct(product);
+        const product = getDataFromItems(products, this.props.productId);
+        this.props.changeProduct(product);
       });
     });
   }
 
-  getDataFromProps = (products, id) => {
-    const  data = products.filter( product => {
-      return product.id === parseInt(id);
-    });
-
-    if(!data.length){
-      return {};
-    }
-    return data[0];
-  }
-
   downImage = () => {
-    this.props.changePosition('down', this.props.data.id, 'images', () => {
+    this.props.changePosition('down', this.props.imageId, 'images', () => {
       this.props.getProducts( (products) => {
-        const product = this.getDataFromProps(products, this.props.productId);
-        this.props.setProduct(product);
+        const product = getDataFromItems(products, this.props.productId);
+        this.props.changeProduct(product);
       });
     });
   }
 
   upImage = () => {
-    this.props.changePosition('up', this.props.data.id, 'images', () => {
+    this.props.changePosition('up', this.props.imageId, 'images', () => {
       this.props.getProducts( (products) => {
-        const product = this.getDataFromProps(products, this.props.productId);
-        this.props.setProduct(product);
+        const product = getDataFromItems(products, this.props.productId);
+        this.props.changeProduct(product);
       });
     });
   }
 
   handleChange = (event) => {
-    let image = getImageById(this.props.product.images, this.props.data.id);
+    let image = getImageById(this.props.product.images, this.props.imageId);
     image.alt = event.target.value;
 
     let images = changeItemInArr(this.props.product.images, image);
@@ -57,7 +44,8 @@ class ImageProduct extends Component {
   }
 
   render() {
-    let image = getImageById(this.props.product.images, this.props.data.id);
+
+    let image = getImageById(this.props.product.images, this.props.imageId);
 
     return (
       <div className="ml-1  mt-3 row">

@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/products';
 import ImageProduct from './ImageProduct';
+import { getImages } from '../../helpers/pages';
 
 class AddProduct extends Component {
 
   componentDidMount() {
     this.props.getShopPages();
+    this.props.getProducts( (d) => {
+    });    
   }
 
   getShopPages = () => {
@@ -30,52 +33,28 @@ class AddProduct extends Component {
       product.images = product.images.concat(this.images);
     }
 
-    //product.images =  this.images ? this.images.slice() : [];
-    //console.log(product);
-
     this.props.saveProduct(product, ( productId ) => {
-      //alert('ok');
       document.getElementsByName('images')[0].value = null;
       this.images = [];
       this.props.getProducts( (d) => {
       });
       this.setState({productsCheck: null});
-      //this.refs.table.setState({ selectedRowKeys: [] });
-      //document.getElementsByName('images')[0].value = null;
-      //this.images = [];
-      //this.props.getPages();
     });
   };
-
-
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-  //
-  //   const page = { ...this.props.page};
-  //   page.position = this.getPagePositionByMenuId(page.menu_id);
-  //   page.images =  this.images ? this.images.slice() : [];
-  //   this.props.savePage(page, ( pageId ) => {
-  //     document.getElementsByName('images')[0].value = null;
-  //     this.images = [];
-  //     this.props.getPages();
-  //   });
-  // }
-
 
   handleChangeProduct = (event) => {
     let newProductData;
     newProductData = { ...this.props.product, [event.target.name]: event.target.value};
 
-    //console.log('zmiana', newProductData);
     this.props.changeProduct(newProductData);
   }
 
-  showImages = (images) => {
+  showImages = (images, productId) => {
       let ret = '';
       if(Array.isArray(images)){
 
         ret = images.map(function(item, index){
-          return  <ImageProduct key={item.id} data={item} imagesByPage={images}/>
+          return  <ImageProduct key={item.id} imageId={item.id}  productId={productId} />
         });
       }
 
@@ -107,34 +86,19 @@ class AddProduct extends Component {
     }
   }
 
-  showImages = (images, productId) => {
-
-      let ret = '';
-      if(Array.isArray(images)){
-
-        ret = images.map(function(item, index){
-          return  <ImageProduct key={item.id} data={item} productId={productId}  imagesByPage={images}/>
-        });
-      }
-      return ret;
-  }
-
   render() {
 
     let images = [];
 
-    //this.tmp(this.props.product);
     if(this.props.product.id){
-       images = this.props.product.images;
+       images = getImages( this.props.products, this.props.product.id );
     }
 
-
-    //let menuValues = [];
     let shopPages = [];
     shopPages = this.getShopPages();
 
-    //const label =  this.props.page.id ? 'Edit page' : 'Add page';
     const label =  this.props.product.id ? 'Edit product' : 'Add product';
+
     return (
 
       <div>
@@ -186,9 +150,9 @@ class AddProduct extends Component {
 function mapStateToProps(state) {
   return {
     product: state.products.product,
+    products: state.products.products,
     shop_pages: state.products.shop_pages
   };
 }
 
-//export default connect(mapStateToProps, actions)(requireAuth(Page));
 export default connect(mapStateToProps, actions)(AddProduct);

@@ -7,6 +7,7 @@ import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE 
 
 
 
+
 export const delImage = (imageId, callback) => async dispatch => {
   const token = localStorage.getItem('token');
 
@@ -113,7 +114,7 @@ export const getMenus = () => async dispatch => {
 };
 
 
-export const getPages = () => async dispatch => {
+export const getPages = (callback) => async dispatch => {
   const token = localStorage.getItem('token');
 
   try {
@@ -121,9 +122,12 @@ export const getPages = () => async dispatch => {
       SERVER_URL+'/api/pages?token='+token
     );
     //console.log("response",response.data.data);
+
     dispatch({ type: PAGES_GET_PAGES, payload: response.data.data });
+    callback(response.data.data);
 
   } catch(e){
+    console.log('___probem with ajax______', e);
      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while get pages"} });
   }
 };
@@ -226,9 +230,18 @@ export const savePage = (page, callback) => async  dispatch => {
 // }
 
 
+
+
 export const changeMenu = (menu) => dispatch => {
   dispatch({ type: PAGES_CHANGE_MENU, payload: menu });
 };
+
+
+//export const setPage = (product) => dispatch => {
+//  dispatch({ type: PAGES_SET_PAGE, payload: product });
+//};
+
+
 
 export const changePage = (page) => dispatch => {
   dispatch({ type: PAGES_CHANGE_PAGE, payload: page });
