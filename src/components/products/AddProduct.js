@@ -9,7 +9,7 @@ class AddProduct extends Component {
   componentDidMount() {
     this.props.getShopPages();
     this.props.getProducts( (d) => {
-    });    
+    });
   }
 
   getShopPages = () => {
@@ -29,7 +29,7 @@ class AddProduct extends Component {
 
     const product = { ...this.props.product};
 
-    if(this.images){
+    if(this.images && product.images){
       product.images = product.images.concat(this.images);
     }
 

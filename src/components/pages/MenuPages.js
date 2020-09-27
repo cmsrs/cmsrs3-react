@@ -7,6 +7,7 @@ import Page from './Page';
 import PageTitle from './PageTitle';
 import shortid from 'shortid';
 import Expire from '../../helpers/Expire';
+//import { createTreePages } from '../../helpers/pages';
 
 class MenuPages extends Component {
 
@@ -36,9 +37,11 @@ class MenuPages extends Component {
       if(Array.isArray(menus)){
 
         ret = menus.map(function(item, index){
+           // createTreePages(this.props.pages, item.id );
           return  <Menu key={item.id} data={item}/>
         });
       }
+
 
       return ret;
   }

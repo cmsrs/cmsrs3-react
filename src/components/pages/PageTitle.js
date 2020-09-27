@@ -2,18 +2,39 @@ import React, { Component } from 'react';
 //import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
-import { getPagesByMenuId } from '../../helpers/pages';
+//import { getPagesByMenuIdAndPageId } from '../../helpers/pages';
 
 class PageTitle extends Component {
 
   constructor(props) {
     super(props);
     this.data =  this.props.data;   //getMenuDataById(this.props.menus, this.props.data.id)
+    //console.log('data');
+    //console.log(this.data);
+    //const childrenPages = this.props.childrenPages;
 
+    //this.isChild = this.inArray(this.data.id, childrenPages);
   }
 
+
+  // inArray = (needle, haystack) => {
+  //   if(!haystack){
+  //     return false;
+  //   }
+  //   let ret = false;
+  //   for(let item of haystack){
+  //     if(item.id === needle){
+  //       ret = true;
+  //       break;
+  //     }
+  //   }
+  //   return ret;
+  // }
+
   delPage = () => {
-    this.props.delPage(this.data.id);
+    this.props.delPage(this.data.id, () => {
+      this.props.getPages( (pages) => {});
+    });
   }
 
   getDataFromProps = () => {
@@ -29,13 +50,13 @@ class PageTitle extends Component {
 
   downPage = () => {
     this.props.changePosition('down', this.data.id, 'pages', () => {
-      this.props.getPages();
+      this.props.getPages( (pages) => {});
     });
   }
 
   upPage = () => {
     this.props.changePosition('up', this.data.id, 'pages', () => {
-      this.props.getPages();
+      this.props.getPages( (pages) => {} );
     });
   }
 
@@ -45,13 +66,28 @@ class PageTitle extends Component {
     this.props.changePage(data);
   }
 
+  getPagesByMenuIdAndPageId = ( allPages, menuId, pageId ) => {
+    let pages = [];
+
+    for(let page of allPages){
+      if( (parseInt(page.menu_id) === menuId) && ( (parseInt(page.page_id) === pageId) || !pageId ) ){
+        pages.push(page);
+      }
+    }
+    return pages;
+  }
+
+
   render() {
     const data = this.getDataFromProps();
 
-    const pages = getPagesByMenuId(this.props.pages, data.menu_id);
+    const pages = this.getPagesByMenuIdAndPageId(this.props.pages, data.menu_id, data.page_id);
+
+    //const isChild = this.props.page.page_id ? true : false;
+    //const isChild = this.data.page_id ? true : false;
 
     return (
-      <div className="mb-2 row">
+      <div className={ this.props.child ?  `mb-2 row ml-3` : `mb-2 row` }>
         <div>{data.title}</div>
         <div className="ml-2 mr-2"  onClick={this.editPage}><i className="far fa-edit cursor-pointer"/></div>
         <div className="trash"  onClick={this.delPage}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
@@ -71,6 +107,7 @@ class PageTitle extends Component {
 function mapStateToProps(state) {
   return {
     //menus: state.pages.menus,
+    page: state.pages.page,
     pages: state.pages.pages
   };
 }

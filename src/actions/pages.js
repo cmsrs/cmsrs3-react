@@ -74,7 +74,7 @@ export const delMenu = (menuId) => async dispatch => {
   }
 }
 
-export const delPage = (pageId) => async dispatch => {
+export const delPage = (pageId, callback) => async dispatch => {
   const token = localStorage.getItem('token');
 
   //console.log(SERVER_URL);
@@ -89,6 +89,7 @@ export const delPage = (pageId) => async dispatch => {
       dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
     }else{
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
+      callback();
     }
 
     dispatch({ type: PAGES_DELETE_PAGE, payload: pageId });

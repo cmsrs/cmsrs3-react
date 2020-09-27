@@ -5,9 +5,43 @@ import * as actions from '../../actions/pages';
 import Image from './Image';
 import CKEditor from 'ckeditor4-react';
 
-import { isNewRecord, getPagesByMenuId, getImages } from '../../helpers/pages';
+import { isNewRecord, getPagesByMenuId, getImages, inArray } from '../../helpers/pages';
 
 class Page extends Component {
+
+  getRootPages = () => {
+    const menuId = parseInt(this.props.page.menu_id);
+    const pageId = this.props.page.id ? parseInt(this.props.page.id) : false;
+
+    let parentIds = []
+    for(let p of this.props.pages){
+      if( (p.menu_id === menuId) &&  p.page_id ){
+        parentIds.push(p.page_id);
+      }
+    }
+
+    let pages = [];
+    pages.push([]);
+
+    //only one level of depth
+    if(inArray(pageId, parentIds)){
+      return pages;
+    }
+
+    for(let p of this.props.pages){
+      //edit
+      if( (p.menu_id === menuId) && !p.page_id && pageId && (p.id !== pageId ) ){
+        pages.push(p);
+      }
+      //new
+      if( (p.menu_id === menuId) && !p.page_id && !pageId ){
+        pages.push(p);
+      }
+
+    }
+
+    return pages;
+  }
 
   componentDidMount() {
     this.props.getPages( (p) => {});
@@ -38,10 +72,12 @@ class Page extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
+    //createTreePages(this.props.pages); //??
+
     const page = { ...this.props.page};
     page.position = this.getPagePositionByMenuId(page.menu_id);
 
-    if(this.images){
+    if(this.images && page.images){
       page.images = page.images.concat(this.images);
     }
 
@@ -111,6 +147,7 @@ class Page extends Component {
   render() {
 
     const menuValues = this.getMenuValues();
+    const rootPages = this.getRootPages();
 
     let images = [];
     if(this.props.page.id){
@@ -176,6 +213,15 @@ class Page extends Component {
               )}
             </select>
             <label className="ml-1">Menu</label>
+          </div>
+
+          <div className="form-group">
+            <select name="page_id" onChange={this.handleChangePage}  value={this.props.page.page_id || ''} >
+              {rootPages.map(page =>
+                <option key={page.id} value={page.id || ''}>{page.title || ''}</option>
+              )}
+            </select>
+            <label className="ml-1">Parent page</label>
           </div>
 
           <div className="form-group">

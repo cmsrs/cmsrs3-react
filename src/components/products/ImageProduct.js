@@ -18,7 +18,8 @@ class ImageProduct extends Component {
   downImage = () => {
     this.props.changePosition('down', this.props.imageId, 'images', () => {
       this.props.getProducts( (products) => {
-        const product = getDataFromItems(products, this.props.productId);
+        let product = getDataFromItems(products, this.props.productId);
+        product = {...product};
         this.props.changeProduct(product);
       });
     });
@@ -27,7 +28,8 @@ class ImageProduct extends Component {
   upImage = () => {
     this.props.changePosition('up', this.props.imageId, 'images', () => {
       this.props.getProducts( (products) => {
-        const product = getDataFromItems(products, this.props.productId);
+        let product = getDataFromItems(products, this.props.productId);
+        product = {...product};
         this.props.changeProduct(product);
       });
     });

@@ -12,6 +12,51 @@ export const getDataFromItems = (items, id) => {
   return data[0];
 }
 
+export const createTreePagesByMenuId = (pages, menuId) => {
+  if(!pages.length){
+      return false;
+  }
+
+  let pagesByMenuId2 = pages.filter( item => {
+    return item.menu_id === parseInt(menuId);
+  });
+
+  if(!pagesByMenuId2.length){
+    return false;
+  }
+
+  let tree = [];
+  for(let page of pagesByMenuId2){
+    if( !page.page_id ){
+      //tree[page.id] = page;
+      tree.push(page);
+    }
+  }
+
+  let pk = [];
+  for(let page2 of pagesByMenuId2){
+    pk[page2.page_id] = [];
+  }
+
+  //position is importent therefore i use push - insted find py key
+  for(let page2 of pagesByMenuId2){
+    if( page2.page_id ){
+      pk[page2.page_id].push(page2);
+      //tree[page2.page_id]['children'] = p2;
+    }
+  }
+
+  for(let t of tree){
+    if( pk[t.id] ){
+      t['children'] = pk[t.id];
+    }
+  }
+
+
+
+  return tree
+};
+
 export const  getMenuDataById = (menus, menuId) => {
   let ret = null;
   for(let item of menus){
@@ -108,4 +153,13 @@ export const getPagesByMenuId = ( allPages, menuId ) => {
     }
   }
   return pages;
+}
+
+
+export const inArray = (needle, haystack) => {
+    let length = haystack.length;
+    for(let i = 0; i < length; i++) {
+        if(haystack[i] === needle) return true;
+    }
+    return false;
 }

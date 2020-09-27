@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
-import { getMenuDataById, isNewRecord, getPagesByMenuId } from '../../helpers/pages';
+import { getMenuDataById, isNewRecord, createTreePagesByMenuId } from '../../helpers/pages';
 //import {  } from '../../helpers/pages';
 import PageTitle from './PageTitle';
 
@@ -11,6 +11,24 @@ class Menu extends Component {
   constructor(props) {
     super(props);
     this.data =  this.props.data;   //getMenuDataById(this.props.menus, this.props.data.id)
+
+    //console.log(pagesTree);
+    //this.childrenPages = this.getPageTreeChildren(this.pagesTree);
+  }
+
+  getPageTreeChildren = (pagesTree) => {
+      if(!pagesTree){
+          return false;
+      }
+      let childeren = [];
+      for(let page of  pagesTree){
+        if(page['children']){
+          for(let p of page['children']){
+            childeren.push(p);
+          }
+        }
+      }
+      return childeren;
   }
 
   handleChange = (event) => {
@@ -45,13 +63,24 @@ class Menu extends Component {
     this.props.delMenu(this.data.id);
   }
 
-  showPageTitle = (pages) => {
-      let ret = '';
-      if(Array.isArray(pages)){
-        ret = pages.map(function(item, index){
-          return  <PageTitle key={item.id} data={item}/>
-        });
-      }
+  showPageTitle = (pagesTree) => {
+      let ret = [];
+      //if(Array.isArray(pagesTree)){
+        // ret = pages.map(function(item, index){
+        //   return  <PageTitle key={item.id} data={item}/>
+        // }, { 'childrenPages' : this.childrenPages } );
+        for(let index of Object.keys(pagesTree) ){
+          let page = pagesTree[index];
+          ret.push(<PageTitle key={page.id} data={page} child={false}/>);
+          if(page.children){
+            for(let ii of Object.keys(page.children)){
+              let p = page.children[ii];
+              ret.push(<PageTitle key={p.id} data={p} child={true}/>);
+            }
+          }
+
+        }
+      //}
       return ret;
   }
 
@@ -77,7 +106,9 @@ class Menu extends Component {
       isNew =  isNewRecord(stateMenu.id);
     }
 
-    const pages = getPagesByMenuId(this.props.pages,  this.data.id);
+    const pagesTree = createTreePagesByMenuId(this.props.pages, this.data.id);
+    //console.log(pagesTree);
+    //const pages = getPagesByMenuId(this.props.pages,  this.data.id);
 
     return (
       <div>
@@ -94,7 +125,7 @@ class Menu extends Component {
           }
         </div>
         <div className="ml-3" >
-          {this.showPageTitle(pages)}
+          {this.showPageTitle(pagesTree)}
         </div>
       </div>
     )
