@@ -70,21 +70,21 @@ class PageTitle extends Component {
     let pages = [];
 
     for(let page of allPages){
-      if( (parseInt(page.menu_id) === menuId) && ( (parseInt(page.page_id) === pageId) || !pageId ) ){
+      if( pageId &&  (parseInt(page.menu_id) === menuId) && ( parseInt(page.page_id) === pageId ) ){
+        pages.push(page);
+      }
+      if( !pageId && (parseInt(page.menu_id) === menuId) && ( !page.page_id ) ){
         pages.push(page);
       }
     }
+
     return pages;
   }
-
 
   render() {
     const data = this.getDataFromProps();
 
     const pages = this.getPagesByMenuIdAndPageId(this.props.pages, data.menu_id, data.page_id);
-
-    //const isChild = this.props.page.page_id ? true : false;
-    //const isChild = this.data.page_id ? true : false;
 
     return (
       <div className={ this.props.child ?  `mb-2 row ml-3` : `mb-2 row` }>
