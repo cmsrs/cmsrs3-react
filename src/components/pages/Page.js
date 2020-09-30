@@ -227,6 +227,7 @@ class Page extends Component {
           <div className="form-group">
            <label htmlFor="content">Content</label>
            <CKEditor
+              onBeforeLoad={ ( CKEDITOR ) => ( CKEDITOR.disableAutoInline = true ) } 
                data={this.props.page.content || ''}
                onChange={this.onEditorChange}
            />
