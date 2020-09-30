@@ -218,7 +218,7 @@ class Page extends Component {
           <div className="form-group">
             <select name="page_id" onChange={this.handleChangePage}  value={this.props.page.page_id || ''} >
               {rootPages.map(page =>
-                <option key={page.id} value={page.id || ''}>{page.title || ''}</option>
+                <option key={page.id || ''} value={page.id || ''}>{page.title || ''}</option>
               )}
             </select>
             <label className="ml-1">Parent page</label>
