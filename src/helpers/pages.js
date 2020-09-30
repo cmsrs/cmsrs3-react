@@ -13,12 +13,13 @@ export const getDataFromItems = (items, id) => {
 }
 
 export const createTreePagesByMenuId = (pages, menuId) => {
+
   if(!pages.length){
       return false;
   }
 
   let pagesByMenuId2 = pages.filter( item => {
-    return item.menu_id === parseInt(menuId);
+    return parseInt(item.menu_id) === menuId;
   });
 
   if(!pagesByMenuId2.length){
@@ -51,8 +52,6 @@ export const createTreePagesByMenuId = (pages, menuId) => {
       t['children'] = pk[t.id];
     }
   }
-
-
 
   return tree
 };
