@@ -202,6 +202,7 @@ class Page extends Component {
                 <option value="cms">cms</option>
                 <option value="gallery">gallery</option>
                 <option value="shop">shop</option>
+                <option value="contact">contact</option>                
               </select>
               <label className="ml-1">Type</label>
           </div>
@@ -227,7 +228,7 @@ class Page extends Component {
           <div className="form-group">
            <label htmlFor="content">Content</label>
            <CKEditor
-              onBeforeLoad={ ( CKEDITOR ) => ( CKEDITOR.disableAutoInline = true ) } 
+              onBeforeLoad={ ( CKEDITOR ) => ( CKEDITOR.disableAutoInline = true ) }
                data={this.props.page.content || ''}
                onChange={this.onEditorChange}
            />
