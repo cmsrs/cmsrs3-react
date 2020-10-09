@@ -3,9 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import Image from './Image';
-import CKEditor from 'ckeditor4-react';
+
+// TODO problem with edit source code with CKEditor
+//import CKEditor from 'ckeditor4-react';
+//import CKEditor from '@ckeditor/ckeditor5-react';
+//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import { isNewRecord, getPagesByMenuId, getImages, inArray } from '../../helpers/pages';
+
 
 class Page extends Component {
 
@@ -88,15 +93,15 @@ class Page extends Component {
     });
   }
 
-  onEditorChange = ( evt ) => {
-      let newPageData;
-      newPageData = { ...this.props.page, content: evt.editor.getData()};
-      this.props.changePage(newPageData);
-  }
+  // onEditorChange = ( data ) => {
+  //     let newPageData;
+  //     newPageData = { ...this.props.page, content: data};
+  //     this.props.changePage(newPageData);
+  // }
 
   handleChangePage = (event) => {
     let newPageData;
-    if( event.target.name === "published" || event.target.name === "commented" ){
+    if( event.target.name === "published" || event.target.name === "commented" || event.target.name === "after_login" ){
       //console.log('test');
       newPageData = { ...this.props.page, [event.target.name]: event.target.checked};
     }else{
@@ -145,6 +150,7 @@ class Page extends Component {
   }
 
   render() {
+
 
     const menuValues = this.getMenuValues();
     const rootPages = this.getRootPages();
@@ -197,42 +203,56 @@ class Page extends Component {
               <label>Commented</label>
           </div>
 
+          <div className="form-check row">
+              <input
+                  className="col-1"
+                  name="after_login"
+                  type="checkbox"
+                  checked={this.props.page.after_login || 0}
+                  onChange={this.handleChangePage} />
+              <label>Available after log in</label>
+          </div>
+
           <div className="form-group">
               <select name="type" onChange={this.handleChangePage}  value={this.props.page.type}>
+                <option value="main_page">main page</option>
                 <option value="cms">cms</option>
                 <option value="gallery">gallery</option>
                 <option value="shop">shop</option>
-                <option value="contact">contact</option>                
+                <option value="contact">contact</option>
               </select>
               <label className="ml-1">Type</label>
           </div>
 
-          <div className="form-group">
-            <select name="menu_id" onChange={this.handleChangePage}  value={this.props.page.menu_id || ''} >
-              {menuValues.map(menu =>
-                <option key={menu.id} value={menu.id || ''}>{menu.name || ''}</option>
-              )}
-            </select>
-            <label className="ml-1">Menu</label>
-          </div>
+
+          { (this.props.page.type !== "main_page") &&
+          <React.Fragment>
+            <div className="form-group">
+              <select name="menu_id" onChange={this.handleChangePage}  value={this.props.page.menu_id || ''} >
+                {menuValues.map(menu =>
+                  <option key={menu.id} value={menu.id || ''}>{menu.name || ''}</option>
+                )}
+              </select>
+              <label className="ml-1">Menu</label>
+            </div>
+
+            <div className="form-group">
+              <select name="page_id" onChange={this.handleChangePage}  value={this.props.page.page_id || ''} >
+                {rootPages.map(page =>
+                  <option key={page.id || ''} value={page.id || ''}>{page.title || ''}</option>
+                )}
+              </select>
+              <label className="ml-1">Parent page</label>
+            </div>
+          </React.Fragment>
+        }
+
 
           <div className="form-group">
-            <select name="page_id" onChange={this.handleChangePage}  value={this.props.page.page_id || ''} >
-              {rootPages.map(page =>
-                <option key={page.id || ''} value={page.id || ''}>{page.title || ''}</option>
-              )}
-            </select>
-            <label className="ml-1">Parent page</label>
+              <textarea type="text" placeholder="Content" name="content"  rows="20" cols="80" style={{fontSize:"10pt"}} className="form-control"
+                  onChange={this.handleChangePage} value={this.props.page.content || ''} >
+              </textarea>
           </div>
-
-          <div className="form-group">
-           <label htmlFor="content">Content</label>
-           <CKEditor
-              onBeforeLoad={ ( CKEDITOR ) => ( CKEDITOR.disableAutoInline = true ) }
-               data={this.props.page.content || ''}
-               onChange={this.onEditorChange}
-           />
-         </div>
 
          <div className="form-group">
           <input type="file" name="images"  onChange={this.handleUploadFile} multiple/>

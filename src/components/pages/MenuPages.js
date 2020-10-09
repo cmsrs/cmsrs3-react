@@ -90,7 +90,7 @@ class MenuPages extends Component {
         {msg}
         </div>
         <div className="row">
-          <div className="col-6">
+          <div className="col-4">
             <button id="add_menu" className="btn btn-primary mt-2 mb-2"  onClick={this.handleAddMenu}><i className="fas fa-plus"></i> Add menu</button>
             <form onSubmit={this.handleSubmit}>
               {this.showMenuPages(menus)}
@@ -98,7 +98,7 @@ class MenuPages extends Component {
 
             { notRelatedPages.length > 0 &&
               <React.Fragment>
-                <h3 className="mt-3">Pages not related to menu</h3>
+                <h5 className="mt-3">Pages not related to menu</h5>
                 <div className="ml-3">
                   {this.showPageTitle(notRelatedPages)}
                 </div>
@@ -106,7 +106,7 @@ class MenuPages extends Component {
             }
           </div>
 
-          <div className="col-6">
+          <div className="col-8">
             <Page />
           </div>
 
