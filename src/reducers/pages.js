@@ -8,11 +8,13 @@ import { PAGES_DELETE_MENU } from '../actions/types';
 
 import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from '../actions/types';
 
+import { CONFIG_GET_CONFIG } from '../actions/types';
 
 const INITIAL_STATE = {
   menus: [],
   page: {},
-  pages: []
+  pages: [],
+  config: {}
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -48,6 +50,10 @@ export default function(state = INITIAL_STATE, action) {
     case PAGES_GET_PAGES:
       const retPages = { ...state, pages: action.payload };
       return retPages;
+
+    case CONFIG_GET_CONFIG:
+      const retConfig = { ...state, config: action.payload };
+      return retConfig;
 
     case PAGES_DELETE_MENU:
       let menusCopy2 = state.menus.slice();

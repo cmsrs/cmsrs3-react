@@ -12,8 +12,10 @@ import Expire from '../../helpers/Expire';
 class MenuPages extends Component {
 
   componentDidMount() {
-    this.props.getMenus();
-    this.props.getPages((pages) => {});
+    this.props.getConfig((config) => {
+      this.props.getMenus();
+      this.props.getPages((pages) => {});      
+    });
     //console.log('___MenuPages___pobieram_z_serwera______');
   }
 

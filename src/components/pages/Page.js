@@ -14,6 +14,10 @@ import { isNewRecord, getPagesByMenuId, getImages, inArray } from '../../helpers
 
 class Page extends Component {
 
+  // componentDidMount() {
+  //   this.props.getPages( (p) => {});
+  // }
+
   getRootPages = () => {
     const menuId = parseInt(this.props.page.menu_id);
     const pageId = this.props.page.id ? parseInt(this.props.page.id) : false;
@@ -46,10 +50,6 @@ class Page extends Component {
     }
 
     return pages;
-  }
-
-  componentDidMount() {
-    this.props.getPages( (p) => {});
   }
 
   getMenuValues(){
@@ -149,11 +149,16 @@ class Page extends Component {
       return ret;
   }
 
+  getConfig = () => {
+    return this.props.config.page_types || [];
+  }
+
   render() {
 
 
     const menuValues = this.getMenuValues();
     const rootPages = this.getRootPages();
+    const pageTypes = this.getConfig();
 
     let images = [];
     if(this.props.page.id){
@@ -215,11 +220,9 @@ class Page extends Component {
 
           <div className="form-group">
               <select name="type" onChange={this.handleChangePage}  value={this.props.page.type}>
-                <option value="main_page">main page</option>
-                <option value="cms">cms</option>
-                <option value="gallery">gallery</option>
-                <option value="shop">shop</option>
-                <option value="contact">contact</option>
+                {pageTypes.map(page_type =>
+                  <option key={page_type} value={page_type || ''}>{page_type || '' }</option>
+                )}
               </select>
               <label className="ml-1">Type</label>
           </div>
@@ -270,7 +273,8 @@ function mapStateToProps(state) {
   return {
     menus: state.pages.menus,
     pages: state.pages.pages,
-    page: state.pages.page
+    page: state.pages.page,
+    config: state.pages.config
   };
 }
 

@@ -4,6 +4,7 @@ import { isNewRecord } from '../helpers/pages';
 import { SERVER_URL } from '../config';
 import { PAGES_ADD_MENU, PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types'; //, PAGES_POSITION_MENU
 import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from './types';
+import { CONFIG_GET_CONFIG } from './types';
 
 
 
@@ -97,6 +98,22 @@ export const delPage = (pageId, callback) => async dispatch => {
      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while deleteing page"} });
   }
 }
+
+export const getConfig = (callback) => async dispatch => {
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await axios.get(
+      SERVER_URL+'/api/config?token='+token
+    );
+    dispatch({ type: CONFIG_GET_CONFIG, payload: response.data.data });
+    callback(response.data.data);
+
+  } catch(e){
+     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while get config"} });
+  }
+};
+
 
 export const getMenus = () => async dispatch => {
   const token = localStorage.getItem('token');
