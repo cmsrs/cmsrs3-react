@@ -13,8 +13,12 @@ class MenuPages extends Component {
 
   componentDidMount() {
     this.props.getConfig((config) => {
-      this.props.getMenus();
-      this.props.getPages((pages) => {});      
+      if(config){
+        this.props.getMenus();
+        this.props.getPages((pages) => {});
+      }else{
+        alert('You must set at least one language in the .env file');
+      }
     });
     //console.log('___MenuPages___pobieram_z_serwera______');
   }

@@ -150,7 +150,7 @@ class Page extends Component {
   }
 
   getConfig = () => {
-    return this.props.config.page_types || [];
+    return  this.props.config ? (this.props.config.page_types || []) : [];
   }
 
   render() {
