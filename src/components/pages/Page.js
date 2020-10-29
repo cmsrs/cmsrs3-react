@@ -9,7 +9,7 @@ import Image from './Image';
 //import CKEditor from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-import { isNewRecord, getPagesByMenuId, getImages, inArray } from '../../helpers/pages';
+import { isNewRecord, getPagesByMenuId, getImages, inArray, getDefaultLang } from '../../helpers/pages';
 
 
 class Page extends Component {
@@ -149,16 +149,20 @@ class Page extends Component {
       return ret;
   }
 
-  getConfig = () => {
+  getPageTypes = () => {
     return  this.props.config ? (this.props.config.page_types || []) : [];
   }
 
   render() {
-
+     //this.props.config.langs;
+    //console.log(this.props.config.langs['0']);
+    const defaultLang = getDefaultLang(this.props.config.langs);
+    //console.log(defaultLang);
 
     const menuValues = this.getMenuValues();
+    //console.log(menuValues);
     const rootPages = this.getRootPages();
-    const pageTypes = this.getConfig();
+    const pageTypes = this.getPageTypes();
 
     let images = [];
     if(this.props.page.id){
@@ -233,7 +237,7 @@ class Page extends Component {
             <div className="form-group">
               <select name="menu_id" onChange={this.handleChangePage}  value={this.props.page.menu_id || ''} >
                 {menuValues.map(menu =>
-                  <option key={menu.id} value={menu.id || ''}>{menu.name || ''}</option>
+                  <option key={menu.id} value={menu.id || ''}>{menu.name[defaultLang] || ''}</option>
                 )}
               </select>
               <label className="ml-1">Menu</label>

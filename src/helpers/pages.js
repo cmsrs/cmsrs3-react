@@ -162,3 +162,7 @@ export const inArray = (needle, haystack) => {
     }
     return false;
 }
+
+export const getDefaultLang = (langs) => {
+    return langs ? langs[0] : '';  
+}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
-import { getMenuDataById, isNewRecord, createTreePagesByMenuId } from '../../helpers/pages';
+import { getMenuDataById, isNewRecord, createTreePagesByMenuId, getDefaultLang } from '../../helpers/pages';
 //import {  } from '../../helpers/pages';
 import PageTitle from './PageTitle';
 
@@ -107,6 +107,8 @@ class Menu extends Component {
     }
 
     const pagesTree = createTreePagesByMenuId(this.props.pages, this.data.id);
+    const langs = this.props.config.langs;
+    const defaultLang = getDefaultLang(this.props.config.langs);
     //console.log(pagesTree);
     //const pages = getPagesByMenuId(this.props.pages,  this.data.id);
 
@@ -114,7 +116,7 @@ class Menu extends Component {
       <div>
         <div className="form-group form-inline mb-2">
           <input type="text" placeholder="Menu name" name="name" className="form-control col-3 mr-1"
-                onChange={this.handleChange} value={stateMenu.name || ''} />
+                onChange={this.handleChange} value={stateMenu.name[defaultLang] || ''} />
           <div className="ml-2"  onClick={this.saveMenu}><i className="far fa-save cursor-pointer"></i></div>
           <div className="ml-2 trash"  onClick={this.delMenu}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
           {!isNew &&  (this.getCountMenu() > 1) &&
@@ -136,7 +138,8 @@ class Menu extends Component {
 function mapStateToProps(state) {
   return {
     menus: state.pages.menus,
-    pages: state.pages.pages
+    pages: state.pages.pages,
+    config: state.pages.config
   };
 }
 
