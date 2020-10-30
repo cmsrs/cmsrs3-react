@@ -111,7 +111,7 @@ class Menu extends Component {
     const langs = this.props.config.langs;
 
     const choiceLang = [];
-    if( langs.length > 1 ){
+    if( langs && langs.length > 1 ){
       for(let lang of langs){
         choiceLang.push(<span key={'choice_'+lang} data-lang={lang} className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
       }

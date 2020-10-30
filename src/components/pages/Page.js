@@ -14,9 +14,17 @@ import { isNewRecord, getPagesByMenuId, getImages, inArray, getDefaultLang } fro
 
 class Page extends Component {
 
-  // componentDidMount() {
-  //   this.props.getPages( (p) => {});
-  // }
+  constructor(props) {
+    super(props);
+    this.defaultLang = getDefaultLang(this.props.config.langs);
+
+    this.state = {
+      defaultLangTitle : this.defaultLang,
+      defaultLangShortTitle : this.defaultLang,
+      defaultLangDescription : this.defaultLang,
+      defaultLangContent : this.defaultLang
+    };
+  }
 
   getRootPages = () => {
     const menuId = parseInt(this.props.page.menu_id);
@@ -111,6 +119,21 @@ class Page extends Component {
     this.props.changePage(newPageData);
   }
 
+  handleChangePageTitle = (event) => {
+    alert('title');
+  }
+  handleChangePageShortTitle = (event) => {
+    alert('short Title');
+  }
+  handleChangePageDescription = (event) => {
+    alert('description');
+  }
+  handleChangePageContent = (event) => {
+    alert('content');
+  }
+
+
+
   createImage = (files) => {
 
     this.images = [];
@@ -153,14 +176,34 @@ class Page extends Component {
     return  this.props.config ? (this.props.config.page_types || []) : [];
   }
 
+  changeLang = (event) => {
+    const lang = event.target.attributes.getNamedItem('data-lang').value;
+    const column = event.target.attributes.getNamedItem('data-column').value;
+
+    if( "title" === column ){
+      this.setState({defaultLangTitle: lang});
+    }else if(  "short_title" === column  ){
+      this.setState({defaultLangShortTitle: lang});
+    }else if(  "description" === column  ){
+      this.setState({defaultLangDescription: lang});
+    }else if(  "content" === column  ){
+      this.setState({defaultLangContent: lang});
+    }
+    //this.setState({defaultLang: lang});
+  }
+
+  // let hideTitle =  classShow; //(this.state.defaultLangTitle === lang) ? classShow : classHide;
+  // let hideShortTitle = classShow;//(this.state.defaultLangShortTitle === lang) ? classShow : classHide;
+  // let hideDescription = classShow;//(this.state.defaultLangDescription === lang) ? "form-control" : "form-control d-none";
+  // let hideContent = classShow;//(this.state.defaultLangContent === lang) ? "form-control" : "form-control d-none";
+
+
+
   render() {
-     //this.props.config.langs;
-    //console.log(this.props.config.langs['0']);
-    const defaultLang = getDefaultLang(this.props.config.langs);
-    //console.log(defaultLang);
+    const langs = this.props.config.langs;
+    const defaultLang = this.defaultLang;
 
     const menuValues = this.getMenuValues();
-    //console.log(menuValues);
     const rootPages = this.getRootPages();
     const pageTypes = this.getPageTypes();
 
@@ -168,28 +211,71 @@ class Page extends Component {
     if(this.props.page.id){
       images = getImages( this.props.pages, this.props.page.id );
     }
-
     const label =  this.props.page.id ? 'Edit page' : 'Add page';
+
+    const choiceLangTitle = [];
+    const choiceLangShortTitle = [];
+    const choiceLangDescription = [];
+    const choiceLangContent = [];
+    if( langs && langs.length > 1 ){
+      for(let lang of langs){
+        choiceLangTitle.push(<span key={'title_'+lang} data-lang={lang} data-column="title" className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
+        choiceLangShortTitle.push(<span key={'short_title_'+lang} data-lang={lang} data-column="short_title" className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
+        choiceLangDescription.push(<span key={'description_'+lang} data-lang={lang} data-column="description" className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
+        choiceLangContent.push(<span key={'content_'+lang} data-lang={lang} data-column="content" className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
+      }
+    }
+
+    const title = [];
+    const shortTitle = [];
+    const description = [];
+    const content = [];
+    if( langs ){
+
+      const classShow = "form-control col-5 mr-1";
+      const classHide = "form-control col-5 mr-1 d-none";
+      let i = 0;
+      for(let lang of langs){
+        let hideTitle = ((!this.state.defaultLangTitle && !i ) || (this.state.defaultLangTitle === lang)) ? classShow : classHide;
+        let hideShortTitle = ((!this.state.defaultLangShortTitle && !i ) || (this.state.defaultLangShortTitle === lang)) ? classShow : classHide;
+        let hideDescription =((!this.state.defaultDescription && !i ) || (this.state.defaultLangDescription === lang)) ? "form-control" : "form-control d-none";
+        let hideContent =((!this.state.defaultLangContent && !i ) || (this.state.defaultLangContent === lang)) ? "form-control" : "form-control d-none";
+        title.push(<input type="text" placeholder="Title" name="title" key={'t_'+lang} className={hideTitle}
+              onChange={this.handleChangePageTitle} data-lang={lang}  value={this.props.page.title ? this.props.page.title[lang] : ''} />);
+        shortTitle.push(<input type="text" placeholder="Short title" name="short_title" key={'st_'+lang} className={hideShortTitle}
+              onChange={this.handleChangePageShortTitle} data-lang={lang}  value={this.props.page.short_title ? this.props.page.short_title[lang] : ''} />);
+        description.push(<textarea type="text" placeholder="Description" name="description"  rows="4" cols="50" key={'desc_'+lang} className={hideDescription}
+              onChange={this.handleChangePageDescription} data-lang={lang} value={this.props.page.description ? this.props.page.description[lang] : ''} ></textarea>);
+        content.push(<textarea type="text" placeholder="Content" name="content"  rows="20" cols="80" key={'content_'+lang} style={{fontSize:"10pt"}} className={hideContent}
+              onChange={this.handleChangePageContent} data-lang={lang} value={this.props.page.content ? this.props.page.content[lang] : ''} ></textarea>);
+        i++;
+      }
+    }
 
     return (
       <div>
-
         <form onSubmit={this.handleSubmit}>
           <button type="submit" className="add-page-btn  btn btn-primary mt-2 mb-2"><i className="fas fa-plus"></i> {label}</button>
-          <div className="form-group">
-              <input type="text" placeholder="Title" name="title" className="form-control col-5"
-                  onChange={this.handleChangePage} value={this.props.page.title || ''} />
+
+          <div className="row mt-3">
+            {choiceLangTitle}
+          </div>
+          <div className="row form-group">
+            {title}
           </div>
 
-          <div className="form-group">
-              <input type="text" placeholder="Short title" name="short_title" className="form-control col-5"
-                  onChange={this.handleChangePage} value={this.props.page.short_title || ''} />
+          <div className="row">
+            {choiceLangShortTitle}
+          </div>
+          <div className="row form-group">
+            {shortTitle}
           </div>
 
-          <div className="form-group">
-              <textarea type="text" placeholder="Description" name="description"  rows="4" cols="50" className="form-control"
-                  onChange={this.handleChangePage} value={this.props.page.description || ''} >
-              </textarea>
+          <div className="row">
+            {choiceLangDescription}
+          </div>
+          <div className="row form-group">
+            {description}
           </div>
 
           <div className="form-check row">
@@ -246,19 +332,19 @@ class Page extends Component {
             <div className="form-group">
               <select name="page_id" onChange={this.handleChangePage}  value={this.props.page.page_id || ''} >
                 {rootPages.map(page =>
-                  <option key={page.id || ''} value={page.id || ''}>{page.title || ''}</option>
+                  <option key={page.id || ''} value={page.id || ''}>{page.title ? (page.title[defaultLang] ? page.title[defaultLang]: ''): ''}</option>
                 )}
               </select>
               <label className="ml-1">Parent page</label>
             </div>
           </React.Fragment>
-        }
+          }
 
-
-          <div className="form-group">
-              <textarea type="text" placeholder="Content" name="content"  rows="20" cols="80" style={{fontSize:"10pt"}} className="form-control"
-                  onChange={this.handleChangePage} value={this.props.page.content || ''} >
-              </textarea>
+          <div className="row">
+            {choiceLangContent}
+          </div>
+          <div className="row form-group">
+            {content}
           </div>
 
          <div className="form-group">
