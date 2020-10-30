@@ -164,5 +164,18 @@ export const inArray = (needle, haystack) => {
 }
 
 export const getDefaultLang = (langs) => {
-    return langs ? langs[0] : '';  
+    return langs ? langs[0] : '';
+}
+
+export const getNewTranslateObj = (currentData, lang, newVal ) => {
+
+  const newTranslateValueData = {};
+  for(let ll in currentData){
+    if(ll === lang  ){
+      newTranslateValueData[ll] = newVal;
+    }else{
+      newTranslateValueData[ll] = currentData[ll]
+    }
+  }
+  return newTranslateValueData;
 }

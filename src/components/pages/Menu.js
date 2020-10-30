@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 //import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
-import { getMenuDataById, isNewRecord, createTreePagesByMenuId, getDefaultLang } from '../../helpers/pages';
+import { getMenuDataById, isNewRecord, createTreePagesByMenuId, getDefaultLang, getNewTranslateObj } from '../../helpers/pages';
 //import {  } from '../../helpers/pages';
 import PageTitle from './PageTitle';
+import '../main.css';
 
 class Menu extends Component {
 
   constructor(props) {
     super(props);
     this.data =  this.props.data;   //getMenuDataById(this.props.menus, this.props.data.id)
-
-    //console.log(pagesTree);
-    //this.childrenPages = this.getPageTreeChildren(this.pagesTree);
+    this.state = { defaultLang : getDefaultLang(this.props.config.langs) };
   }
 
   getPageTreeChildren = (pagesTree) => {
@@ -31,9 +30,13 @@ class Menu extends Component {
       return childeren;
   }
 
-  handleChange = (event) => {
+  handleChangeName = (event) => {
     const stateMenu = getMenuDataById(this.props.menus, this.data.id);
-    const newMenuData = { ...stateMenu, [event.target.name]: event.target.value};
+
+    const lang = event.target.attributes.getNamedItem('data-lang').value;
+    const newTranslateValueData = getNewTranslateObj(stateMenu.name, lang, event.target.value);
+
+    const newMenuData = { ...stateMenu, name: newTranslateValueData};
     this.props.changeMenu(newMenuData);
   }
 
@@ -65,22 +68,16 @@ class Menu extends Component {
 
   showPageTitle = (pagesTree) => {
       let ret = [];
-      //if(Array.isArray(pagesTree)){
-        // ret = pages.map(function(item, index){
-        //   return  <PageTitle key={item.id} data={item}/>
-        // }, { 'childrenPages' : this.childrenPages } );
-        for(let index of Object.keys(pagesTree) ){
-          let page = pagesTree[index];
-          ret.push(<PageTitle key={page.id} data={page} child={false}/>);
-          if(page.children){
-            for(let ii of Object.keys(page.children)){
-              let p = page.children[ii];
-              ret.push(<PageTitle key={p.id} data={p} child={true}/>);
-            }
+      for(let index of Object.keys(pagesTree) ){
+        let page = pagesTree[index];
+        ret.push(<PageTitle key={page.id} data={page} child={false}/>);
+        if(page.children){
+          for(let ii of Object.keys(page.children)){
+            let p = page.children[ii];
+            ret.push(<PageTitle key={p.id} data={p} child={true}/>);
           }
-
         }
-      //}
+      }
       return ret;
   }
 
@@ -96,6 +93,10 @@ class Menu extends Component {
     });
   }
 
+  changeLang = (event) => {
+    const lang = event.target.attributes.getNamedItem('data-lang').value;
+    this.setState({defaultLang: lang});
+  }
 
   render() {
 
@@ -108,23 +109,38 @@ class Menu extends Component {
 
     const pagesTree = createTreePagesByMenuId(this.props.pages, this.data.id);
     const langs = this.props.config.langs;
-    const defaultLang = getDefaultLang(this.props.config.langs);
-    //console.log(pagesTree);
-    //const pages = getPagesByMenuId(this.props.pages,  this.data.id);
+
+    const choiceLang = [];
+    if( langs.length > 1 ){
+      for(let lang of langs){
+        choiceLang.push(<span key={'choice_'+lang} data-lang={lang} className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
+      }
+    }
+
+    const names = [];
+    for(let lang of langs){
+      let hide = (this.state.defaultLang === lang) ? "form-control col-5 mr-1" : "form-control col-5 mr-1 d-none";
+      names.push(<input type="text" placeholder="Menu name" name="name" key={lang} className={hide}
+            onChange={this.handleChangeName} data-lang={lang}  value={stateMenu.name[lang] || ''} />);
+    }
 
     return (
       <div>
-        <div className="form-group form-inline mb-2">
-          <input type="text" placeholder="Menu name" name="name" className="form-control col-3 mr-1"
-                onChange={this.handleChange} value={stateMenu.name[defaultLang] || ''} />
-          <div className="ml-2"  onClick={this.saveMenu}><i className="far fa-save cursor-pointer"></i></div>
-          <div className="ml-2 trash"  onClick={this.delMenu}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
-          {!isNew &&  (this.getCountMenu() > 1) &&
-          <React.Fragment>
-            <div className="ml-2"  onClick={this.downMenu}><i className="fas fa-arrow-down cursor-pointer"></i></div>
-            <div className="ml-2"  onClick={this.upMenu}><i className="fas fa-arrow-up cursor-pointer"></i></div>
-          </React.Fragment>
-          }
+        <div className="form-group container mb-2 mt-3">
+          <div className="row">
+            {choiceLang}
+          </div>
+          <div className="row">
+            {names}
+            <div className="ml-2"  onClick={this.saveMenu}><i className="far fa-save cursor-pointer"></i></div>
+            <div className="ml-2 trash"  onClick={this.delMenu}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
+            {!isNew &&  (this.getCountMenu() > 1) &&
+            <React.Fragment>
+              <div className="ml-2"  onClick={this.downMenu}><i className="fas fa-arrow-down cursor-pointer"></i></div>
+              <div className="ml-2"  onClick={this.upMenu}><i className="fas fa-arrow-up cursor-pointer"></i></div>
+            </React.Fragment>
+            }
+          </div>
         </div>
         <div className="ml-3" >
           {this.showPageTitle(pagesTree)}

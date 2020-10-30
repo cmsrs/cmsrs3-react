@@ -184,7 +184,7 @@ export const saveMenu = (menu, callback) => async  dispatch => {
     }
 
   } catch (e) {
-     console.log('___probem with ajax______', e);
+     console.log('___probem with ajax - save menu______', e);
      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save Menu"} });
   }
 };
