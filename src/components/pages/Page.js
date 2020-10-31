@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import Image from './Image';
+//import '../main.css';
 
 // TODO problem with edit source code with CKEditor
 //import CKEditor from 'ckeditor4-react';
 //import CKEditor from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-import { isNewRecord, getPagesByMenuId, getImages, inArray, getDefaultLang } from '../../helpers/pages';
+import { isNewRecord, getPagesByMenuId, getImages, inArray, getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
 
 
 class Page extends Component {
@@ -120,16 +121,37 @@ class Page extends Component {
   }
 
   handleChangePageTitle = (event) => {
-    alert('title');
+    const langs = this.props.config.langs;
+    const lang = event.target.attributes.getNamedItem('data-lang').value;
+    const newTranslateValueData = getNewTranslateLangsObj(langs, this.props.page.title, lang, event.target.value);
+    console.log(newTranslateValueData);
+    const newPageData = { ...this.props.page, title: newTranslateValueData};
+    console.log(newPageData);
+    this.props.changePage(newPageData);
   }
+
   handleChangePageShortTitle = (event) => {
-    alert('short Title');
+    const langs = this.props.config.langs;
+    const lang = event.target.attributes.getNamedItem('data-lang').value;
+    const newTranslateValueData = getNewTranslateLangsObj(langs, this.props.page.short_title, lang, event.target.value);
+    const newPageData = { ...this.props.page, short_title: newTranslateValueData};
+    this.props.changePage(newPageData);
   }
+
   handleChangePageDescription = (event) => {
-    alert('description');
+    const langs = this.props.config.langs;
+    const lang = event.target.attributes.getNamedItem('data-lang').value;
+    const newTranslateValueData = getNewTranslateLangsObj(langs, this.props.page.description, lang, event.target.value);
+    const newPageData = { ...this.props.page, description: newTranslateValueData};
+    this.props.changePage(newPageData);
   }
+
   handleChangePageContent = (event) => {
-    alert('content');
+    const langs = this.props.config.langs;
+    const lang = event.target.attributes.getNamedItem('data-lang').value;
+    const newTranslateValueData = getNewTranslateLangsObj(langs, this.props.page.content, lang, event.target.value);
+    const newPageData = { ...this.props.page, content: newTranslateValueData};
+    this.props.changePage(newPageData);
   }
 
 
@@ -201,7 +223,7 @@ class Page extends Component {
 
   render() {
     const langs = this.props.config.langs;
-    const defaultLang = this.defaultLang;
+    const defaultLang = getDefaultLang(this.props.config.langs);
 
     const menuValues = this.getMenuValues();
     const rootPages = this.getRootPages();
@@ -218,11 +240,20 @@ class Page extends Component {
     const choiceLangDescription = [];
     const choiceLangContent = [];
     if( langs && langs.length > 1 ){
+      const classShow = "mr-2 mt-3 cursor-pointer text-primary";
+      const classHide = "mr-2 mt-3  cursor-pointer text-secondary";
+      let i = 0;
       for(let lang of langs){
-        choiceLangTitle.push(<span key={'title_'+lang} data-lang={lang} data-column="title" className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
-        choiceLangShortTitle.push(<span key={'short_title_'+lang} data-lang={lang} data-column="short_title" className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
-        choiceLangDescription.push(<span key={'description_'+lang} data-lang={lang} data-column="description" className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
-        choiceLangContent.push(<span key={'content_'+lang} data-lang={lang} data-column="content" className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
+        let hideTitle = ((!this.state.defaultLangTitle && !i ) || (this.state.defaultLangTitle === lang)) ? classShow : classHide;
+        let hideShortTitle = ((!this.state.defaultLangShortTitle && !i ) || (this.state.defaultLangShortTitle === lang)) ? classShow : classHide;
+        let hideDescription =((!this.state.defaultLangDescription && !i ) || (this.state.defaultLangDescription === lang)) ? classShow : classHide;
+        let hideContent =((!this.state.defaultLangContent && !i ) || (this.state.defaultLangContent === lang)) ? classShow : classHide;
+
+        choiceLangTitle.push(<span key={'title_'+lang} data-lang={lang} data-column="title" className={hideTitle}  onClick={this.changeLang}>{lang}</span>);
+        choiceLangShortTitle.push(<span key={'short_title_'+lang} data-lang={lang} data-column="short_title" className={hideShortTitle}  onClick={this.changeLang}>{lang}</span>);
+        choiceLangDescription.push(<span key={'description_'+lang} data-lang={lang} data-column="description" className={hideDescription}  onClick={this.changeLang}>{lang}</span>);
+        choiceLangContent.push(<span key={'content_'+lang} data-lang={lang} data-column="content" className={hideContent}  onClick={this.changeLang}>{lang}</span>);
+        i++;
       }
     }
 
@@ -238,16 +269,17 @@ class Page extends Component {
       for(let lang of langs){
         let hideTitle = ((!this.state.defaultLangTitle && !i ) || (this.state.defaultLangTitle === lang)) ? classShow : classHide;
         let hideShortTitle = ((!this.state.defaultLangShortTitle && !i ) || (this.state.defaultLangShortTitle === lang)) ? classShow : classHide;
-        let hideDescription =((!this.state.defaultDescription && !i ) || (this.state.defaultLangDescription === lang)) ? "form-control" : "form-control d-none";
-        let hideContent =((!this.state.defaultLangContent && !i ) || (this.state.defaultLangContent === lang)) ? "form-control" : "form-control d-none";
+        let hideDescription =((!this.state.defaultLangDescription && !i ) || (this.state.defaultLangDescription === lang)) ? "form-control" : "form-control d-none";
+        let hideContent =((!this.state.defaultLangContent && !i ) || (this.state.defaultLangContent === lang)) ? "form-control content-text" : "form-control content-text d-none";
+
         title.push(<input type="text" placeholder="Title" name="title" key={'t_'+lang} className={hideTitle}
-              onChange={this.handleChangePageTitle} data-lang={lang}  value={this.props.page.title ? this.props.page.title[lang] : ''} />);
+              onChange={this.handleChangePageTitle} data-lang={lang}  value={this.props.page.title ? (this.props.page.title[lang] ? this.props.page.title[lang] : ''): ''} />);
         shortTitle.push(<input type="text" placeholder="Short title" name="short_title" key={'st_'+lang} className={hideShortTitle}
-              onChange={this.handleChangePageShortTitle} data-lang={lang}  value={this.props.page.short_title ? this.props.page.short_title[lang] : ''} />);
+              onChange={this.handleChangePageShortTitle} data-lang={lang}  value={this.props.page.short_title ? (this.props.page.short_title[lang] ? this.props.page.short_title[lang] : '' ): ''} />);
         description.push(<textarea type="text" placeholder="Description" name="description"  rows="4" cols="50" key={'desc_'+lang} className={hideDescription}
-              onChange={this.handleChangePageDescription} data-lang={lang} value={this.props.page.description ? this.props.page.description[lang] : ''} ></textarea>);
-        content.push(<textarea type="text" placeholder="Content" name="content"  rows="20" cols="80" key={'content_'+lang} style={{fontSize:"10pt"}} className={hideContent}
-              onChange={this.handleChangePageContent} data-lang={lang} value={this.props.page.content ? this.props.page.content[lang] : ''} ></textarea>);
+              onChange={this.handleChangePageDescription} data-lang={lang} value={this.props.page.description ? (this.props.page.description[lang] ? this.props.page.description[lang] : ''): ''} ></textarea>);
+        content.push(<textarea type="text" placeholder="Content" name="content"  rows="20" cols="80" key={'content_'+lang} style={{fontSize:"10pt"}}  className={hideContent}
+              onChange={this.handleChangePageContent} data-lang={lang} value={this.props.page.content ? (this.props.page.content[lang] ? this.props.page.content[lang] : '') : ''} ></textarea>);
         i++;
       }
     }
@@ -257,28 +289,22 @@ class Page extends Component {
         <form onSubmit={this.handleSubmit}>
           <button type="submit" className="add-page-btn  btn btn-primary mt-2 mb-2"><i className="fas fa-plus"></i> {label}</button>
 
-          <div className="row mt-3">
+          <div className="row mt-1">
             {choiceLangTitle}
           </div>
-          <div className="row form-group">
-            {title}
-          </div>
+          {title}
 
           <div className="row">
             {choiceLangShortTitle}
           </div>
-          <div className="row form-group">
-            {shortTitle}
-          </div>
+          {shortTitle}
 
           <div className="row">
             {choiceLangDescription}
           </div>
-          <div className="row form-group">
-            {description}
-          </div>
+          {description}
 
-          <div className="form-check row">
+          <div className="form-check row mt-2">
               <input
                   className="col-1"
                   name="published"
@@ -343,9 +369,7 @@ class Page extends Component {
           <div className="row">
             {choiceLangContent}
           </div>
-          <div className="row form-group">
-            {content}
-          </div>
+          {content}
 
          <div className="form-group">
           <input type="file" name="images"  onChange={this.handleUploadFile} multiple/>

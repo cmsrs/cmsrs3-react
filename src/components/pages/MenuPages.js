@@ -7,6 +7,7 @@ import Page from './Page';
 import PageTitle from './PageTitle';
 import shortid from 'shortid';
 import Expire from '../../helpers/Expire';
+import '../main.css';
 //import { createTreePages } from '../../helpers/pages';
 
 class MenuPages extends Component {
@@ -81,11 +82,18 @@ class MenuPages extends Component {
 
     let msg = '';
     if(this.props.pagesRes && (this.props.pagesRes.success  === false)  ){
-      msg = <Expire  delay={5000}><div className="alert alert-danger" role="alert">{JSON.stringify(this.props.pagesRes.message, null, 2)}</div></Expire>;
+
+      let msgHtml = ''
+      for(let index in this.props.pagesRes.message){
+          msgHtml += index + ": " + this.props.pagesRes.message[index][0]+ "  ";
+      }
+
+      msg = <Expire  delay={9000}><div className="alert alert-danger mb-4" role="alert">{msgHtml}</div></Expire>;
+      //msg = <Expire  delay={5000}><div className="alert alert-danger" role="alert">{JSON.stringify(this.props.pagesRes.message, null, 2)}</div></Expire>;
     }
 
     if(this.props.pagesRes && (this.props.pagesRes.success === true) ){
-      msg = <Expire  delay={5000}><div className="alert alert-success" role="alert">{JSON.stringify(this.props.pagesRes.message, null, 2)}</div></Expire>;
+      msg = <Expire  delay={9000}><div className="alert alert-success  mb-4" role="alert">{this.props.pagesRes.message}</div></Expire>;
     }
 
     const { menus } = this.props;

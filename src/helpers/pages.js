@@ -167,15 +167,19 @@ export const getDefaultLang = (langs) => {
     return langs ? langs[0] : '';
 }
 
-export const getNewTranslateObj = (currentData, lang, newVal ) => {
-
+export const getNewTranslateLangsObj = (langs, currentData, lang, newVal ) => {
+  // console.log('___in____');
+  // console.log(currentData);
+  // console.log(lang);
+  // console.log(newVal);
   const newTranslateValueData = {};
-  for(let ll in currentData){
-    if(ll === lang  ){
-      newTranslateValueData[ll] = newVal;
+  for(let lll of langs){
+    if(lll === lang  ){
+      newTranslateValueData[lll] = newVal;
     }else{
-      newTranslateValueData[ll] = currentData[ll]
+      newTranslateValueData[lll] = currentData ? ( currentData[lll] ? currentData[lll] : '' ) : '';
     }
   }
+
   return newTranslateValueData;
 }

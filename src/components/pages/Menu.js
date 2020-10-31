@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import requireAuth from '../requireAuth';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
-import { getMenuDataById, isNewRecord, createTreePagesByMenuId, getDefaultLang, getNewTranslateObj } from '../../helpers/pages';
+import { getMenuDataById, isNewRecord, createTreePagesByMenuId, getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
 //import {  } from '../../helpers/pages';
 import PageTitle from './PageTitle';
 import '../main.css';
@@ -31,10 +31,12 @@ class Menu extends Component {
   }
 
   handleChangeName = (event) => {
+    const langs = this.props.config.langs;
     const stateMenu = getMenuDataById(this.props.menus, this.data.id);
 
+
     const lang = event.target.attributes.getNamedItem('data-lang').value;
-    const newTranslateValueData = getNewTranslateObj(stateMenu.name, lang, event.target.value);
+    const newTranslateValueData = getNewTranslateLangsObj(langs ,stateMenu.name, lang, event.target.value);
 
     const newMenuData = { ...stateMenu, name: newTranslateValueData};
     this.props.changeMenu(newMenuData);
@@ -112,8 +114,13 @@ class Menu extends Component {
 
     const choiceLang = [];
     if( langs && langs.length > 1 ){
+      const classShow = "mr-2 cursor-pointer text-primary";
+      const classHide = "mr-2 cursor-pointer text-secondary";
+      let i = 0;
       for(let lang of langs){
-        choiceLang.push(<span key={'choice_'+lang} data-lang={lang} className="mr-2 cursor-pointer text-primary"  onClick={this.changeLang}>{lang}</span>);
+        let hide = ((!this.state.defaultLang && !i ) || (this.state.defaultLang === lang)) ? classShow : classHide;
+        choiceLang.push(<span key={'choice_'+lang} data-lang={lang} className={hide}  onClick={this.changeLang}>{lang}</span>);
+        i++;
       }
     }
 
