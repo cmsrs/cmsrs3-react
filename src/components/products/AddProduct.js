@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/products';
 import ImageProduct from './ImageProduct';
 import { getImages } from '../../helpers/pages';
+import { getDefaultLang } from '../../helpers/pages';
+
 
 class AddProduct extends Component {
 
@@ -88,6 +90,7 @@ class AddProduct extends Component {
 
   render() {
 
+    const defaultLang0 = getDefaultLang(this.props.config.langs);
     let images = [];
 
     if(this.props.product.id){
@@ -128,7 +131,7 @@ class AddProduct extends Component {
           <div className="form-group">
             <select name="page_id" onChange={this.handleChangeProduct}  value={this.props.product.page_id || ''} >
               {shopPages.map(page =>
-                <option key={page.id} value={page.id || ''}>{page.title || ''}</option>
+                <option key={page.id || ''} value={page.id || ''}>{page.title ? ( page.title[defaultLang0] ? page.title[defaultLang0] : '' ) : ''}</option>
               )}
             </select>
             <label className="ml-1">Page</label>
@@ -151,7 +154,8 @@ function mapStateToProps(state) {
   return {
     product: state.products.product,
     products: state.products.products,
-    shop_pages: state.products.shop_pages
+    shop_pages: state.products.shop_pages,
+    config: state.pages.config
   };
 }
 
