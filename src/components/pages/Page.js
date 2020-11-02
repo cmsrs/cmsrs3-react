@@ -124,9 +124,7 @@ class Page extends Component {
     const langs = this.props.config.langs;
     const lang = event.target.attributes.getNamedItem('data-lang').value;
     const newTranslateValueData = getNewTranslateLangsObj(langs, this.props.page.title, lang, event.target.value);
-    console.log(newTranslateValueData);
     const newPageData = { ...this.props.page, title: newTranslateValueData};
-    console.log(newPageData);
     this.props.changePage(newPageData);
   }
 

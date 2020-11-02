@@ -2,7 +2,7 @@ import axios from 'axios';
 import { AUTH_USER, AUTH_ERROR } from '../actions/types';
 import { SERVER_URL } from '../config';
 
-
+/*
 export const signup = (formProps, callback) => async dispatch => {
   try {
     const response = await axios.post(
@@ -18,6 +18,7 @@ export const signup = (formProps, callback) => async dispatch => {
     dispatch({ type: AUTH_ERROR, payload: 'Email in use' });
   }
 };
+*/
 
 export const signin = (formProps, callback) => async dispatch => {
   try {

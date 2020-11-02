@@ -1,6 +1,9 @@
 import axios from 'axios';
-import { SERVER_URL } from '../config';
+import { SERVER_URL, API_SECRET } from '../config';
 import { USERS_GET_CLIENTS, USERS_RES } from './types';
+
+import { getPrefixUrl } from '../helpers/pages';
+const prefixUrl = getPrefixUrl(SERVER_URL, API_SECRET);
 
 
 export const getClients = () => async dispatch => {
@@ -8,7 +11,7 @@ export const getClients = () => async dispatch => {
 
   try {
     const response = await axios.get(
-      SERVER_URL+'/api/users/clients?token='+token
+      prefixUrl+'/users/clients?token='+token
     );
     //console.log("response",response.data.data);
     dispatch({ type: USERS_GET_CLIENTS, payload: response.data.data });

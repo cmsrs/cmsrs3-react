@@ -1,4 +1,13 @@
 //export const PREFIX_MENU = 'rs_';
+export const getPrefixUrl = (serverUrl, apiSecret) => {
+    let apiUrl = '';
+    if(apiSecret){
+      apiUrl = '/api/'+apiSecret;
+    }else{
+      apiUrl = '/api';
+    }
+    return serverUrl+apiUrl;
+}
 
 export const getDataFromItems = (items, id) => {
   const  data = items.filter( item => {

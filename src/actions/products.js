@@ -1,14 +1,16 @@
 import axios from 'axios';
-import { SERVER_URL } from '../config';
+import { SERVER_URL, API_SECRET  } from '../config';
 import { PRODUCTS_RES, PRODUCTS_GET_PRODUCTS, PRODUCTS_GET_PAGES, PRODUCTS_CHANGE_PRODUCT, PRODUCTS_SAVE_PRODUCT, PRODUCTS_SET_PRODUCT, PRODUCTS_DELETE_PRODUCT } from './types';
-//PRODUCTS_CHECK_PRODUCT,
+
+import { getPrefixUrl } from '../helpers/pages';
+const prefixUrl = getPrefixUrl(SERVER_URL, API_SECRET);
 
 
 export const changePosition = (direction, itemId, menusOrPagesOrImg, callback) => async dispatch => {
   const token = localStorage.getItem('token');
   try{
     const response = await axios.get(
-      SERVER_URL+'/api/'+menusOrPagesOrImg+'/position/'+direction+'/'+itemId+'?token='+token
+      prefixUrl+'/'+menusOrPagesOrImg+'/position/'+direction+'/'+itemId+'?token='+token
     );
 
     if(!response.data.success){
@@ -28,7 +30,7 @@ export const delImage = (imageId, callback) => async dispatch => {
 
   try{
     const response = await axios.delete(
-      SERVER_URL+'/api/images/'+imageId+'?token='+token
+      prefixUrl+'/images/'+imageId+'?token='+token
     );
 
     if(!response.data.success){
@@ -51,7 +53,7 @@ export const getShopPages = () => async dispatch => {
 
   try {
     const response = await axios.get(
-      SERVER_URL+'/api/pages/type/shop?token='+token
+      prefixUrl+'/pages/type/shop?token='+token
     );
     dispatch({ type: PRODUCTS_GET_PAGES, payload: response.data.data });
     //callback();
@@ -67,7 +69,7 @@ export const getProducts = (callback) => async dispatch => {
 
   try {
     const response = await axios.get(
-      SERVER_URL+'/api/products?token='+token
+      prefixUrl+'/products?token='+token
     );
     //console.log("response",response.data.data);
     dispatch({ type: PRODUCTS_GET_PRODUCTS, payload: response.data.data });
@@ -86,12 +88,12 @@ export const saveProduct = (product, callback) => async  dispatch => {
     let response = null;
     if( product.id ){
       response = await axios.put(
-        SERVER_URL+'/api/products/'+product.id+'?token='+token,
+        prefixUrl+'/products/'+product.id+'?token='+token,
         product
       );
     }else{
       response = await axios.post(
-        SERVER_URL+'/api/products?token='+token,
+        prefixUrl+'/products?token='+token,
         product
       );
     }
@@ -122,7 +124,7 @@ export const deleteProduct = (productId) =>  async dispatch => {
   try{
     //console.log( 'del_menuId', menuId );
     const response = await axios.delete(
-      SERVER_URL+'/api/products/'+productId+'?token='+token
+      prefixUrl+'/products/'+productId+'?token='+token
     );
 
     if(!response.data.success){

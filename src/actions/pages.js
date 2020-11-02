@@ -1,20 +1,19 @@
 import axios from 'axios';
-import { isNewRecord } from '../helpers/pages';
+import { isNewRecord, getPrefixUrl } from '../helpers/pages';
 
-import { SERVER_URL } from '../config';
+import { SERVER_URL, API_SECRET } from '../config';
 import { PAGES_ADD_MENU, PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types'; //, PAGES_POSITION_MENU
 import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from './types';
 import { CONFIG_GET_CONFIG } from './types';
 
-
-
+const prefixUrl = getPrefixUrl(SERVER_URL, API_SECRET);
 
 export const delImage = (imageId, callback) => async dispatch => {
   const token = localStorage.getItem('token');
 
   try{
     const response = await axios.delete(
-      SERVER_URL+'/api/images/'+imageId+'?token='+token
+      prefixUrl+'/images/'+imageId+'?token='+token
     );
 
     if(!response.data.success){
@@ -35,7 +34,7 @@ export const changePosition = (direction, itemId, menusOrPagesOrImg, callback) =
   const token = localStorage.getItem('token');
   try{
     const response = await axios.get(
-      SERVER_URL+'/api/'+menusOrPagesOrImg+'/position/'+direction+'/'+itemId+'?token='+token
+      prefixUrl+'/'+menusOrPagesOrImg+'/position/'+direction+'/'+itemId+'?token='+token
     );
 
     if(!response.data.success){
@@ -57,7 +56,7 @@ export const delMenu = (menuId) => async dispatch => {
   try{
     if( !isNewMenu ){
       const response = await axios.delete(
-        SERVER_URL+'/api/menus/'+menuId+'?token='+token
+        prefixUrl+'/menus/'+menuId+'?token='+token
       );
 
       if(!response.data.success){
@@ -82,7 +81,7 @@ export const delPage = (pageId, callback) => async dispatch => {
   try{
     //console.log( 'del_menuId', menuId );
     const response = await axios.delete(
-      SERVER_URL+'/api/pages/'+pageId+'?token='+token
+      prefixUrl+'/pages/'+pageId+'?token='+token
     );
 
     if(!response.data.success){
@@ -104,7 +103,7 @@ export const getConfig = (callback) => async dispatch => {
 
   try {
     const response = await axios.get(
-      SERVER_URL+'/api/config?token='+token
+      prefixUrl+'/config?token='+token
     );
     dispatch({ type: CONFIG_GET_CONFIG, payload: response.data.data });
     callback(response.data.data);
@@ -120,7 +119,7 @@ export const getMenus = () => async dispatch => {
 
   try {
     const response = await axios.get(
-      SERVER_URL+'/api/menus?token='+token
+      prefixUrl+'/menus?token='+token
     );
     //console.log("response",response.data.data);
     dispatch({ type: PAGES_GET_MENU, payload: response.data.data });
@@ -137,7 +136,7 @@ export const getPages = (callback) => async dispatch => {
 
   try {
     const response = await axios.get(
-      SERVER_URL+'/api/pages?token='+token
+      prefixUrl+'/pages?token='+token
     );
     //console.log("response",response.data.data);
 
@@ -165,12 +164,12 @@ export const saveMenu = (menu, callback) => async  dispatch => {
     let response = null;
     if( isNewMenu ){
       response = await axios.post(
-        SERVER_URL+'/api/menus?token='+token,
+        prefixUrl+'/menus?token='+token,
         menu
       );
     }else{
       response = await axios.put(
-        SERVER_URL+'/api/menus/'+menu.id+'?token='+token,
+        prefixUrl+'/menus/'+menu.id+'?token='+token,
         menu
       );
     }
@@ -197,12 +196,12 @@ export const savePage = (page, callback) => async  dispatch => {
     let response = null;
     if( page.id ){
       response = await axios.put(
-        SERVER_URL+'/api/pages/'+page.id+'?token='+token,
+        prefixUrl+'/pages/'+page.id+'?token='+token,
         page
       );
     }else{
       response = await axios.post(
-        SERVER_URL+'/api/pages?token='+token,
+        prefixUrl+'/pages?token='+token,
         page
       );
     }
