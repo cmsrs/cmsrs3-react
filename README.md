@@ -4,10 +4,15 @@
 
 <https://github.com/cmsrs/cmsrs3>
 
-* change server url in file
+* change SERVER_URL and API_SECRET  in file 
 ```bash
 src/config.js
 ```
+
+example:
+export const SERVER_URL = 'http://127.0.0.1:8000';
+export const API_SECRET = 'v3'
+
 
 * install dependency
 
@@ -21,7 +26,7 @@ npm install
 npm start
 ```
 
-* run tests
+* run tests (TODO)
 
 ```bash
 npm test
