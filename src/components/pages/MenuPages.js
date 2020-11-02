@@ -84,8 +84,12 @@ class MenuPages extends Component {
     if(this.props.pagesRes && (this.props.pagesRes.success  === false)  ){
 
       let msgHtml = ''
-      for(let index in this.props.pagesRes.message){
-          msgHtml += index + ": " + this.props.pagesRes.message[index][0]+ "  ";
+      if(Array.isArray(this.props.pagesRes.message)){
+        for(let index in this.props.pagesRes.message){
+            msgHtml += index + ": " + this.props.pagesRes.message[index][0]+ "  ";
+        }
+      }else{
+        msgHtml = this.props.pagesRes.message;
       }
 
       msg = <Expire  delay={9000}><div className="alert alert-danger mb-4" role="alert">{msgHtml}</div></Expire>;
