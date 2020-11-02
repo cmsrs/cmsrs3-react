@@ -10,8 +10,11 @@ src/config.js
 ```
 
 example:
+
+```bash
 export const SERVER_URL = 'http://127.0.0.1:8000';
-export const API_SECRET = 'v3'
+export const API_SECRET = 'v3';
+```
 
 
 * install dependency
