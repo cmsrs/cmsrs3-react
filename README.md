@@ -13,8 +13,12 @@ example:
 
 ```bash
 export const SERVER_URL = 'http://127.0.0.1:8000';
-export const API_SECRET = 'v3';
+export const API_SECRET = '';
 ```
+
+Directive API_SECRET should be the same as on file .env 
+on the server site
+
 
 
 * install dependency
@@ -27,12 +31,6 @@ npm install
 
 ```bash
 npm start
-```
-
-* run tests (TODO)
-
-```bash
-npm test
 ```
 
 * build app
