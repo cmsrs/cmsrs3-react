@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { ADMIN_URL_SECRET } from '../config';
 
 class Header extends Component {
+
   renderLinks() {
+    const urlPages = "/admin"+ADMIN_URL_SECRET+"/pages";
+    const urlUsers = "/admin"+ADMIN_URL_SECRET+"/users";
+    const urlProducts = "/admin"+ADMIN_URL_SECRET+"/products";
+    const urlSignout = "/admin"+ADMIN_URL_SECRET+"/signout";
+
     if (this.props.authenticated) {
       return (
         <div className="container-fluid">
           <div className="container">
-            <Link   to="/admin/pages">Pages</Link>
-            <Link  className="ml-4"  to="/admin/users">Users</Link>
-            <Link  className="ml-4"  to="/admin/products">Products</Link>
+            <Link   to={urlPages}>Pages</Link>
+            <Link  className="ml-4"  to={urlUsers}>Users</Link>
+            <Link  className="ml-4"  to={urlProducts}>Products</Link>
           </div>
-          <Link   to="/admin/signout">Sign Out</Link>
+          <Link   to={urlSignout}>Sign Out</Link>
         </div>
       );
     }

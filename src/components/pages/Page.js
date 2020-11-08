@@ -223,6 +223,7 @@ class Page extends Component {
     const langs = this.props.config.langs;
     const defaultLang = getDefaultLang(this.props.config.langs);
 
+
     const menuValues = this.getMenuValues();
     const rootPages = this.getRootPages();
     const pageTypes = this.getPageTypes();
@@ -250,7 +251,10 @@ class Page extends Component {
         choiceLangTitle.push(<span key={'title_'+lang} data-lang={lang} data-column="title" className={hideTitle}  onClick={this.changeLang}>{lang}</span>);
         choiceLangShortTitle.push(<span key={'short_title_'+lang} data-lang={lang} data-column="short_title" className={hideShortTitle}  onClick={this.changeLang}>{lang}</span>);
         choiceLangDescription.push(<span key={'description_'+lang} data-lang={lang} data-column="description" className={hideDescription}  onClick={this.changeLang}>{lang}</span>);
-        choiceLangContent.push(<span key={'content_'+lang} data-lang={lang} data-column="content" className={hideContent}  onClick={this.changeLang}>{lang}</span>);
+
+        if( 'projects' !== this.props.page.type ){
+          choiceLangContent.push(<span key={'content_'+lang} data-lang={lang} data-column="content" className={hideContent}  onClick={this.changeLang}>{lang}</span>);
+        }
         i++;
       }
     }

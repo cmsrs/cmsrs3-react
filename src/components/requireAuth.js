@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ADMIN_URL_SECRET } from '../config';
 //import { Redirect } from 'react-router-dom'
 
 export default ChildComponent => {
@@ -15,7 +16,8 @@ export default ChildComponent => {
 
     shouldNavigateAway() {
       if (!this.props.auth) {
-        this.props.history.push('/admin/');
+        const urlAmin  = '/admin'+ADMIN_URL_SECRET+'/';
+        this.props.history.push(urlAmin);
       }
     }
 

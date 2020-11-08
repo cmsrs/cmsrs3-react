@@ -3,19 +3,22 @@ import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
+import { ADMIN_URL_SECRET } from '../../config';
 //import { Redirect } from 'react-router-dom'
 
 class Signin extends Component {
 
   componentDidMount() {
     if (this.props.auth) {
-      this.props.history.push('/admin/pages');
+      const urlPages = "/admin"+ADMIN_URL_SECRET+"/pages";
+      this.props.history.push(urlPages);
     }
   }
 
   onSubmit = formProps => {
     this.props.signin(formProps, () => {
-      return this.props.history.push('/admin/pages');
+      const urlPages = "/admin"+ADMIN_URL_SECRET+"/pages";
+      return this.props.history.push(urlPages);
     });
   };
 
