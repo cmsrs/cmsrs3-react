@@ -27,3 +27,7 @@ export const PRODUCTS_CHANGE_PRODUCT = 'products_change_product';
 export const PRODUCTS_SET_PRODUCT = 'products_set_product';
 export const PRODUCTS_DELETE_PRODUCT = 'products_delete_product';
 export const PRODUCTS_RES = 'products_res';
+
+export const CONTACTS_GET_CONTACTS = 'contacts_get_contacts';
+export const CONTACTS_DELETE_CONTACT = 'contacts_delete_contact';
+export const CONTACTS_RES = 'contacts_res';

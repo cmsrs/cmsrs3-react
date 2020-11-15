@@ -10,6 +10,7 @@ class Header extends Component {
     const urlUsers = "/admin"+ADMIN_URL_SECRET+"/users";
     const urlProducts = "/admin"+ADMIN_URL_SECRET+"/products";
     const urlSignout = "/admin"+ADMIN_URL_SECRET+"/signout";
+    const urlContacts = "/admin"+ADMIN_URL_SECRET+"/contacts";
 
     if (this.props.authenticated) {
       return (
@@ -18,6 +19,7 @@ class Header extends Component {
             <Link   to={urlPages}>Pages</Link>
             <Link  className="ml-4"  to={urlUsers}>Users</Link>
             <Link  className="ml-4"  to={urlProducts}>Products</Link>
+            <Link  className="ml-4"  to={urlContacts}>Contacts</Link>
           </div>
           <Link   to={urlSignout}>Sign Out</Link>
         </div>
