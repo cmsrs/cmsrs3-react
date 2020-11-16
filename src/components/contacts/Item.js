@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/contacts';
-import Expire from '../../helpers/Expire';
 
 class Item extends Component {
 
-  componentDidMount() {
-    this.props.getContacts( (d) => {
-      //console.log(d);
-    });
+  constructor(props) {
+    super(props);
+    this.data =  this.props.data;
   }
 
+  delItem = () => {
+    this.props.deleteContact(this.data.id);
+  }
 
   render() {
 
-
     return (
-      <div className="mt-3 mb-2  container">
-        <div className="row">
-          test123
-        </div>
-      </div>
+      <tr>
+        <td>{this.data.email}</td>
+        <td>{this.data.message}</td>
+        <td>{this.data.created_at_format}</td>
+        <td>
+          <div className="ml-2 trash"  onClick={this.delItem}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
+        </td>
+      </tr>
     );
   }
 

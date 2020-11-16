@@ -45,9 +45,19 @@ class Contact extends Component {
         <div className="wrapMsg">
         {msg}
         </div>
-        <div className="row">
+        <table className="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Email</th>
+              <th scope="col">Message</th>
+              <th scope="col">Created At</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
           {this.showItems(contacts)}
-        </div>
+          </tbody>
+        </table>
       </div>
     );
   }
