@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import Image from './Image';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //import '../main.css';
 
 // TODO problem with edit source code with CKEditor
@@ -102,11 +104,15 @@ class Page extends Component {
     });
   }
 
-  // onEditorChange = ( data ) => {
-  //     let newPageData;
-  //     newPageData = { ...this.props.page, content: data};
-  //     this.props.changePage(newPageData);
-  // }
+  onEditorChange = ( data, lang ) => {
+      const langs = this.props.config.langs;
+      //console.log(this.props.page.content);
+      const newTranslateValueData = getNewTranslateLangsObj(langs, this.props.page.content, lang, data);
+      const newPageData = { ...this.props.page, content: newTranslateValueData};
+      //console.log(newPageData);
+      this.props.changePage(newPageData);
+
+  }
 
   handleChangePage = (event) => {
     let newPageData;
@@ -218,6 +224,24 @@ class Page extends Component {
   // let hideContent = classShow;//(this.state.defaultLangContent === lang) ? "form-control" : "form-control d-none";
 
 
+  // showCkeditor = () => {
+  //   const langs = this.props.config.langs;
+  //   const Ccontent = [];
+  //   for(let lang of langs){
+  //     let contentCKE = this.props.page.content ? (this.props.page.content[lang] ? this.props.page.content[lang] : '') : '';
+  //     Ccontent.push(<CKEditor
+  //         editor={ ClassicEditor }
+  //         data={contentCKE}
+  //         onChange={ ( event, editor ) => {
+  //             const data = editor.getData();
+  //             this.onEditorChange( data, contentLang );
+  //             //console.log( { event, editor, data } );
+  //         } }
+  //     />);
+  //   }
+  //   return Ccontent;
+  // }
+
 
   render() {
     const langs = this.props.config.langs;
@@ -233,6 +257,32 @@ class Page extends Component {
       images = getImages( this.props.pages, this.props.page.id );
     }
     const label =  this.props.page.id ? 'Edit page' : 'Add page';
+
+    //const contentLang = this.state.defaultLangContent ? this.state.defaultLangContent : defaultLang;
+    //console.log(this.props.page.content);
+    //let contentCKE = this.props.page.content ? (this.props.page.content[contentLang] ? this.props.page.content[contentLang] : '') : ''
+    //console.log(contentLang);
+    //console.log(ccc);
+    //console.log(this.props.page.content);
+    //let content0 = this.props.page.content ? (this.props.page.content[this.state.defaultLangContent] ? this.props.page.content[this.state.defaultLangContent] : '') : '';
+    //console.log(content0);
+
+    const Ccontent = [];
+    if(this.props.page.type === "cms"){
+      for(let lang of langs){
+        let contentCKE = this.props.page.content ? (this.props.page.content[lang] ? this.props.page.content[lang] : '') : '';
+        Ccontent.push(<CKEditor
+            key={'cke_'+lang}
+            editor={ ClassicEditor }
+            data={contentCKE}
+            onChange={ ( event, editor ) => {
+                const data = editor.getData();
+                this.onEditorChange( data, lang );
+            } }
+        />);
+      }
+    }
+
 
     const choiceLangTitle = [];
     const choiceLangShortTitle = [];
@@ -368,10 +418,20 @@ class Page extends Component {
           </React.Fragment>
           }
 
-          <div className="row">
-            {choiceLangContent}
-          </div>
-          {content}
+          { (this.props.page.type === "cms") &&
+          <React.Fragment>
+            {Ccontent}
+          </React.Fragment>
+          }
+
+          { (this.props.page.type !== "cms") &&
+          <React.Fragment>
+            <div className="row">
+              {choiceLangContent}
+            </div>
+            {content}
+          </React.Fragment>
+          }
 
          <div className="form-group">
           <input type="file" name="images"  onChange={this.handleUploadFile} multiple/>
