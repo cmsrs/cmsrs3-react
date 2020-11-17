@@ -78,6 +78,11 @@ class MenuPages extends Component {
 
   render() {
 
+    let cache_enable = false;
+    if(this.props.config.cache_enable === true ){
+      cache_enable = true;
+    }
+
     const notRelatedPages = this.getNotRelatedPages();
 
     let msg = '';
@@ -104,6 +109,11 @@ class MenuPages extends Component {
 
     return (
       <div className="mt-3 mb-2">
+        { (cache_enable === true) &&
+          <div className="alert alert-danger" role="alert">
+              cache_enable is true on the .env file on server (set this param on the false, if you want something change)
+          </div>
+        }
         <div className="wrapMsg">
         {msg}
         </div>
@@ -138,6 +148,7 @@ function mapStateToProps(state) {
   return {
     menus: state.pages.menus,
     pages: state.pages.pages,
+    config: state.pages.config,
     pagesRes: state.pages.pages_res
   };
 }
