@@ -79,7 +79,7 @@ class MenuPages extends Component {
   render() {
 
     let cache_enable = false;
-    if(this.props.config.cache_enable === true ){
+    if(this.props.config && (this.props.config.cache_enable === true) ){
       cache_enable = true;
     }
 
