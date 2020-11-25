@@ -88,8 +88,14 @@ class MenuPages extends Component {
     let msg = '';
     if(this.props.pagesRes && (this.props.pagesRes.success  === false)  ){
 
+      //console.log(this.props.pagesRes.message);
       let msgHtml = ''
-      if(Array.isArray(this.props.pagesRes.message)){
+
+      if( (typeof this.props.pagesRes.message === "object" || typeof this.props.pagesRes.message === 'function') && (this.props.pagesRes.message !== null) ){
+          for(let index in this.props.pagesRes.message){
+              msgHtml += this.props.pagesRes.message[index][0]+ " ";
+          }
+      }else if(Array.isArray(this.props.pagesRes.message)){
         for(let index in this.props.pagesRes.message){
             msgHtml += index + ": " + this.props.pagesRes.message[index][0]+ "  ";
         }
