@@ -13,12 +13,14 @@ class Image extends Component {
   }
 
   delImage = () => {
-    this.props.delImage(this.props.imageId, () => {
-      this.props.getPages((pages) => {
-        const page = getDataFromItems(pages, this.props.imageId);
-        this.props.changePage(page);
+    if (window.confirm('Are you sure you wish to delete this item?')){
+      this.props.delImage(this.props.imageId, () => {
+        this.props.getPages((pages) => {
+          const page = getDataFromItems(pages, this.props.imageId);
+          this.props.changePage(page);
+        });
       });
-    });
+    }
   }
 
   downImage = () => {

@@ -32,9 +32,11 @@ class PageTitle extends Component {
   // }
 
   delPage = () => {
-    this.props.delPage(this.data.id, () => {
-      this.props.getPages( (pages) => {});
-    });
+    if (window.confirm('Are you sure you wish to delete this item?')){
+      this.props.delPage(this.data.id, () => {
+        this.props.getPages( (pages) => {});
+      });
+    }  
   }
 
   getDataFromProps = () => {

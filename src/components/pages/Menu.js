@@ -65,7 +65,9 @@ class Menu extends Component {
   }
 
   delMenu = () => {
-    this.props.delMenu(this.data.id);
+    if (window.confirm('Are you sure you wish to delete this item?')){
+      this.props.delMenu(this.data.id);
+    }
   }
 
   showPageTitle = (pagesTree) => {
