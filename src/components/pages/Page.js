@@ -11,8 +11,9 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //import CKEditor from 'ckeditor4-react';
 //import CKEditor from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+//getImages,
 
-import { isNewRecord, getPagesByMenuId, getImages, inArray, getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
+import { isNewRecord, getPagesByMenuId,  inArray, getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
 
 
 class Page extends Component {
@@ -85,6 +86,25 @@ class Page extends Component {
     return  pagesByMenuId.length + 1;
   }
 
+  //DRY!!
+  getDataFromProps = (pageId) => {
+    const  data = this.props.pages.filter( page => {
+      return page.id === pageId
+    });
+
+    if(!data.length){
+      return {};
+    }
+    return data[0];
+  }
+
+  //DRY!!
+  editPage = (pageId) => {
+    const data = this.getDataFromProps(pageId);
+    this.props.changePage(data);
+  }
+
+
   handleSubmit = (event) => {
     event.preventDefault();
 
@@ -98,10 +118,23 @@ class Page extends Component {
     }
 
     this.props.savePage(page, ( pageId ) => {
+      //console.log(pageId);
       document.getElementsByName('images')[0].value = null;
       this.images = [];
-      this.props.getPages( (p) => {} );
+      this.props.getPages( (p) => {
+        this.editPage(pageId);
+      });
+
+
+      // this.props.getPage(pageId, (pp) => {
+      //   //this.props.changePage(pp);
+      // });
     });
+  }
+
+  handleClearInput = (event) => {
+    event.preventDefault();
+    this.props.clearPage();
   }
 
   onEditorChange = ( data, lang ) => {
@@ -254,7 +287,7 @@ class Page extends Component {
 
     let images = [];
     if(this.props.page.id){
-      images = getImages( this.props.pages, this.props.page.id );
+      images = this.props.page.images; //getImages( this.props.pages, this.props.page.id );
     }
     const label =  this.props.page.id ? 'Edit page' : 'Add page';
 
@@ -340,6 +373,7 @@ class Page extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <button type="submit" className="add-page-btn  btn btn-primary mt-2 mb-2"><i className="fas fa-plus"></i> {label}</button>
+          <button className="add-page-btn  btn btn-info ml-3 mt-2 mb-2"  onClick={this.handleClearInput}>Clear data</button>
 
           <div className="row mt-1">
             {choiceLangTitle}

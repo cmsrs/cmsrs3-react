@@ -89,10 +89,12 @@ export const  isNewRecord = (menuId) => {
 
 export const  getImageById = (images, imageId) => {
   let ret = null;
-  for(let image of images){
-    if(image.id === imageId){
-      ret = image;
-      break;
+  if(images){
+    for(let image of images){
+      if(image.id === imageId){
+        ret = image;
+        break;
+      }
     }
   }
   return ret;

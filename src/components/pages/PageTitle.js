@@ -36,19 +36,19 @@ class PageTitle extends Component {
       this.props.delPage(this.data.id, () => {
         this.props.getPages( (pages) => {});
       });
-    }  
-  }
-
-  getDataFromProps = () => {
-    const  data = this.props.pages.filter( page => {
-      return page.id === this.data.id
-    });
-
-    if(!data.length){
-      return {};
     }
-    return data[0];
   }
+
+  // getDataFromProps = () => {
+  //   const  data = this.props.pages.filter( page => {
+  //     return page.id === this.data.id
+  //   });
+  //
+  //   if(!data.length){
+  //     return {};
+  //   }
+  //   return data[0];
+  // }
 
   downPage = () => {
     this.props.changePosition('down', this.data.id, 'pages', () => {
@@ -62,7 +62,19 @@ class PageTitle extends Component {
     });
   }
 
+  //DRY!!
+  getDataFromProps = () => {
+    const  data = this.props.pages.filter( page => {
+      return page.id === this.data.id
+    });
 
+    if(!data.length){
+      return {};
+    }
+    return data[0];
+  }
+
+  //DRY!!
   editPage = () => {
     const data = this.getDataFromProps();
     this.props.changePage(data);

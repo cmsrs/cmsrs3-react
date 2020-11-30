@@ -3,7 +3,8 @@ import { isNewRecord, getPrefixUrl } from '../helpers/pages';
 
 import { SERVER_URL, API_SECRET } from '../config';
 import { PAGES_ADD_MENU, PAGES_CHANGE_MENU, PAGES_GET_MENU, PAGES_DELETE_MENU, PAGES_RES } from './types'; //, PAGES_POSITION_MENU
-import { PAGES_SAVE_PAGE, PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_DELETE_PAGE } from './types';
+import { PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_GET_PAGE, PAGES_DELETE_PAGE, PAGES_CLEAR_PAGE } from './types';
+//PAGES__SAVE_PAGE,
 import { CONFIG_GET_CONFIG } from './types';
 
 const prefixUrl = getPrefixUrl(SERVER_URL, API_SECRET);
@@ -149,6 +150,30 @@ export const getPages = (callback) => async dispatch => {
   }
 };
 
+//it is nowhare use
+export const getPage = (pageId, callback) => async dispatch => {
+  const token = localStorage.getItem('token');
+
+  //console.log('getPage='+ pageId);
+
+  try {
+    const response = await axios.get(
+      prefixUrl+'/pages/'+pageId+'?token='+token
+    );
+    //console.log("response_get_page=",response.data.data);
+
+    dispatch({ type: PAGES_GET_PAGE, payload: response.data.data });
+    callback(response.data.data);
+
+  } catch(e){
+      console.log('___probem with ajax______', e);
+     dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while get page"} });
+  }
+};
+
+
+
+
 export const addMenu = (menu) => dispatch => {
   dispatch({ type: PAGES_ADD_MENU, payload: menu });
 };
@@ -211,9 +236,11 @@ export const savePage = (page, callback) => async  dispatch => {
       dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
     }else{
       const pageId = page.id ? page.id : response.data.data.pageId; //update
+
+
       //console.log('___ok___pageid='+pageId);
       dispatch({ type: PAGES_RES, payload: {success: true, message: "Data was saved"} });
-      dispatch({ type: PAGES_SAVE_PAGE, payload: page });
+      //dispatch({ type: PAGES__SAVE_PAGE, payload: page });
       callback(pageId);
     }
 
@@ -246,6 +273,10 @@ export const savePage = (page, callback) => async  dispatch => {
 //   }
 // }
 
+
+export const clearPage = () => dispatch => {
+  dispatch({ type: PAGES_CLEAR_PAGE });
+};
 
 
 

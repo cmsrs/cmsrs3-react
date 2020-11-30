@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import {SERVER_URL} from '../../config';
-import { getImageById, changeItemInArr, getDataFromItems, getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
+//getDataFromItems,
+import { getImageById, changeItemInArr,  getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
 import '../main.css';
 
 class Image extends Component {
@@ -12,12 +13,36 @@ class Image extends Component {
     this.state = { defaultLang : getDefaultLang(this.props.config.langs) };
   }
 
+  //DRY!!
+  getDataFromProps = (pageId) => {
+    const  data = this.props.pages.filter( page => {
+      return page.id === pageId
+    });
+
+    if(!data.length){
+      return {};
+    }
+    return data[0];
+  }
+
+  //DRY!!
+  editPage = (pageId) => {
+    const data = this.getDataFromProps(pageId);
+    this.props.changePage(data);
+  }
+
+
   delImage = () => {
     if (window.confirm('Are you sure you wish to delete this item?')){
       this.props.delImage(this.props.imageId, () => {
         this.props.getPages((pages) => {
-          const page = getDataFromItems(pages, this.props.imageId);
-          this.props.changePage(page);
+          //console.log(this.props.page.id);
+          this.editPage(this.props.page.id);
+
+
+          //const page = getDataFromItems(this.props.pages, this.props.imageId);
+          //console.log(page);
+          //this.props.changePage(page);
         });
       });
     }
@@ -26,8 +51,13 @@ class Image extends Component {
   downImage = () => {
     this.props.changePosition('down', this.props.imageId, 'images', () => {
       this.props.getPages((pages) => {
-        const page = getDataFromItems(pages, this.props.imageId);
-        this.props.changePage(page);
+
+          this.editPage(this.props.page.id);
+        // console.log(this.props.page.id);
+        // console.log(this.props.imageId);
+        // console.log(pages);
+        // const page = getDataFromItems(this.props.pages, this.props.imageId);
+        // this.props.changePage(page);
       });
     });
   }
@@ -35,8 +65,9 @@ class Image extends Component {
   upImage = () => {
     this.props.changePosition('up', this.props.imageId, 'images', () => {
       this.props.getPages((pages) => {
-        const page = getDataFromItems(pages, this.props.imageId);
-        this.props.changePage(page);
+        this.editPage(this.props.page.id);
+        // const page = getDataFromItems(this.props.pages, this.props.imageId);
+        // this.props.changePage(page);
       });
     });
   }
@@ -78,6 +109,7 @@ class Image extends Component {
 
   render() {
     let image = getImageById(this.props.page.images, this.props.imageId);
+    //console.log(image);
 
 
     const langs = this.props.config.langs;
@@ -97,18 +129,24 @@ class Image extends Component {
     for(let lang of langs){
       let hide = (this.state.defaultLang === lang) ? "form-control col-10 mr-1" : "form-control col-10 mr-1 d-none";
       alts.push(<input type="text" placeholder="Image alt" name="alt" key={lang} className={hide}
-            onChange={this.handleChangeAlt} data-lang={lang}  value={image.alt ? ( image.alt[lang] ? image.alt[lang] : '' ) : ''} />);
+            onChange={this.handleChangeAlt} data-lang={lang}  value={  image ? (image.alt ? ( image.alt[lang] ? image.alt[lang] : '' ) : '') : ''} />);
     }
 
+    const imgFs = image ? (SERVER_URL + image.fs.small) : '';
+    const imgAlt = image ? (image.alt ? image.alt : '') : '';
+
+    const imgLength = this.props.page.images ? this.props.page.images.length : 0;
 
     return (
+
+
       <div className="ml-1  mt-3 row">
-        <img  src={SERVER_URL + image.fs.small} alt={image.alt} />
+        <img src={imgFs} alt={imgAlt} />
 
         <div className="ml-1 row">
           {choiceLang}
 
-          {(this.props.page.images.length > 1) &&
+          {(imgLength > 1) &&
           <React.Fragment>
             <div className="ml-2"  onClick={this.downImage}><i className="fas fa-arrow-down cursor-pointer"></i></div>
             <div className="ml-2"  onClick={this.upImage}><i className="fas fa-arrow-up cursor-pointer"></i></div>
@@ -126,6 +164,7 @@ class Image extends Component {
 function mapStateToProps(state) {
   return {
     page: state.pages.page,
+    pages: state.pages.pages,
     config: state.pages.config
   };
 }
