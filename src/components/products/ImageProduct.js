@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/products';
 import {SERVER_URL} from '../../config';
-import { getImageById, changeItemInArr, getDataFromItems, getNewTranslateLangsObj, getDefaultLang } from '../../helpers/pages';
+import { getImageById, changeItemInArr, getNewTranslateLangsObj, getDefaultLang } from '../../helpers/pages';
+//getDataFromItems, 
 
 class ImageProduct extends Component {
 
@@ -11,11 +12,32 @@ class ImageProduct extends Component {
     this.state = { defaultLang : getDefaultLang(this.props.config.langs) };
   }
 
+
+  //DRY!!
+  getDataFromProps = (productId) => {
+    const  data = this.props.products.filter( product => {
+      return product.id === productId
+    });
+
+    if(!data.length){
+      return {};
+    }
+    return data[0];
+  }
+
+  //DRY!!
+  editProduct = (productId) => {
+    const data = this.getDataFromProps(productId);
+    this.props.changeProduct(data);
+  }
+
+
   delImage = () => {
     this.props.delImage(this.props.imageId, () => {
       this.props.getProducts( (products) => {
-        const product = getDataFromItems(products, this.props.productId);
-        this.props.changeProduct(product);
+        this.editProduct(this.props.product.id);
+        //const product = getDataFromItems(products, this.props.productId);
+        //this.props.changeProduct(product);
       });
     });
   }
@@ -23,9 +45,10 @@ class ImageProduct extends Component {
   downImage = () => {
     this.props.changePosition('down', this.props.imageId, 'images', () => {
       this.props.getProducts( (products) => {
-        let product = getDataFromItems(products, this.props.productId);
-        product = {...product};
-        this.props.changeProduct(product);
+        this.editProduct(this.props.product.id);
+        //let product = getDataFromItems(products, this.props.productId);
+        //product = {...product};
+        //this.props.changeProduct(product);
       });
     });
   }
@@ -33,9 +56,10 @@ class ImageProduct extends Component {
   upImage = () => {
     this.props.changePosition('up', this.props.imageId, 'images', () => {
       this.props.getProducts( (products) => {
-        let product = getDataFromItems(products, this.props.productId);
-        product = {...product};
-        this.props.changeProduct(product);
+        this.editProduct(this.props.product.id);
+        //let product = getDataFromItems(products, this.props.productId);
+        //product = {...product};
+        //this.props.changeProduct(product);
       });
     });
   }
@@ -79,7 +103,7 @@ class ImageProduct extends Component {
 
     let image = getImageById(this.props.product.images, this.props.imageId);
     const langs = this.props.config.langs;
-    
+
     const choiceLang = [];
     if( langs && langs.length > 1 ){
       const classShow = "mr-2 cursor-pointer text-primary";
@@ -126,6 +150,7 @@ class ImageProduct extends Component {
 function mapStateToProps(state) {
   return {
     product: state.products.product,
+    products: state.products.products,
     config: state.pages.config
   };
 }

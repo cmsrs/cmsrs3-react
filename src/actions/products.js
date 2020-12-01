@@ -1,10 +1,25 @@
 import axios from 'axios';
 import { SERVER_URL, API_SECRET  } from '../config';
-import { PRODUCTS_RES, PRODUCTS_GET_PRODUCTS, PRODUCTS_GET_PAGES, PRODUCTS_CHANGE_PRODUCT, PRODUCTS_SAVE_PRODUCT, PRODUCTS_SET_PRODUCT, PRODUCTS_DELETE_PRODUCT } from './types';
+import { PRODUCTS_RES, PRODUCTS_GET_PRODUCTS, PRODUCTS_GET_PAGES, PRODUCTS_CHANGE_PRODUCT, PRODUCTS_SAVE_PRODUCT, PRODUCTS_SET_PRODUCT, PRODUCTS_DELETE_PRODUCT, CONFIG_GET_CONFIG } from './types';
 
 import { getPrefixUrl } from '../helpers/pages';
 const prefixUrl = getPrefixUrl(SERVER_URL, API_SECRET);
 
+
+export const getConfig = (callback) => async dispatch => {
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await axios.get(
+      prefixUrl+'/config?token='+token
+    );
+    dispatch({ type: CONFIG_GET_CONFIG, payload: response.data.data });
+    callback(response.data.data);
+
+  } catch(e){
+     dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while get config"} });
+  }
+};
 
 export const changePosition = (direction, itemId, menusOrPagesOrImg, callback) => async dispatch => {
   const token = localStorage.getItem('token');
@@ -17,9 +32,10 @@ export const changePosition = (direction, itemId, menusOrPagesOrImg, callback) =
       dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Problem with change position "+menusOrPagesOrImg} });
     }else{
       dispatch({ type: PRODUCTS_RES, payload: {success: true, message: "Data was saved"} });
+      callback();
     }
 
-    callback();
+
   } catch(e){
      dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while change "+menusOrPagesOrImg+" position"} });
   }
@@ -38,9 +54,10 @@ export const delImage = (imageId, callback) => async dispatch => {
       dispatch({ type: PRODUCTS_RES, payload: {success: false, message: response.data.error} });
     }else{
       dispatch({ type: PRODUCTS_RES, payload: {success: true, message: "Data was saved"} });
+      callback();
     }
 
-    callback();
+
   } catch(e){
      dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while deleteing image"} });
   }
@@ -72,8 +89,13 @@ export const getProducts = (callback) => async dispatch => {
       prefixUrl+'/products?token='+token
     );
     //console.log("response",response.data.data);
-    dispatch({ type: PRODUCTS_GET_PRODUCTS, payload: response.data.data });
-    callback(response.data.data);
+
+    if(response.data.success){
+      dispatch({ type: PRODUCTS_GET_PRODUCTS, payload: response.data.data });
+      callback(response.data.data);
+    }else{
+      dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while get products0"} });  
+    }
 
   } catch(e){
      dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while get products"} });

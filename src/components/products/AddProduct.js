@@ -2,16 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/products';
 import ImageProduct from './ImageProduct';
-import { getImages } from '../../helpers/pages';
+//import { getImages } from '../../helpers/pages';
 import { getDefaultLang } from '../../helpers/pages';
 
 
 class AddProduct extends Component {
 
+
   componentDidMount() {
-    this.props.getShopPages();
-    this.props.getProducts( (d) => {
+    this.props.getConfig((config) => {
+      if(config){
+        this.props.getShopPages();
+        this.props.getProducts( (d) => {
+        });
+      }else{
+        alert('You must set at least one language in the .env file');
+      }
     });
+    //console.log('___MenuPages___pobieram_z_serwera______');
   }
 
   getShopPages = () => {
@@ -93,8 +101,10 @@ class AddProduct extends Component {
     const defaultLang0 = getDefaultLang(this.props.config.langs);
     let images = [];
 
+    //console.log(this.props.product);
     if(this.props.product.id){
-       images = getImages( this.props.products, this.props.product.id );
+       images =  this.props.product.images; //getImages( this.props.products, this.props.product.id );
+       //console.log(images);
     }
 
     let shopPages = [];
