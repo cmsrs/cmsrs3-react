@@ -9,27 +9,7 @@ class PageTitle extends Component {
   constructor(props) {
     super(props);
     this.data =  this.props.data;   //getMenuDataById(this.props.menus, this.props.data.id)
-    //console.log('data');
-    //console.log(this.data);
-    //const childrenPages = this.props.childrenPages;
-
-    //this.isChild = this.inArray(this.data.id, childrenPages);
   }
-
-
-  // inArray = (needle, haystack) => {
-  //   if(!haystack){
-  //     return false;
-  //   }
-  //   let ret = false;
-  //   for(let item of haystack){
-  //     if(item.id === needle){
-  //       ret = true;
-  //       break;
-  //     }
-  //   }
-  //   return ret;
-  // }
 
   delPage = () => {
     if (window.confirm('Are you sure you wish to delete this item?')){
@@ -38,17 +18,6 @@ class PageTitle extends Component {
       });
     }
   }
-
-  // getDataFromProps = () => {
-  //   const  data = this.props.pages.filter( page => {
-  //     return page.id === this.data.id
-  //   });
-  //
-  //   if(!data.length){
-  //     return {};
-  //   }
-  //   return data[0];
-  // }
 
   downPage = () => {
     this.props.changePosition('down', this.data.id, 'pages', () => {
@@ -122,7 +91,6 @@ class PageTitle extends Component {
 
 function mapStateToProps(state) {
   return {
-    //menus: state.pages.menus,
     page: state.pages.page,
     pages: state.pages.pages,
     config: state.pages.config

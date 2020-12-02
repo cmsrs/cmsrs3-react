@@ -8,7 +8,6 @@ class Contact extends Component {
 
   componentDidMount() {
     this.props.getContacts( (d) => {
-      //console.log(d);
     });
   }
 
@@ -18,7 +17,6 @@ class Contact extends Component {
       if(Array.isArray(contacts)){
 
         ret = contacts.map(function(item, index){
-           // createTreePages(this.props.pages, item.id );
           return  <Item key={item.id} data={item}/>
         });
       }

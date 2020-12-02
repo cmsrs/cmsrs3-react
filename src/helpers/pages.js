@@ -38,7 +38,6 @@ export const createTreePagesByMenuId = (pages, menuId) => {
   let tree = [];
   for(let page of pagesByMenuId2){
     if( !page.page_id ){
-      //tree[page.id] = page;
       tree.push(page);
     }
   }
@@ -52,7 +51,6 @@ export const createTreePagesByMenuId = (pages, menuId) => {
   for(let page2 of pagesByMenuId2){
     if( page2.page_id ){
       pk[page2.page_id].push(page2);
-      //tree[page2.page_id]['children'] = p2;
     }
   }
 
@@ -131,24 +129,6 @@ export const getImages = ( pages, pageId ) => {
   return data[0].images;
 }
 
-
-
-
-// export const getPagesByMenuId = ( menuId ) => {
-//   let pages = [];
-//   if(isNewRecord(menuId)){
-//     return pages;
-//   }
-//
-//   for(let page of this.props.pages){
-//     if( page.menu_id === menuId ){
-//       pages.push(page);
-//     }
-//   }
-//   return pages;
-// }
-
-
 export const getPagesByMenuId = ( allPages, menuId ) => {
   let pages = [];
   if(isNewRecord(menuId)){
@@ -179,10 +159,6 @@ export const getDefaultLang = (langs) => {
 }
 
 export const getNewTranslateLangsObj = (langs, currentData, lang, newVal ) => {
-  // console.log('___in____');
-  // console.log(currentData);
-  // console.log(lang);
-  // console.log(newVal);
   const newTranslateValueData = {};
   for(let lll of langs){
     if(lll === lang  ){

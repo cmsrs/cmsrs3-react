@@ -50,7 +50,6 @@ export const delImage = (imageId, callback) => async dispatch => {
     );
 
     if(!response.data.success){
-      //const strErr = JSON.stringify(response.data.error, null, 2);
       dispatch({ type: PRODUCTS_RES, payload: {success: false, message: response.data.error} });
     }else{
       dispatch({ type: PRODUCTS_RES, payload: {success: true, message: "Data was saved"} });
@@ -88,13 +87,12 @@ export const getProducts = (callback) => async dispatch => {
     const response = await axios.get(
       prefixUrl+'/products?token='+token
     );
-    //console.log("response",response.data.data);
 
     if(response.data.success){
       dispatch({ type: PRODUCTS_GET_PRODUCTS, payload: response.data.data });
       callback(response.data.data);
     }else{
-      dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while get products0"} });  
+      dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while get products0"} });
     }
 
   } catch(e){
@@ -121,11 +119,9 @@ export const saveProduct = (product, callback) => async  dispatch => {
     }
 
     if(!response.data.success){
-      //const strErr = JSON.stringify(response.data.error, null, 2);
       dispatch({ type: PRODUCTS_RES, payload: {success: false, message: response.data.error} });
     }else{
       const productId = product.id ? product.id : response.data.data.productId; //update
-      //console.log('___ok___pageid='+pageId);
       dispatch({ type: PRODUCTS_RES, payload: {success: true, message: "Data was saved"} });
       dispatch({ type: PRODUCTS_SAVE_PRODUCT, payload: product });
       callback(productId);
@@ -142,15 +138,12 @@ export const deleteProduct = (productId) =>  async dispatch => {
 
   const token = localStorage.getItem('token');
 
-  //console.log(SERVER_URL);
   try{
-    //console.log( 'del_menuId', menuId );
     const response = await axios.delete(
       prefixUrl+'/products/'+productId+'?token='+token
     );
 
     if(!response.data.success){
-      //const strErr = JSON.stringify(response.data.error, null, 2);
       dispatch({ type: PRODUCTS_RES, payload: {success: false, message: response.data.error} });
     }else{
       dispatch({ type: PRODUCTS_RES, payload: {success: true, message: "Data was saved"} });
@@ -161,12 +154,6 @@ export const deleteProduct = (productId) =>  async dispatch => {
      dispatch({ type: PRODUCTS_RES, payload: {success: false, message: "Unknown problem with ajax, while deleteing product"} });
   }
 }
-
-
-// export const checkProducts = (id, isSelected) => dispatch => {
-//   dispatch({ type: PRODUCTS_CHECK_PRODUCT, payload: {'id': id, 'isSelected': isSelected } });
-// };
-
 
 //not used - to del - use only changeProduct
 export const setProduct = (product) => dispatch => {

@@ -8,7 +8,6 @@ import PageTitle from './PageTitle';
 import shortid from 'shortid';
 import Expire from '../../helpers/Expire';
 import '../main.css';
-//import { createTreePages } from '../../helpers/pages';
 
 class MenuPages extends Component {
 
@@ -21,7 +20,6 @@ class MenuPages extends Component {
         alert('You must set at least one language in the .env file');
       }
     });
-    //console.log('___MenuPages___pobieram_z_serwera______');
   }
 
   handleSubmit = (event) => {
@@ -44,7 +42,6 @@ class MenuPages extends Component {
       if(Array.isArray(menus)){
 
         ret = menus.map(function(item, index){
-           // createTreePages(this.props.pages, item.id );
           return  <Menu key={item.id} data={item}/>
         });
       }
@@ -56,7 +53,6 @@ class MenuPages extends Component {
   showPageTitle = (pages) => {
       let ret = '';
       if(Array.isArray(pages)){
-        //console.log(pages);
         ret = pages.map(function(item, index){
           return  <PageTitle key={item.id} data={item}/>
         });
@@ -70,7 +66,6 @@ class MenuPages extends Component {
   }
 
   renderMsg = (message) => {
-    //console.log('msg_err',this.props.pagesRes.message);
     console.log('msg_err',message);
     return JSON.stringify(message, null, 2);
   }
@@ -88,7 +83,6 @@ class MenuPages extends Component {
     let msg = '';
     if(this.props.pagesRes && (this.props.pagesRes.success  === false)  ){
 
-      //console.log(this.props.pagesRes.message);
       let msgHtml = ''
 
       if( (typeof this.props.pagesRes.message === "object" || typeof this.props.pagesRes.message === 'function') && (this.props.pagesRes.message !== null) ){

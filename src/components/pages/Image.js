@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import {SERVER_URL} from '../../config';
-//getDataFromItems,
 import { getImageById, changeItemInArr,  getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
 import '../main.css';
 
@@ -36,13 +35,7 @@ class Image extends Component {
     if (window.confirm('Are you sure you wish to delete this item?')){
       this.props.delImage(this.props.imageId, () => {
         this.props.getPages((pages) => {
-          //console.log(this.props.page.id);
           this.editPage(this.props.page.id);
-
-
-          //const page = getDataFromItems(this.props.pages, this.props.imageId);
-          //console.log(page);
-          //this.props.changePage(page);
         });
       });
     }
@@ -51,13 +44,7 @@ class Image extends Component {
   downImage = () => {
     this.props.changePosition('down', this.props.imageId, 'images', () => {
       this.props.getPages((pages) => {
-
           this.editPage(this.props.page.id);
-        // console.log(this.props.page.id);
-        // console.log(this.props.imageId);
-        // console.log(pages);
-        // const page = getDataFromItems(this.props.pages, this.props.imageId);
-        // this.props.changePage(page);
       });
     });
   }
@@ -66,30 +53,14 @@ class Image extends Component {
     this.props.changePosition('up', this.props.imageId, 'images', () => {
       this.props.getPages((pages) => {
         this.editPage(this.props.page.id);
-        // const page = getDataFromItems(this.props.pages, this.props.imageId);
-        // this.props.changePage(page);
       });
     });
   }
 
-/*
-  handleChange = (event) => {
-    let image = getImageById(this.props.page.images, this.props.imageId);
-    image.alt = event.target.value;
-
-    let images = changeItemInArr(this.props.page.images, image);
-    let newPageData = { ...this.props.page, 'images': images};
-
-    this.props.changePage(newPageData);
-  }
-*/
-
   handleChangeAlt = (event) => {
     const langs = this.props.config.langs;
-    //const stateMenu = getMenuDataById(this.props.menus, this.data.id);
 
     let image = getImageById(this.props.page.images, this.props.imageId);
-    //let images = changeItemInArr(this.props.page.images, image);
 
 
     const lang = event.target.attributes.getNamedItem('data-lang').value;
@@ -109,8 +80,6 @@ class Image extends Component {
 
   render() {
     let image = getImageById(this.props.page.images, this.props.imageId);
-    //console.log(image);
-
 
     const langs = this.props.config.langs;
     const choiceLang = [];

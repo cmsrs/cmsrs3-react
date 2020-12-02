@@ -13,9 +13,7 @@ export const getClients = () => async dispatch => {
     const response = await axios.get(
       prefixUrl+'/users/clients?token='+token
     );
-    //console.log("response",response.data.data);
     dispatch({ type: USERS_GET_CLIENTS, payload: response.data.data });
-    //callback();
 
   } catch(e){
      dispatch({ type: USERS_RES, payload: {success: false, message: "Unknown problem with ajax, while get clients"} });

@@ -39,17 +39,6 @@ export default function(state = INITIAL_STATE, action) {
       }
       return { ...state, products: productsDel, products_res:{} };
 
-
-    // case PRODUCTS_CHECK_PRODUCT:
-    //   let checkProductsCopy = {};
-    //   let key;
-    //
-    //   for (key in state.check_products) {
-    //     checkProductsCopy[key] = state.check_products[key];
-    //   }
-    //   checkProductsCopy[action.payload.id] = action.payload.isSelected;
-    //   return { ...state, check_products: checkProductsCopy, products_res:{} };
-
     default:
       return state;
   }

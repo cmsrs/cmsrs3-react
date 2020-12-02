@@ -5,14 +5,6 @@ import * as actions from '../../actions/pages';
 import Image from './Image';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-//import '../main.css';
-
-// TODO problem with edit source code with CKEditor
-//import CKEditor from 'ckeditor4-react';
-//import CKEditor from '@ckeditor/ckeditor5-react';
-//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-//getImages,
-
 import { isNewRecord, getPagesByMenuId,  inArray, getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
 
 
@@ -66,7 +58,6 @@ class Page extends Component {
 
   getMenuValues(){
     let menuVal = [];
-    //console.log(this.props.menus);
     menuVal.push({id: null, name: ''});
     for(var menu of  this.props.menus){
       if( !isNewRecord(menu.id) ){
@@ -108,7 +99,6 @@ class Page extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    //createTreePages(this.props.pages); //??
 
     const page = { ...this.props.page};
     page.position = this.getPagePositionByMenuId(page.menu_id);
@@ -118,17 +108,11 @@ class Page extends Component {
     }
 
     this.props.savePage(page, ( pageId ) => {
-      //console.log(pageId);
       document.getElementsByName('images')[0].value = null;
       this.images = [];
       this.props.getPages( (p) => {
         this.editPage(pageId);
       });
-
-
-      // this.props.getPage(pageId, (pp) => {
-      //   //this.props.changePage(pp);
-      // });
     });
   }
 
@@ -139,10 +123,8 @@ class Page extends Component {
 
   onEditorChange = ( data, lang ) => {
       const langs = this.props.config.langs;
-      //console.log(this.props.page.content);
       const newTranslateValueData = getNewTranslateLangsObj(langs, this.props.page.content, lang, data);
       const newPageData = { ...this.props.page, content: newTranslateValueData};
-      //console.log(newPageData);
       this.props.changePage(newPageData);
 
   }
@@ -150,7 +132,6 @@ class Page extends Component {
   handleChangePage = (event) => {
     let newPageData;
     if( event.target.name === "published" || event.target.name === "commented" || event.target.name === "after_login" ){
-      //console.log('test');
       newPageData = { ...this.props.page, [event.target.name]: event.target.checked};
     }else{
       newPageData = { ...this.props.page, [event.target.name]: event.target.value};
@@ -251,31 +232,6 @@ class Page extends Component {
     //this.setState({defaultLang: lang});
   }
 
-  // let hideTitle =  classShow; //(this.state.defaultLangTitle === lang) ? classShow : classHide;
-  // let hideShortTitle = classShow;//(this.state.defaultLangShortTitle === lang) ? classShow : classHide;
-  // let hideDescription = classShow;//(this.state.defaultLangDescription === lang) ? "form-control" : "form-control d-none";
-  // let hideContent = classShow;//(this.state.defaultLangContent === lang) ? "form-control" : "form-control d-none";
-
-
-  // showCkeditor = () => {
-  //   const langs = this.props.config.langs;
-  //   const Ccontent = [];
-  //   for(let lang of langs){
-  //     let contentCKE = this.props.page.content ? (this.props.page.content[lang] ? this.props.page.content[lang] : '') : '';
-  //     Ccontent.push(<CKEditor
-  //         editor={ ClassicEditor }
-  //         data={contentCKE}
-  //         onChange={ ( event, editor ) => {
-  //             const data = editor.getData();
-  //             this.onEditorChange( data, contentLang );
-  //             //console.log( { event, editor, data } );
-  //         } }
-  //     />);
-  //   }
-  //   return Ccontent;
-  // }
-
-
   render() {
     const langs = this.props.config.langs;
     const defaultLang = getDefaultLang(this.props.config.langs);
@@ -290,15 +246,6 @@ class Page extends Component {
       images = this.props.page.images; //getImages( this.props.pages, this.props.page.id );
     }
     const label =  this.props.page.id ? 'Edit page' : 'Add page';
-
-    //const contentLang = this.state.defaultLangContent ? this.state.defaultLangContent : defaultLang;
-    //console.log(this.props.page.content);
-    //let contentCKE = this.props.page.content ? (this.props.page.content[contentLang] ? this.props.page.content[contentLang] : '') : ''
-    //console.log(contentLang);
-    //console.log(ccc);
-    //console.log(this.props.page.content);
-    //let content0 = this.props.page.content ? (this.props.page.content[this.state.defaultLangContent] ? this.props.page.content[this.state.defaultLangContent] : '') : '';
-    //console.log(content0);
 
     const Ccontent = [];
     if(this.props.page.type === "cms"){
@@ -315,7 +262,6 @@ class Page extends Component {
         />);
       }
     }
-
 
     const choiceLangTitle = [];
     const choiceLangShortTitle = [];

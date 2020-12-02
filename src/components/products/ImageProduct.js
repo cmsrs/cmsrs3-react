@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/products';
 import {SERVER_URL} from '../../config';
 import { getImageById, changeItemInArr, getNewTranslateLangsObj, getDefaultLang } from '../../helpers/pages';
-//getDataFromItems, 
+//getDataFromItems,
 
 class ImageProduct extends Component {
 
@@ -11,7 +11,6 @@ class ImageProduct extends Component {
     super(props);
     this.state = { defaultLang : getDefaultLang(this.props.config.langs) };
   }
-
 
   //DRY!!
   getDataFromProps = (productId) => {
@@ -63,18 +62,6 @@ class ImageProduct extends Component {
       });
     });
   }
-
-/*
-  handleChange = (event) => {
-    let image = getImageById(this.props.product.images, this.props.imageId);
-    image.alt = event.target.value;
-
-    let images = changeItemInArr(this.props.product.images, image);
-    let newProductData = { ...this.props.product, 'images': images};
-
-    this.props.changeProduct(newProductData);
-  }
-*/
 
   handleChangeAlt= (event) => {
     const langs = this.props.config.langs;

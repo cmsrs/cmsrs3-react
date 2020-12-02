@@ -1,13 +1,10 @@
-
 import { PAGES_ADD_MENU } from '../actions/types';
-
 import { PAGES_CHANGE_MENU } from '../actions/types';
 import { PAGES_RES } from '../actions/types';
 import { PAGES_GET_MENU } from '../actions/types';
 import { PAGES_DELETE_MENU } from '../actions/types';
-
 import { PAGES_CHANGE_PAGE, PAGES_GET_PAGES, PAGES_GET_PAGE, PAGES_DELETE_PAGE, PAGES_CLEAR_PAGE } from '../actions/types';
-//PAGES__SAVE_PAGE,
+
 
 import { CONFIG_GET_CONFIG } from '../actions/types';
 
@@ -30,12 +27,6 @@ export default function(state = INITIAL_STATE, action) {
       const pageC = { title: [], short_title: [], published: 0, commented: 0, after_login: 0, type: 'cms', content: [], menu_id: '', page_id:'', images: []  }; //clear input
       const retC = { ...state, page: pageC};
       return retC;
-
-
-    // case PAGES___SAVE_PAGE:
-    //   const page = { title: '', short_title: '', published: 0, commented: 0, type: 'clear', menu_id: ''  }; //clear input
-    //   const retP = { ...state, page: page};
-    //   return retP;
 
     case PAGES_CHANGE_MENU:
       let menus = state.menus.map( (elem) => {

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/products';
 import ImageProduct from './ImageProduct';
-//import { getImages } from '../../helpers/pages';
 import { getDefaultLang } from '../../helpers/pages';
 
 

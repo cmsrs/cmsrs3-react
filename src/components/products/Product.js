@@ -8,8 +8,6 @@ import AddProduct from './AddProduct';
 import { getDataFromItems } from '../../helpers/pages';
 
 
-
-
 class Product extends Component {
 
   componentDidMount() {
@@ -19,17 +17,9 @@ class Product extends Component {
 
   handleEditProduct = () =>  {
     if( this.state  && this.state.productsCheck ){
-        //const data = this.getDataFromProps(this.state.productsCheck);
         const data = getDataFromItems(this.props.products, this.state.productsCheck);
         this.props.changeProduct(data);
 
-        // for(let k in this.state.productsCheck ){
-        //   if( this.state.productsCheck[k] === true ){
-        //     const data = this.getDataFromProps(k);
-        //     this.props.setProduct(data);
-        //     break;
-        //   }
-        // }
     }else{
       if(this.props.product.id){
         const data = getDataFromItems(this.props.products, this.props.product.id);
@@ -41,21 +31,6 @@ class Product extends Component {
 
   }
 
-/*
-  getDataFromProps = (id) => {
-    const  data = this.props.products.filter( product => {
-      return product.id === parseInt(id);
-    });
-
-    //console.log('id', id);
-
-    if(!data.length){
-      return {};
-    }
-    return data[0];
-  }
-*/
-
 
   handleDeleteProduct = () =>  {
     if( this.state  && this.state.productsCheck ){
@@ -65,20 +40,6 @@ class Product extends Component {
   }
 
   onRowSelect = (row, isSelected, e) => {
-
-    // let copy = {};
-    // if(!this.state  ||  !this.state.productsCheck){
-    //   copy[row.id] = isSelected;
-    // }else{
-    //   let key;
-    //
-    //   for (key in this.state.productsCheck) {
-    //     copy[key] = this.state.productsCheck[key]; // copies each property to the objCopy object
-    //   }
-    //   copy[row.id] = isSelected;
-    // }
-
-    //return true;
 
     let copy = null;
     if(isSelected){

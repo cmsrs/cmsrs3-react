@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/pages';
 import { getMenuDataById, isNewRecord, createTreePagesByMenuId, getDefaultLang, getNewTranslateLangsObj } from '../../helpers/pages';
-//import {  } from '../../helpers/pages';
 import PageTitle from './PageTitle';
 import '../main.css';
 
