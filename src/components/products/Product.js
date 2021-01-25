@@ -5,7 +5,7 @@ import Expire from '../../helpers/Expire';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import AddProduct from './AddProduct';
-import { getDataFromItems, getDefaultLang } from '../../helpers/pages';
+import { getDataFromItems } from '../../helpers/pages';
 
 
 class Product extends Component {
@@ -56,7 +56,7 @@ class Product extends Component {
   render() {
 
     const { products } = this.props;
-    const defaultLang = getDefaultLang(this.props.config.langs);
+    //const defaultLang = getDefaultLang(this.props.config.langs);
 
     let msg = '';
     if(this.props.productsRes && (this.props.productsRes.success  === false)  ){
