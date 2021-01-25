@@ -5,10 +5,15 @@ import Expire from '../../helpers/Expire';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import AddProduct from './AddProduct';
-import { getDataFromItems } from '../../helpers/pages';
+import { getDataFromItems, getDefaultLang } from '../../helpers/pages';
 
 
 class Product extends Component {
+
+  // constructor(props) {
+  //   super(props);
+  //   this.defaultLang = getDefaultLang(this.props.config.langs);
+  // }
 
   componentDidMount() {
     this.props.getProducts( (d) => {
@@ -28,7 +33,6 @@ class Product extends Component {
     }
 
     this.refs.table.setState({ selectedRowKeys: [] });
-
   }
 
 
@@ -52,6 +56,7 @@ class Product extends Component {
   render() {
 
     const { products } = this.props;
+    const defaultLang = getDefaultLang(this.props.config.langs);
 
     let msg = '';
     if(this.props.productsRes && (this.props.productsRes.success  === false)  ){
@@ -68,7 +73,6 @@ class Product extends Component {
       onSelect: this.onRowSelect
     };
 
-
     return (
       <div className="mt-3 mb-2">
         <div className="wrapMsg">
@@ -82,7 +86,7 @@ class Product extends Component {
         <div className="row">
           <BootstrapTable  ref='table'  data={ products }  selectRow={ selectRowProp }>
             <TableHeaderColumn dataField='id' isKey>ID</TableHeaderColumn>
-            <TableHeaderColumn dataField='name'>Product Name</TableHeaderColumn>
+            <TableHeaderColumn dataField='product_name_default_lang'>Product Name</TableHeaderColumn>
             <TableHeaderColumn dataField='sku'>Product SKU</TableHeaderColumn>
           </BootstrapTable>
         </div>
@@ -94,6 +98,7 @@ class Product extends Component {
 
 function mapStateToProps(state) {
   return {
+    config: state.pages.config,
     product: state.products.product,
     products: state.products.products,
     productsRes: state.products.products_res
