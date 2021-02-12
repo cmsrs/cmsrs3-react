@@ -61,7 +61,11 @@ class AddProduct extends Component {
 
   handleChangeProduct = (event) => {
     let newProductData;
-    newProductData = { ...this.props.product, [event.target.name]: event.target.value};
+    if( event.target.name === "published" ){
+      newProductData = { ...this.props.product, [event.target.name]: event.target.checked};
+    }else{
+      newProductData = { ...this.props.product, [event.target.name]: event.target.value};
+    }
 
     this.props.changeProduct(newProductData);
   }
@@ -209,6 +213,16 @@ class AddProduct extends Component {
           <div className="form-group">
               <input type="text" placeholder="Price" name="price" className="form-control col-5"
                   onChange={this.handleChangeProduct} value={this.props.product.price || ''} />
+          </div>
+
+          <div className="form-group">
+              <input
+                  className="col-1"
+                  name="published"
+                  type="checkbox"
+                  checked={this.props.product.published || 0}
+                  onChange={this.handleChangeProduct} />
+              <label>Published</label>
           </div>
 
           <div className="form-group">

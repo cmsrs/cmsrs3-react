@@ -8,6 +8,23 @@ import AddProduct from './AddProduct';
 import { getDataFromItems } from '../../helpers/pages';
 
 
+
+class ActiveFormatter extends React.Component {
+  render() {
+    return (
+      <input type='checkbox' checked={ this.props.active }/>
+    );
+  }
+}
+
+function activeFormatter(cell, row) {
+  return (
+    <ActiveFormatter active={ cell } />
+  );
+}
+
+
+
 class Product extends Component {
 
   // constructor(props) {
@@ -88,6 +105,7 @@ class Product extends Component {
             <TableHeaderColumn dataField='id' isKey>ID</TableHeaderColumn>
             <TableHeaderColumn dataField='product_name_default_lang'>Product Name</TableHeaderColumn>
             <TableHeaderColumn dataField='sku'>Product SKU</TableHeaderColumn>
+            <TableHeaderColumn dataField='published'  dataFormat={ activeFormatter }>Published</TableHeaderColumn>
           </BootstrapTable>
         </div>
       </div>
