@@ -41,7 +41,7 @@ class Contact extends Component {
     return (
       <div className="mt-3 mb-2">
         <div className="wrapMsg">
-        {msg}
+          {msg}
         </div>
         <table className="table table-bordered">
           <thead>
@@ -53,7 +53,7 @@ class Contact extends Component {
             </tr>
           </thead>
           <tbody>
-          {this.showItems(contacts)}
+            {this.showItems(contacts)}
           </tbody>
         </table>
       </div>

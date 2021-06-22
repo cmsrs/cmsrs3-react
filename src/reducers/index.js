@@ -5,6 +5,7 @@ import pages from './pages';
 import products from './products';
 import users from './users';
 import contacts from './contacts';
+import checkouts from './checkouts';
 
 export default combineReducers({
   auth,
@@ -12,5 +13,6 @@ export default combineReducers({
   users,
   products,
   contacts,
+  checkouts,
   form: formReducer
 });

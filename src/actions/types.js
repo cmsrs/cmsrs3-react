@@ -32,3 +32,7 @@ export const PRODUCTS_RES = 'products_res';
 export const CONTACTS_GET_CONTACTS = 'contacts_get_contacts';
 export const CONTACTS_DELETE_CONTACT = 'contacts_delete_contact';
 export const CONTACTS_RES = 'contacts_res';
+
+
+export const CHECKOUTS_GET_CHECKOUTS = 'checkouts_get_checkouts';
+export const CHECKOUTS_RES = 'checkouts_res';
