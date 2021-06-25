@@ -36,3 +36,8 @@ export const CONTACTS_RES = 'contacts_res';
 
 export const CHECKOUTS_GET_CHECKOUTS = 'checkouts_get_checkouts';
 export const CHECKOUTS_RES = 'checkouts_res';
+
+
+//export const SETTINGS_GET_CACHE_CLEAR = 'settings_get_cache_clear';
+//export const SETTINGS_GET_CREATE_SITEMAP = 'settings_get_create_sitemap';
+//export const SETTINGS_RES = 'settings_res';
