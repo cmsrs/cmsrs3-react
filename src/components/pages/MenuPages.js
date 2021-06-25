@@ -111,7 +111,7 @@ class MenuPages extends Component {
       <div className="mt-3 mb-2">
         { (cache_enable === true) &&
           <div className="alert alert-danger" role="alert">
-              cache_enable is true on the .env file on server (set this param on the false, if you want something change)
+              cache_enable is true on the .env file on server. After the changes, clear the cache in the 'Settings' tab.
           </div>
         }
         <div className="wrapMsg">
