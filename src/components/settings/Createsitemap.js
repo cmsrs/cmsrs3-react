@@ -4,6 +4,8 @@ import * as actions from '../../actions/settings';
 
 class Createsitemap extends Component {
 
+  //constructor(props) {}
+
   createSitemap = () => {
     this.props.getClearcache( () => {
       alert('Success: create sitemap');

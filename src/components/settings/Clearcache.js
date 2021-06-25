@@ -4,6 +4,7 @@ import * as actions from '../../actions/settings';
 
 class Clearcache extends Component {
 
+  //constructor(props) {}
 
   clearCache = () => {
     this.props.getClearcache( () => {
