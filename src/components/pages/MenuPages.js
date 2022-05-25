@@ -29,7 +29,17 @@ class MenuPages extends Component {
   getNotRelatedPages = () => {
     let pages = [];
     for(let page of this.props.pages){
-      if( !page.menu_id ){
+      if( !page.menu_id && ('inner' !== page.type ) ){
+        pages.push(page);
+      }
+    }
+    return pages;
+  }
+
+  getInnerPages = () => {
+    let pages = [];
+    for(let page of this.props.pages){
+      if( 'inner' === page.type ){
         pages.push(page);
       }
     }
@@ -79,6 +89,7 @@ class MenuPages extends Component {
     }
 
     const notRelatedPages = this.getNotRelatedPages();
+    const innerPages = this.getInnerPages();
 
     let msg = '';
     if(this.props.pagesRes && (this.props.pagesRes.success  === false)  ){
@@ -132,6 +143,19 @@ class MenuPages extends Component {
                 </div>
               </React.Fragment>
             }
+
+            { innerPages.length > 0 &&
+              <React.Fragment>
+                <h5 className="mt-4">Inner boxes</h5>
+                <div className="ml-3">
+                  {this.showPageTitle(innerPages)}
+                </div>
+              </React.Fragment>
+            }
+
+
+
+
           </div>
 
           <div className="col-7">

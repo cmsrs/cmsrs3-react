@@ -73,7 +73,7 @@ class PageTitle extends Component {
 
     return (
       <div className={ this.props.child ?  'mb-2 row ml-3' : 'mb-2 row' }>
-        <div className={ (data.published === 0) ?  'text-secondary' : '' }>{data.short_title[defaultLang] || '' }</div>
+        <div className={ (data.published === 0) ?  'text-secondary' : '' }>{(data.short_title[defaultLang] +  ( (data.type === 'inner') ? ' (' + data.id + ')'  : ''  )  ) || '' }</div>
         <div className="ml-2 mr-2"  onClick={this.editPage}><i className="far fa-edit cursor-pointer"/></div>
         <div className="trash"  onClick={this.delPage}><i className="fas fa-trash cursor-pointer"  aria-hidden="true"/></div>
 
