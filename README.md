@@ -9,7 +9,7 @@
 src/config.js
 ```
 
-* MENU_VISIBLE - tabs visiable in menu
+* MENU_VISIBLE - tabs visible in menu
 
 example:
 
