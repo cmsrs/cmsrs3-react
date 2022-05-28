@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { ADMIN_URL_SECRET } from '../config';
+import { ADMIN_URL_SECRET, MENU_VISIBLE } from '../config';
 
 class Header extends Component {
 
@@ -18,12 +18,36 @@ class Header extends Component {
       return (
         <div className="container-fluid">
           <div className="container">
-            <Link   to={urlPages}>Pages</Link>
-            <Link  className="ml-4"  to={urlUsers}>Users</Link>
-            <Link  className="ml-4"  to={urlProducts}>Products</Link>
-            <Link  className="ml-4"  to={urlCheckouts}>Checkouts</Link>
-            <Link  className="ml-4"  to={urlContacts}>Contacts</Link>
-            <Link  className="ml-4"  to={urlSettings}>Settings</Link>            
+            {(MENU_VISIBLE.includes('pages')) &&
+            <React.Fragment>
+              <Link   to={urlPages}>Pages</Link>
+            </React.Fragment>
+            }
+            {(MENU_VISIBLE.includes('users')) &&
+            <React.Fragment>
+              <Link  className="ml-4"  to={urlUsers}>Users</Link>
+            </React.Fragment>
+            }
+            {(MENU_VISIBLE.includes('products')) &&
+            <React.Fragment>
+              <Link  className="ml-4"  to={urlProducts}>Products</Link>
+            </React.Fragment>
+            }
+            {(MENU_VISIBLE.includes('checkouts')) &&
+            <React.Fragment>
+              <Link  className="ml-4"  to={urlCheckouts}>Checkouts</Link>
+            </React.Fragment>
+            }
+            {(MENU_VISIBLE.includes('contacts')) &&
+            <React.Fragment>
+              <Link  className="ml-4"  to={urlContacts}>Contacts</Link>
+            </React.Fragment>
+            }
+            {(MENU_VISIBLE.includes('settings')) &&
+            <React.Fragment>
+              <Link  className="ml-4"  to={urlSettings}>Settings</Link>
+            </React.Fragment>
+            }
           </div>
           <Link   to={urlSignout}>Sign Out</Link>
         </div>
