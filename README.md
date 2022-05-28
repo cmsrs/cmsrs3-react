@@ -9,6 +9,8 @@
 src/config.js
 ```
 
+* MENU_VISIBLE - tabs visiable in menu
+
 example:
 
 ```bash
