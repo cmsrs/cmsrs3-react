@@ -248,7 +248,7 @@ class Page extends Component {
     const label =  this.props.page.id ? 'Edit page' : 'Add page';
 
     const Ccontent = [];
-    if(this.props.page.type === "cms"){
+    if( (this.props.page.type === "cms") || (this.props.page.type === "inner")  || (this.props.page.type === "privacy_policy" ) ){
       for(let lang of langs){
         let contentCKE = this.props.page.content ? (this.props.page.content[lang] ? this.props.page.content[lang] : '') : '';
         Ccontent.push(<CKEditor
@@ -398,13 +398,13 @@ class Page extends Component {
           </React.Fragment>
           }
 
-          { (this.props.page.type === "cms") &&
+          { ((this.props.page.type === "cms") || (this.props.page.type === "inner") || (this.props.page.type === "privacy_policy" ) ) &&
           <React.Fragment>
             {Ccontent}
           </React.Fragment>
           }
 
-          { (this.props.page.type !== "cms") &&
+          { ((this.props.page.type !== "cms") && (this.props.page.type !== "inner") && (this.props.page.type !== "privacy_policy" ) ) &&
           <React.Fragment>
             <div className="row">
               {choiceLangContent}
