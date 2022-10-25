@@ -31,6 +31,7 @@ class AddProduct extends Component {
 
   getShopPages = () => {
     let shopPages = [];
+    shopPages.push({id: null, title: ''});
 
     //shopPages.push('');
     if(this.props.shop_pages){
