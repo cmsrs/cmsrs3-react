@@ -18,7 +18,8 @@ class Page extends Component {
       defaultLangTitle : this.defaultLang,
       defaultLangShortTitle : this.defaultLang,
       defaultLangDescription : this.defaultLang,
-      defaultLangContent : this.defaultLang
+      defaultLangContent : this.defaultLang,
+      preLoader : false
     };
   }
 
@@ -99,6 +100,7 @@ class Page extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
+    this.setState({preLoader: true});
 
     const page = { ...this.props.page};
     page.position = this.getPagePositionByMenuId(page.menu_id);
@@ -108,8 +110,13 @@ class Page extends Component {
     }
 
     this.props.savePage(page, ( pageId ) => {
+      if(!pageId){
+        this.setState({preLoader: false});
+        return false;
+      }
       document.getElementsByName('images')[0].value = null;
       this.images = [];
+      this.setState({preLoader: false});
       this.props.getPages( (p) => {
         this.editPage(pageId);
       });
@@ -318,8 +325,18 @@ class Page extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <button type="submit" className="add-page-btn  btn btn-primary mt-2 mb-2"><i className="fas fa-plus"></i> {label}</button>
-          <button className="add-page-btn  btn btn-info ml-3 mt-2 mb-2"  onClick={this.handleClearInput}>Clear data</button>
+
+          <button type="submit" className="add-page-btn  btn btn-primary mt-2 mb-2" disabled={this.state.preLoader}>
+            {!this.state.preLoader && (
+              <i className="fas fa-plus"></i>
+            )}
+            {this.state.preLoader && (
+              <span className="spinner-grow spinner-grow-sm"></span>
+            )}
+            {label}
+          </button>
+          <button className="add-page-btn  btn btn-info ml-3 mt-2 mb-2"  onClick={this.handleClearInput} disabled={this.state.preLoader}>Clear data</button>
+
 
           <div className="row mt-1">
             {choiceLangTitle}

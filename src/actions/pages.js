@@ -221,6 +221,7 @@ export const savePage = (page, callback) => async  dispatch => {
 
     if(!response.data.success){
       dispatch({ type: PAGES_RES, payload: {success: false, message: response.data.error} });
+      callback(false); //potrzebne aby wyswietlic preloader
     }else{
       const pageId = page.id ? page.id : response.data.data.pageId; //update
 
@@ -232,6 +233,7 @@ export const savePage = (page, callback) => async  dispatch => {
   } catch (e) {
      console.log('___probem with ajax______', e);
      dispatch({ type: PAGES_RES, payload: {success: false, message: "Unknown problem with ajax, while save page"} });
+     callback(false); //potrzebne aby wyswietlic preloader
   }
 }
 
