@@ -7,7 +7,7 @@ class Createsitemap extends Component {
   //constructor(props) {}
 
   createSitemap = () => {
-    this.props.getClearcache( () => {
+    this.props.getCreatesitemap( () => {
       alert('Success: create sitemap');
     });
   }
